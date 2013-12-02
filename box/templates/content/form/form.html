@@ -1,0 +1,16 @@
+{% load i18n towel_form_tags %}
+<div id="form{{ content.id }}">
+  {% if content.show_form_title %}
+    <h2>{{ content.form.title }}</h2>
+  {% endif %}
+  {% if form %}
+  <form method="post" action="#form{{ content.id }}">{% csrf_token %}
+    <input type="hidden" name="_formcontent" value="{{ content.id }}">
+    {% form_errors form %}
+    {% form_items form %}
+    <button type="submit" class="button">{% trans "Submit" %}</button>
+  </form>
+  {% else %}
+    {{ message|safe }}
+  {% endif %}
+</div>

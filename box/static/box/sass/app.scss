@@ -1,0 +1,470 @@
+// Global Foundation Settings
+@import "settings";
+@import "foundation-icons";
+
+
+// GRID
+
+$row-width: em-calc(1000);
+$column-gutter: em-calc(50);
+$total-columns: 12;
+
+$block-grid-elements: 4;
+
+
+// COLORS
+
+$primary-color: #2ba6cb;
+$medium-grey-bg: darken($primary-color, 25%);
+$dark-grey-bg: darken($medium-grey-bg, 10%);
+$inverse-font-color: #efefef;
+
+
+// TYPOGRAPHY
+
+$body-font-color: #222;
+$body-font-family: Arial, Tahoma, Verdana, sans-serif;
+
+$header-font-family: $body-font-family;
+$header-font-weight: normal;
+$header-font-color: #444;
+
+$paragraph-font-size: em-calc(14);
+$small-font-size: 80%;
+
+$hr-margin: em-calc(15);
+
+$f: 1.135;
+$h6-font-size: 1em;
+$h5-font-size: $h6-font-size * $f;
+$h4-font-size: $h5-font-size * $f;
+$h3-font-size: $h4-font-size * $f;
+$h2-font-size: $h3-font-size * $f;
+$h1-font-size: $h2-font-size * $f;
+
+
+// TOPBAR
+
+$topbar-bg: rgba(255, 255, 255, 1);
+$topbar-bg-color: rgba(255, 255, 255, 1);
+$topbar-dropdown-bg: #fff;
+$topbar-link-bg-active: #fff;
+
+$topbar-link-color: $body-font-color;
+$topbar-link-color-hover: darken($topbar-link-color, 10%);
+$topbar-link-color-active: darken($topbar-link-color, 10%);
+$topbar-link-weight: normal;
+$topbar-link-font-size: em-calc(14);
+$topbar-dropdown-link-color: $body-font-color;
+
+$topbar-menu-link-color: #888;
+$topbar-menu-icon-color: #888;
+$topbar-menu-link-color-toggled: $body-font-color;
+$topbar-menu-icon-color-toggled: $body-font-color;
+
+$topbar-arrows: false;
+$topbar-breakpoint: 768px;
+
+
+// BREADCRUMBS
+
+$crumb-padding: 0;
+$crumb-border-size: 0;
+$crumb-bg: #fff;
+$crumb-slash: '/';
+
+
+// PAGINATION
+
+$pagination-height: auto;
+
+
+// MICROFORMATS
+
+$microformat-border-width: 0;
+$microformat-padding: 0;
+$microformat-margin: 0;
+$microformat-fullname-font-size: 1em;
+
+
+// SUB NAV
+
+$sub-nav-font-color: #666;
+
+
+// ORBIT
+
+$orbit-timer-show-progress-bar: false;
+
+
+@import "normalize";
+@import "foundation/components/global"; // *always required
+@import "foundation/components/grid";
+
+//
+// Use this grid if you want to start using the new Foundation 5 grid early.
+// It will change breakpoints to min-width: 640px and 1024px.
+//
+// @import "foundation/components/grid-5";
+//
+
+@import "foundation/components/visibility";
+@import "foundation/components/block-grid";
+@import "foundation/components/type";
+@import "foundation/components/buttons";
+@import "foundation/components/forms"; // *requires components/buttons
+// @import "foundation/components/custom-forms"; // *requires components/buttons, components/forms
+// @import "foundation/components/button-groups"; // *requires components/buttons
+@import "foundation/components/dropdown-buttons"; // *requires components/buttons
+// @import "foundation/components/split-buttons"; // *requires components/buttons
+// @import "foundation/components/flex-video";
+// @import "foundation/components/section";
+@import "foundation/components/top-bar";  // *requires components/grid
+@import "foundation/components/orbit";
+@import "foundation/components/reveal";
+// @import "foundation/components/joyride";
+// @import "foundation/components/clearing";
+@import "foundation/components/alert-boxes";
+@import "foundation/components/breadcrumbs";
+// @import "foundation/components/keystrokes";
+// @import "foundation/components/labels";
+// @import "foundation/components/inline-lists";
+@import "foundation/components/pagination";
+@import "foundation/components/panels";
+// @import "foundation/components/pricing-tables";
+// @import "foundation/components/progress-bars";
+@import "foundation/components/side-nav";
+@import "foundation/components/sub-nav";
+// @import "foundation/components/switch";
+// @import "foundation/components/magellan";
+@import "foundation/components/tables";
+@import "foundation/components/thumbs";
+// @import "foundation/components/tooltips";
+@import "foundation/components/dropdown";
+
+@import "compass/css3/background-size";
+@import "compass/css3/box-shadow";
+@import "compass/css3/box-sizing";
+@import "compass/css3/transform";
+@import "compass/css3/transition";
+
+
+body {
+    overflow-y: scroll;  // give me that scrollbar
+
+    padding: 20px 0;
+
+    .wrapper {
+        background-color: #fff;
+        margin: 0 auto;
+        @include box-shadow(0px 0px 10px 0px rgba(0, 0, 0, 0.75));
+    }
+}
+
+p a {
+    text-decoration: underline;
+}
+
+.clearfix {
+    @include clearfix();
+}
+
+h1, h2, h3, h4, h5, h6 {
+    .subheader a {
+        color: $subheader-font-color;
+    }
+}
+
+
+// HEADER --------------------------------------------------------------------
+
+.row.collapse.header {
+    margin-bottom: 1em;
+}
+
+@media #{$small} {
+    #logo {
+        position: relative;
+        top: 14px;
+        left: 23px;
+    }
+}
+
+.search {
+    input {
+        border-radius: 50px;
+        font-size: em-calc(12);
+        padding: 0.5em 0.8em 0.5em 2.2em;
+        width: 15em;
+    }
+
+    .fi-magnifying-glass {
+        position: absolute;
+        top: .2em;
+        left: .4em;
+    }
+
+    @media (max-width: 767px) {
+        position: relative;
+        top: 0.6em;
+        left: 0.8em;
+    }
+
+    @media #{$small} {
+        position: absolute;
+        top: 1em;
+        right: 1.52em;
+
+        input {
+            width: 15em;
+        }
+        .fi-magnifying-glass {
+            top: .4em;
+        }
+    }
+}
+
+.top-bar {
+    .dropdown {
+        @include box-shadow(1px 1px 6px 0px rgba(0, 0, 0, 0.45));
+    }
+    ul li.active > a {
+        border-bottom: 3px solid $primary-color;
+    }
+    ul ul li.active > a {
+        border-bottom: none;
+    }
+}
+
+@media #{$small} {
+    .push-for-medium {
+        padding-top: 60px;
+    }
+    .top-bar ul.right {
+        margin-right: 1.52em;
+    }
+}
+
+.sticky.fixed {
+    @include box-shadow(0px 4px 4px -4px rgba(0, 0, 0, 0.45));
+}
+
+
+// FOOTER --------------------------------------------------------------------
+
+.row.footer {  // :-( specifity of .row .row
+    background-color: $medium-grey-bg;
+    color: $inverse-font-color;
+    border-top: 1em solid #fff;
+    padding-top: .5em;
+
+    .subheader {
+        font-size: 1.3em;
+        border-bottom: 1px solid $inverse-font-color;
+    }
+    p, ul.vcard, .side-nav {
+        font-size: .8em;
+    }
+    .side-nav li {
+        font-size: 1em;
+    }
+    ul.vcard {
+        margin-bottom: 1em;
+    }
+
+    .subheader, .side-nav li a, a {
+        color: inherit;
+    }
+}
+
+.copyright {
+    background-color: $dark-grey-bg;
+    color: $inverse-font-color;
+
+    p {
+        line-height: 2;
+        margin-bottom: 0;
+        font-size: .8em;
+    }
+}
+
+
+// FORMS
+
+form ul {
+    list-style: none;
+}
+
+label span {
+    font-size: 80%;
+    color: lighten($body-font-color, 10%);
+}
+
+.required label {
+    font-weight: bold;
+    ul label {
+        font-weight: normal;
+    }
+}
+
+.form-errors {
+    .errorlist {
+        list-style: disc;
+        margin: 0 0 0 1.25em;
+    }
+    strong + .errorlist {
+        margin-top: 0.5em;
+    }
+}
+
+
+// CONTENT AREA BOXES
+
+a.box {
+    background-repeat: none;
+    background-position: center 25%;
+    @include background-size(cover);
+    display: block;
+    max-width: 500px;
+    color: $body-font-color;
+
+    > span {
+        display: block;
+        padding-top: 50%;
+
+        h3 {
+            background: rgba(0, 0, 0, 0.6);
+            color: $inverse-font-color;
+            padding: 0.2em .5em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            small {
+                color: darken($inverse-font-color, 20%);
+            }
+        }
+    }
+
+    &.high > span {
+        padding-top: 100%;
+    }
+
+    @include transition(color 0.5s ease);
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.th {
+    margin-bottom: .25em;
+}
+
+.caption {
+    .copyright {
+        color: lighten($body-font-color, 10%);
+    }
+}
+
+.blog-entry-list {
+    .side-nav {
+        padding-top: 0;
+
+        h3 {
+            padding: 0;
+        }
+    }
+}
+
+ul p, p ul {
+    font-size: 1em;
+}
+
+.home,
+.richtext ul,
+.richtext ol {
+    margin-left: 1.25em;
+}
+
+
+// GOOGLE Custom Search Engine
+
+.gsc-control-cse {
+    * { @include box-sizing(content-box !important); }
+    input { @include box-shadow(none !important); }
+    input:focus { outline: none; }
+    table { border: none; background: transparent; }
+
+    .gsc-input {
+        background: transparent !important;
+        padding-bottom: 10px !important;
+    }
+
+    .gsc-input-box, .gsc-search-box .gsc-input > input, .gsc-input-box-hover {
+        @include box-shadow(none !important);
+    }
+}
+
+
+// TABLES
+
+th {
+    text-align: left;
+}
+
+table table tr {
+    th, td { font-size: 1em; }
+}
+
+
+// REVEAL MODAL
+
+.reveal-modal {
+    position: fixed;
+    top: 20%;
+}
+
+
+// VIDEO CONTAINER
+
+/* Thanks http://avexdesigns.com/responsive-youtube-embed/ */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+    display: none;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
+// ORBIT
+
+.orbit-timer {
+    display: none !important;
+}
+
+
+// EDIT TOOLS
+
+.edit-tools {
+    display: none;
+}
+
+@media #{$small} {
+    .edit-tools {
+        position: fixed;
+        display: block;
+        right: 0;
+        bottom: 0;
+    }
+}

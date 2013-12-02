@@ -1,0 +1,12 @@
+{% load feincms_thumbnail %}
+<li>
+    <img src="{{ content.mediafile.file|cropscale:content.crop }}" alt="">
+    {% with title=content.title subtitle=content.subtitle|default_if_none:'' %}
+    {% if title or subtitle %}
+      <div class="orbit-caption">
+        {% if title %}<strong>{{ title }}</strong>{% endif %}
+        {{ subtitle }}
+      </div>
+    {% endif %}
+    {% endwith %}
+</li>

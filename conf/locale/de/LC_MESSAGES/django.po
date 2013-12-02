@@ -1,0 +1,550 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-26 08:52+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: box/contents.py:13 box/projects/contents.py:15
+msgid "only branch"
+msgstr "nur Standort"
+
+#: box/contents.py:14 box/projects/contents.py:18
+msgid "count"
+msgstr "Anzahl"
+
+#: box/contents.py:15 box/projects/contents.py:19
+msgid "randomized?"
+msgstr "zufällig?"
+
+#: box/contents.py:19 box/contents.py:20 box/models.py:82
+#: box/cms/models.py:134
+msgid "staffers"
+msgstr "Mitarbeiter"
+
+#: box/contents.py:44 box/models.py:81
+msgid "staffer"
+msgstr "Mitarbeiter"
+
+#: box/contents.py:48
+msgid "one staffer"
+msgstr "ein Mitarbeiter"
+
+#: box/contents.py:49
+msgid "one staffers"
+msgstr "ein Mitarbeiter"
+
+#: box/forms.py:10 box/forms.py:13
+msgid "email address"
+msgstr "Email-Adresse"
+
+#: box/forms.py:16
+msgid "Code word"
+msgstr "Codewort"
+
+#: box/forms.py:22
+msgid ""
+"This email address already exists as an account. Did you want to reset your "
+"password?"
+msgstr ""
+"Diese Emailadresse gehört schon zu einem Konto. Wollten SIe ihr Passwort "
+"zurücksetzen?"
+
+#: box/forms.py:29
+msgid "Codeword is incorrect."
+msgstr "Codewort ist inkorrekt."
+
+#: box/models.py:15 box/models.py:66
+msgid "full name"
+msgstr "Voller Name"
+
+#: box/models.py:19
+msgid "redirect from"
+msgstr "weiterleiten von"
+
+#: box/models.py:21
+msgid ""
+"This should be an absolute path, excluding the domain name. Example: '/"
+"events/search/'."
+msgstr ""
+"Dies sollte ein absoluter Pfad ohne Domain sein, z.B. '/events/search/'."
+
+#: box/models.py:23
+msgid "redirect to"
+msgstr "weiterleiten nach"
+
+#: box/models.py:24
+msgid ""
+"This can be either an absolute path (as above) or a full URL starting with "
+"'http://'."
+msgstr ""
+"Dies kann entweder ein absoluter Pfad wie oben sein, oder auch eine "
+"vollständige URL welche mit http:// oder https:// beginnt."
+
+#: box/models.py:29
+msgid "redirect"
+msgstr "Weiterleitung"
+
+#: box/models.py:30
+msgid "redirects"
+msgstr "Weiterleitungen"
+
+#: box/models.py:42 box/models.py:65
+#: box/projects/models.py:83
+msgid "is active"
+msgstr "ist aktiv"
+
+#: box/models.py:43 box/cms/contents.py:36
+#: box/cms/contents.py:72 box/projects/models.py:30
+#: box/projects/models.py:86
+msgid "title"
+msgstr "Titel"
+
+#: box/models.py:44 box/cms/contents.py:69
+#: box/projects/models.py:31
+msgid "page"
+msgstr "Seite"
+
+#: box/models.py:46
+msgid "contact"
+msgstr "Kontakt"
+
+#: box/models.py:48 box/models.py:72
+msgid "ordering"
+msgstr "Sortierung"
+
+#: box/models.py:54 box/models.py:70
+#: box/projects/models.py:89 box/projects/views.py:68
+msgid "branch"
+msgstr "Standort"
+
+#: box/models.py:55
+msgid "branches"
+msgstr "Standorte"
+
+#: box/models.py:67
+msgid "slug"
+msgstr "Slug"
+
+#: box/models.py:68
+msgid "function"
+msgstr "Funktion"
+
+#: box/models.py:73 box/cms/models.py:81
+msgid "image"
+msgstr "Bild"
+
+#: box/models.py:75
+msgid "description"
+msgstr "Beschreibung"
+
+#: box/cms/contents.py:14
+msgid "style"
+msgstr "Stil"
+
+#: box/cms/contents.py:15
+msgid "list"
+msgstr "Liste"
+
+#: box/cms/contents.py:16
+msgid "grid"
+msgstr "Gitter"
+
+#: box/cms/contents.py:21
+msgid "subpages listing"
+msgstr "Unterseiten-Auflistung"
+
+#: box/cms/contents.py:22
+msgid "subpages listings"
+msgstr "Unterseiten-Auflistungen"
+
+#: box/cms/contents.py:37
+msgid "subtitle"
+msgstr "Untertitel"
+
+#: box/cms/contents.py:38
+msgid "preferred area if cropping"
+msgstr "Bevorzugte Fläche wenn Cropping"
+
+#: box/cms/contents.py:40
+msgid "center"
+msgstr "Zentrum"
+
+#: box/cms/contents.py:41
+msgid "center / top"
+msgstr "Mitte / Oben"
+
+#: box/cms/contents.py:42
+msgid "left / center"
+msgstr "Links / Mitte"
+
+#: box/cms/contents.py:43
+msgid "right / center"
+msgstr "Rechts / Mitte"
+
+#: box/cms/contents.py:44
+msgid "center / bottom"
+msgstr "Mitte / Unten"
+
+#: box/cms/contents.py:49
+msgid "slide"
+msgstr "Folie"
+
+#: box/cms/contents.py:50
+msgid "slides"
+msgstr "Folien"
+
+#: box/cms/contents.py:71
+msgid "mediafile"
+msgstr "Mediendatei"
+
+#: box/cms/contents.py:76
+msgid "page teaser"
+msgstr "Seitenteaser"
+
+#: box/cms/contents.py:77
+msgid "page teasers"
+msgstr "Seitenteaser"
+
+#: box/cms/models.py:27
+msgid "2-column layout"
+msgstr "Zweispaltiges Layout"
+
+#: box/cms/models.py:30 box/cms/models.py:39
+#: box/cms/models.py:140
+msgid "Main content area"
+msgstr "Haupt-Inhaltsbereich"
+
+#: box/cms/models.py:31 box/cms/models.py:40
+msgid "First column"
+msgstr "Erste Spalte"
+
+#: box/cms/models.py:32 box/cms/models.py:41
+#: box/cms/models.py:69 box/projects/models.py:138
+msgid "Gallery"
+msgstr "Galerie"
+
+#: box/cms/models.py:45
+msgid "Full-width above, two columns below"
+msgstr "Volle Breite oben, zwei Spalten unterhalb"
+
+#: box/cms/models.py:48 box/cms/models.py:59
+#: box/cms/models.py:66
+msgid "Full width area"
+msgstr "Volle Breite"
+
+#: box/cms/models.py:49 box/cms/models.py:57
+#: box/cms/models.py:67
+msgid "Left column"
+msgstr "Linke Spalte"
+
+#: box/cms/models.py:50 box/cms/models.py:58
+#: box/cms/models.py:68
+msgid "Right column"
+msgstr "Rechte Spalte"
+
+#: box/cms/models.py:54
+msgid "Two columns above, full-width below"
+msgstr "Zwei Spalten oben, volle Breite unten"
+
+#: box/cms/models.py:63
+msgid "Home"
+msgstr "Startseite"
+
+#: box/cms/models.py:84
+msgid "text"
+msgstr "Text"
+
+#: box/cms/models.py:88
+msgid "Excerpt"
+msgstr "Auszug"
+
+#: box/cms/models.py:108 box/projects/models.py:144
+msgid "default"
+msgstr "standard"
+
+#: box/cms/models.py:109 box/projects/models.py:145
+msgid "big"
+msgstr "gross"
+
+#: box/cms/models.py:128
+msgid "Projects"
+msgstr "Projekte"
+
+#: box/cms/models.py:131
+msgid "Blog"
+msgstr "Blog"
+
+#: box/cms/models.py:144
+msgid "cropped"
+msgstr "zugeschnitten"
+
+#: box/cms/models.py:145
+msgid "no cropping"
+msgstr "nicht zugeschnitten"
+
+#: box/projects/contents.py:13
+msgid "only featured"
+msgstr "nur hervorgehobene"
+
+#: box/projects/contents.py:17
+msgid "only category"
+msgstr "Nur aus dieser Kategorie"
+
+#: box/projects/contents.py:23 box/projects/contents.py:24
+#: box/projects/models.py:113
+msgid "projects"
+msgstr "Projekte"
+
+#: box/projects/contents.py:54 box/projects/models.py:112
+msgid "project"
+msgstr "Projekt"
+
+#: box/projects/contents.py:55
+msgid "A random project will be shown if this is left empty."
+msgstr ""
+"Ein zufällig ausgewähltes Projekt wird angezeigt wenn das Feld leer ist."
+
+#: box/projects/contents.py:59
+msgid "one project"
+msgstr "Ein Projekt"
+
+#: box/projects/contents.py:60
+msgid "one projects"
+msgstr "Ein Projekt"
+
+#: box/projects/models.py:32
+msgid "Page describing this category in more detail."
+msgstr "Seite welche diese Kategorie detailliert beschreibt."
+
+#: box/projects/models.py:36 box/projects/views.py:64
+msgid "category"
+msgstr "Kategorie"
+
+#: box/projects/models.py:37 box/projects/models.py:102
+msgid "categories"
+msgstr "Kategorien"
+
+#: box/projects/models.py:84
+msgid "is featured"
+msgstr "ist hervorgehoben"
+
+#: box/projects/models.py:93
+msgid "realization date"
+msgstr "Realisierungszeitpunkt"
+
+#: box/projects/models.py:95
+msgid "media file"
+msgstr "Mediendatei"
+
+#: box/projects/models.py:96
+msgid "excerpt"
+msgstr "Auszug"
+
+#: box/projects/models.py:98
+msgid "client"
+msgstr "Kunde"
+
+#: box/projects/models.py:99
+msgid "sales volume"
+msgstr "Volumen"
+
+#: box/projects/models.py:106
+msgid "location"
+msgstr "Ort"
+
+#: box/projects/models.py:107
+msgid "longitude"
+msgstr "Längengrad"
+
+#: box/projects/models.py:108
+msgid "latitude"
+msgstr "Breitengrad"
+
+#: box/projects/models.py:137
+msgid "Description"
+msgstr "Beschreibung"
+
+#: box/projects/navigation_extensions.py:9
+msgid "Projects navigation extension"
+msgstr "Projekt-Navigationserweiterung"
+
+#: box/projects/navigation_extensions.py:13
+msgid "latest projects"
+msgstr "Neueste Projekte"
+
+#: box/projects/navigation_extensions.py:14
+#: box/templates/projects/project_map.html:9
+msgid "map"
+msgstr "Karte"
+
+#: box/projects/views.py:60
+msgid "realization year"
+msgstr "Realisierungsjahr"
+
+#: box/projects/views.py:73
+msgid "all"
+msgstr "alle"
+
+#: box/templates/base.html:56
+msgid "Back"
+msgstr "Zurück"
+
+#: box/templates/admin/base_site.html:8
+msgid "Django site admin"
+msgstr "Django-Administration"
+
+#: box/templates/admin/base_site.html:11
+msgid "Django administration"
+msgstr "Django-Administration"
+
+#: box/templates/admin/box/subscription/change_list.html:15
+#, python-format
+msgid ""
+"Add %(name)s\n"
+"      "
+msgstr "%(name)s hinzufügen"
+
+#: box/templates/content/form/form.html:11
+#: box/templates/newsletter_subscription/form.html:13
+#: box/templates/newsletter_subscription/subscribe.html:16
+msgid "Submit"
+msgstr "Absenden"
+
+#: box/templates/elephantblog/entry_archive.html:11
+#: box/templates/elephantblog/entry_archive.html:12
+#: box/templates/elephantblog/entry_archive.html:13
+#: box/templates/elephantblog/entry_archive.html:14
+msgid "for"
+msgstr "für"
+
+#: box/templates/elephantblog/entry_detail.html:15
+msgid "by"
+msgstr "von"
+
+#: box/templates/newsletter_subscription/subscribe.html:10
+msgid ""
+"You successfully subscribed to our newsletter.\n"
+"  Thanks for filling out the form with additional details."
+msgstr ""
+"Sie haben unseren Newsletter erfolgreich abonniert. Bitte füllen Sie "
+"folgendes Formular mit zusätzlichen Details aus."
+
+#: box/templates/photos/album_detail.html:10
+msgid "created by"
+msgstr "erstellt von"
+
+#: box/templates/photos/album_detail.html:18
+msgid "delete"
+msgstr "löschen"
+
+#: box/templates/photos/album_detail.html:19
+msgid "edit"
+msgstr "bearbeiten"
+
+#: box/templates/photos/album_detail.html:20
+msgid "download"
+msgstr "herunterladen"
+
+#: box/templates/photos/album_detail.html:43
+#: box/templates/photos/album_detail.html:48
+msgid "Upload"
+msgstr "Hochladen"
+
+#: box/templates/registration/email_registration_form.html:9
+#: box/templates/registration/login.html:48
+msgid "Register"
+msgstr "Registrieren"
+
+#~ msgid "Main content"
+#~ msgstr "Haupt-Inhaltsbereich"
+
+#~ msgid "Modules"
+#~ msgstr "Module"
+
+#~ msgid "Preferences"
+#~ msgstr "Einstellungen"
+
+#~ msgid "3-column layout"
+#~ msgstr "Dreispaltiges Layout"
+
+#~ msgid "Second column"
+#~ msgstr "Zweite Spalte"
+
+#~ msgid "Bottom left"
+#~ msgstr "Unten links"
+
+#~ msgid "Bottom right"
+#~ msgstr "Unten rechts"
+
+#~ msgid "First column (not inherited)"
+#~ msgstr "Erste Spalte (erbt nicht)"
+
+#~ msgid "Second column (not inherited)"
+#~ msgstr "Zweite Spalte (erbt nicht)"
+
+#~ msgid "Account activated"
+#~ msgstr "Konto aktiviert"
+
+#~ msgid "Password change"
+#~ msgstr "Password ändern"
+
+#~ msgid "Password change successful"
+#~ msgstr "Passwort erfolgreich geändert"
+
+#~ msgid "Your password was changed."
+#~ msgstr "Ihr Passwort wurde geändert."
+
+#~ msgid ""
+#~ "Please enter your old password, for security's sake, and then enter your "
+#~ "new password twice so we can verify you typed it in correctly."
+#~ msgstr ""
+#~ "Bitte geben Sie als Sicherheitsmassnahme Ihr altes Passwort ein, und dann "
+#~ "zweimal das neue damit wir verifizieren können dass Sie es korrekt "
+#~ "eingegeben haben."
+
+#~ msgid "Old password:"
+#~ msgstr "Altes Passwort:"
+
+#~ msgid "New password:"
+#~ msgstr "Neues Passwort:"
+
+#~ msgid "Confirm password:"
+#~ msgstr "Passwort bestätigen:"
+
+#~ msgid "Change my password"
+#~ msgstr "Passwort ändern"
+
+#~ msgid "subpage"
+#~ msgstr "Unterseite"
+
+#~ msgid "Standard layout"
+#~ msgstr "Standard-Layout"
+
+#~ msgid "Standard with navigation"
+#~ msgstr "Standard mit Navigation"
+
+#~ msgid "Navigation column"
+#~ msgstr "Navigationsspalte"
+
+#~ msgid "Third column"
+#~ msgstr "Dritte Spalte"
+
+#~ msgid "Search"
+#~ msgstr "Suche"
+
+#~ msgid "Search In"
+#~ msgstr "Suchen in"

@@ -1,0 +1,21 @@
+{% load feincms_thumbnail %}
+
+<a href="{{ content.mediafile.file|thumbnail:"1200x1000" }}" class="th"
+    title="{{ content.mediafile.translation.caption }}"
+    data-lightbox="lb{{ content.pk }}">
+  {% if content.region in "col1,col2" %}
+    <img src="{{ content.mediafile.file|thumbnail:"500x500" }}"
+      alt="{{ content.mediafile.translation.caption }}" />
+  {% else %}
+    <img src="{{ content.mediafile.file|thumbnail:"450x400" }}"
+      alt="{{ content.mediafile.translation.caption }}" />
+  {% endif %}
+</a>
+{% if content.mediafile.translation.caption or content.mediafile.copyright %}
+  <p class="caption">
+    {{ content.mediafile.translation.caption }}
+    {% if content.mediafile.copyright %}
+      <span class="copyright">{{ content.mediafile.copyright }}</span>
+    {% endif %}
+  </p>
+{% endif %}

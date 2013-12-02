@@ -1,0 +1,14 @@
+*.pyc
+*~
+.*.sw*
+.DS_Store
+.sass-cache
+/data.db
+/log
+/media
+/box/local_settings.py
+/static
+/venv
+\#*#
+stylesheets
+whoosh_index

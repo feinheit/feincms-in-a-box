@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load feincms_tags i18n mptt_tags navigation_tags %}
+
+{% block content %}
+
+<div class="row">
+  <div class="large-12 columns">
+    <h1>{{ feincms_page.content_title }}</h1>
+    {% breadcrumbs feincms_page %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-6 columns">
+    {% feincms_render_region feincms_page "col1" request %}
+  </div>
+  <div class="large-6 columns">
+    {% feincms_render_region feincms_page "col2" request %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-12 columns">
+    {% feincms_render_region feincms_page "main" request %}
+  </div>
+</div>
+
+{% endblock %}
