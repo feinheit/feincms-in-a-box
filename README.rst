@@ -28,11 +28,19 @@ packages::
 Installattion
 -------------
 
+First, clone this repository to a folder of your choice and change
+into the newly created directory::
+
+    git clone $REPOSITORY $FOLDER
+    cd $FOLDER
+
+For example, if you want to play around with FeinCMS-in-a-Box::
+
+    git clone git://github.com/matthiask/feincms-in-a-box.git
+    cd feincms-in-a-box
+
 The following commands should get you up and running::
 
-    git clone git://github.com/matthiask/feincms-in-a-box.git box
-    cd box
-    git remote rm origin
     virtualenv venv
     source venv/bin/activate
     pip install -r requirements/dev.txt
