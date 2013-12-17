@@ -12,7 +12,7 @@ An up-to-date installation of compass and zurb-foundation 4.3.2::
 
 Under Debian-derivatives, you need the following libraries::
 
-    sudo apt-get install build-essential python-dev libjpeg8-dev\
+    sudo apt-get install build-essential python-dev libjpeg8-dev \
     libxslt1-dev libfreetype6-dev
 
 Under OS X, you need an installation of Xcode. It is also recommended
