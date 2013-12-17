@@ -65,7 +65,7 @@ def watch_styles():
 
 
 @task(alias='rs')
-def runserver(port=8038):
+def runserver(port=8000):
     local('venv/bin/python -Wall manage.py runserver 0.0.0.0:{}'.format(port))
 
 
