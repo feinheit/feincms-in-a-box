@@ -5,7 +5,7 @@ FeinCMS in a Box
 Prerequisites
 -------------
 
-An up-to-date installation of `bundler <http://bundler.io/`_::
+An up-to-date installation of `bundler <http://bundler.io/>`_::
 
     sudo gem install bundler
 
