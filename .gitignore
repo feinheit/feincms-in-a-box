@@ -1,6 +1,7 @@
 *.pyc
 *~
 .*.sw*
+.bundle
 .DS_Store
 .sass-cache
 /data.db
@@ -8,6 +9,7 @@
 /media
 /box/local_settings.py
 /static
+/vendor
 /venv
 \#*#
 stylesheets

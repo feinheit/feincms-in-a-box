@@ -61,7 +61,7 @@ def dev():
 
 @task(alias='ws')
 def watch_styles():
-    local('compass watch {sass}')
+    local('bundle exec compass watch {sass}')
 
 
 @task(alias='rs')
@@ -71,8 +71,8 @@ def runserver(port=8000):
 
 @task
 def deploy_styles():
-    local('compass clean {sass}')
-    local('compass compile -s compressed {sass}')
+    local('bundle exec compass clean {sass}')
+    local('bundle exec compass compile -s compressed {sass}')
     local('scp -r {sass}/stylesheets {host}:{folder}static/{project}/')
 
 

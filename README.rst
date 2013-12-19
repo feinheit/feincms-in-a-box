@@ -5,10 +5,9 @@ FeinCMS in a Box
 Prerequisites
 -------------
 
-An up-to-date installation of compass and zurb-foundation 4.3.2::
+An up-to-date installation of `bundler <http://bundler.io/`_::
 
-    (sudo) gem install compass
-    (sudo) gem install zurb-foundation --version '=4.3.2'
+    (sudo) gem install bundler
 
 Under Debian-derivatives, you need the following libraries::
 
@@ -25,8 +24,8 @@ packages::
     brew install jpeg
 
 
-Installattion
--------------
+Installation
+------------
 
 First, clone this repository to a folder of your choice and change
 into the newly created directory::
@@ -38,6 +37,10 @@ For example, if you want to play around with FeinCMS-in-a-Box::
 
     git clone git://github.com/matthiask/feincms-in-a-box.git
     cd feincms-in-a-box
+
+Set up the frontend development tools::
+
+    bundle install --path vendor/bundle
 
 The following commands should get you up and running::
 
