@@ -7,7 +7,7 @@ Prerequisites
 
 An up-to-date installation of `bundler <http://bundler.io/`_::
 
-    (sudo) gem install bundler
+    sudo gem install bundler
 
 Under Debian-derivatives, you need the following libraries::
 
