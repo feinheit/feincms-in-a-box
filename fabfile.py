@@ -4,7 +4,7 @@ import os
 import random
 
 from fabric.api import cd, env, local, run, task
-from fabric.colors import red
+from fabric.colors import green, red
 
 
 CONFIG = {
@@ -108,3 +108,9 @@ def setup():
     local('venv/bin/python manage.py syncdb --all --noinput')
     local('venv/bin/python manage.py migrate --all --fake')
     local('bundle install --path vendor/bundle')
+
+    print(green('Initial setup has completed successfully!', bold=True))
+    print(green('Next steps:'))
+    print(green(
+        '- Create a superuser: venv/bin/python manage.py createsuperuser'))
+    print(green('- Run the development server: fab dev'))
