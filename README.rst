@@ -9,7 +9,22 @@ An up-to-date installation of `bundler <http://bundler.io/>`_::
 
     sudo gem install bundler
 
-Under Debian-derivatives, you need the following libraries::
+`pip <http://www.pip-installer.org/>`_,
+`virtualenv <http://www.virtualenv.org/>`_ and
+`Fabric <http://fabfile.org>`_::
+
+    sudo pip install -U pip virtualenv fabric
+
+If ``pip`` is missing on your system, you can install it using
+``easy_install``.  That's also the one and only occasion when ``easy_install``
+should be used::
+
+    sudo easy_install pip
+
+Under Debian-derivatives, you need the following libraries to successfully
+compile all dependencies of FeinCMS-in-a-Box, notably
+`lxml <http://lxml.de/>`_ and
+`Pillow <https://pypi.python.org/pypi/Pillow/>`_::
 
     sudo apt-get install build-essential python-dev libjpeg8-dev \
     libxslt1-dev libfreetype6-dev
