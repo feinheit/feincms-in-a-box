@@ -53,11 +53,16 @@ For example, if you want to play around with FeinCMS-in-a-Box::
     git clone git://github.com/matthiask/feincms-in-a-box.git
     cd feincms-in-a-box
 
-Set up the frontend development tools::
+The following command should get you up and running::
 
-    bundle install --path vendor/bundle
+    fab setup
 
-The following commands should get you up and running::
+Alternatively (or if ``fab setup`` fails) you can run the commands by hand.
+First, set up the frontend development tools::
+
+    bundle install --path .bundle/gems
+
+Then, the backend development toolsuite::
 
     virtualenv venv
     source venv/bin/activate

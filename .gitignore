@@ -1,4 +1,4 @@
-*.pyc
+*.py?
 *~
 .*.sw*
 .bundle
@@ -9,7 +9,6 @@
 /media
 /box/local_settings.py
 /static
-/vendor
 /venv
 \#*#
 stylesheets

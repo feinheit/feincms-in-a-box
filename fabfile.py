@@ -107,7 +107,7 @@ def setup():
 
     local('venv/bin/python manage.py syncdb --all --noinput')
     local('venv/bin/python manage.py migrate --all --fake')
-    local('bundle install --path vendor/bundle')
+    local('bundle install --path .bundle/gems')
 
     print(green('Initial setup has completed successfully!', bold=True))
     print(green('Next steps:'))
