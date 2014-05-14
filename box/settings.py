@@ -224,7 +224,12 @@ if DEBUG:
             'propagate': False,
         },
     })
-
+    INSTALLED_APPS += (
+        'debug_toolbar',  # Django 1.7: debug_toolbar.apps.DebugToolbarConfig
+    )
+    INTERNAL_IPS = ('127.0.0.1',)
+    MIDDLEWARE_CLASSES = ('debug_toolbar.middleware.DebugToolbarMiddleware',) + MIDDLEWARE_CLASSES
+    DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 try:
     from .local_settings import *  # noqa
