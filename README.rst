@@ -62,7 +62,14 @@ First, set up the frontend development tools::
 
     bundle install --path .bundle/gems
 
-Then, the backend development toolsuite::
+Then, the backend development toolsuite. If developing on OS X Mavericks,
+set the following environment variables (otherwise the Pillow compilation
+will fail)::
+
+    export CFLAGS=-Qunused-arguments
+    export CPPFLAGS=-Qunused-arguments
+
+Create a virtualenv and install the development packages::
 
     virtualenv venv
     source venv/bin/activate
