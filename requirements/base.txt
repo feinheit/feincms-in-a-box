@@ -6,6 +6,7 @@ django-mptt==0.6.0
 FeinCMS==1.9.1
 feincms-cleanse==3
 form_designer==0.3.0
+raven==4.2.1
 towel==0.3.1
 towel-foundation==0.4.1
 -e git://github.com/feincms/feincms-elephantblog.git#egg=feincms_elephantblog-dev

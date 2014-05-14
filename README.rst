@@ -47,7 +47,14 @@ The following commands should get you up and running::
     virtualenv venv
     source venv/bin/activate
     pip install -r requirements/dev.txt
-    echo "SECRET_KEY = 'unsafe'" > box/local_settings.py
+
+Create a file ``box/local_settings.py`` with the following contents::
+
+    SECRET_KEY = 'unsafe'
+    RAVEN_CONFIG = {}
+
+Run the following commands::
+
     ./manage.py syncdb --all
     ./manage.py migrate --all --fake
     fab dev
