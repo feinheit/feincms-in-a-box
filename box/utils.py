@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import TemplateDoesNotExist, render_to_string
 
@@ -26,14 +28,14 @@ def render_to_mail(template, context, **kwargs):
     """
     lines = iter(render_to_string('%s.txt' % template, context).splitlines())
 
-    subject = u''
+    subject = ''
     while True:
         line = next(lines)
         if line:
             subject = line
             break
 
-    body = u'\n'.join(lines).strip('\n')
+    body = '\n'.join(lines).strip('\n')
     message = EmailMultiAlternatives(subject=subject, body=body, **kwargs)
 
     try:

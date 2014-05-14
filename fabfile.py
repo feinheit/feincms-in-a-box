@@ -1,5 +1,10 @@
+from __future__ import print_function
+
 import os
+import random
+
 from fabric.api import cd, env, local, run, task
+from fabric.colors import green, red
 
 
 CONFIG = {
@@ -29,18 +34,6 @@ def _configure(fn):
 local = _configure(local)
 cd = _configure(cd)
 run = _configure(run)
-
-
-@task
-def install(req):
-    if not os.path.isdir('venv'):
-        if os.path.exists('venv'):
-            print 'venv exists, but is not a folder. Aborting.'
-            return
-
-        local('virtualenv venv')
-
-    local('venv/bin/pip install -r requirements/{}.txt'.format(req))
 
 
 @task
@@ -95,3 +88,29 @@ def deploy_code():
 def deploy():
     deploy_styles()
     deploy_code()
+
+
+@task
+def setup():
+    if os.path.exists('venv'):
+        print(red('It seems that this project is already set up, aborting.'))
+        return 1
+
+    local('virtualenv venv')
+    local('venv/bin/pip install -r requirements/dev.txt')
+
+    with open('box/local_settings.py', 'w') as f:
+        rand = random.SystemRandom()
+        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+        secret_key = ''.join(random.choice(chars) for i in range(50))
+        f.write('SECRET_KEY = \'%s\'' % secret_key)
+
+    local('venv/bin/python manage.py syncdb --all --noinput')
+    local('venv/bin/python manage.py migrate --all --fake')
+    local('bundle install --path .bundle/gems')
+
+    print(green('Initial setup has completed successfully!', bold=True))
+    print(green('Next steps:'))
+    print(green(
+        '- Create a superuser: venv/bin/python manage.py createsuperuser'))
+    print(green('- Run the development server: fab dev'))
