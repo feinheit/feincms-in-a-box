@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import os
+import platform
 import random
 
 from fabric.api import cd, env, local, run, task
@@ -97,13 +98,22 @@ def setup():
         return 1
 
     local('virtualenv venv')
-    local('venv/bin/pip install -r requirements/dev.txt')
+    if platform.system() == 'Darwin' and platform.mac_ver()[0] >= '10.9':
+        local(
+            'export CFLAGS=-Qunused-arguments'
+            '&& export CPPFLAGS=-Qunused-arguments'
+            '&& venv/bin/pip install -r requirements/dev.txt')
+    else:
+        local('venv/bin/pip install -r requirements/dev.txt')
 
     with open('box/local_settings.py', 'w') as f:
         rand = random.SystemRandom()
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
         secret_key = ''.join(random.choice(chars) for i in range(50))
-        f.write('SECRET_KEY = \'%s\'' % secret_key)
+        f.write(
+            'SECRET_KEY = \'%s\'\n'
+            'ALLOWED_HOSTS = [\'*\']\n'
+            'RAVEN_CONFIG = {}\n' % secret_key)
 
     local('venv/bin/python manage.py syncdb --all --noinput')
     local('venv/bin/python manage.py migrate --all --fake')
