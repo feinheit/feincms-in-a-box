@@ -184,7 +184,7 @@ LOGGING = {
     },
     'formatters': {
         'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            'format': '%(levelname)s %(asctime)s %(message)s',
         },
     },
     'handlers': {
@@ -197,30 +197,34 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
-            'filters': ['require_debug_false'],
         },
     },
     'loggers': {
-        'django.db.backends': {
-            'level': 'ERROR',
-            'handlers': ['console'],
-            'propagate': False,
+        # Root handler.
+        '': {
+            'handlers': ['sentry'],
         },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
+        'django.request': {
+            'handlers': ['sentry'],
         },
     },
 }
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    LOGGING['loggers'].update({
+        'django.db.backends': {
+            'level': 'DEBUG',
+            # 'handlers': ['console'],  # Uncomment to dump SQL statements.
+            'propagate': False,
+        },
+        'django.request': {
+            'level': DEBUG,
+            'handlers': ['console'],  # Dump exceptions to the console.
+            'propagate': False,
+        },
+    })
+
 
 try:
     from .local_settings import *  # noqa
