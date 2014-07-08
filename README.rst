@@ -59,6 +59,10 @@ The following command should get you up and running::
 
     fab setup
 
+
+Alternative installation method
+-------------------------------
+
 Alternatively (or if ``fab setup`` fails) you can run the commands by hand.
 First, set up the frontend development tools::
 
