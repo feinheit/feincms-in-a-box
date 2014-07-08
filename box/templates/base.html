@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{% static 'box/css/app.css' %}">
   {% endblock %}
   {% endcompress %}
-  <link rel="shortcut icon" href="{% static 'box/images/favicon.ico' %}">
+  <link rel="shortcut icon" href="{% static 'box/images/feincms.png' %}">
   <script src="{% static 'box/bower_components/modernizr/modernizr.js' %}"></script>
   <script>onReady = [];</script>
 
@@ -31,8 +31,10 @@
   <meta property="og:description" content="{{ og_description|default:feincms_page.meta_description|default:'' }}">
   <meta property="fb:admins" content="100001975335850">
 
+  {% comment %}
   <link rel="alternate" type="application/rss+xml"
     title="RSS Feed" href="http://www.box.ch/feeds/news/">
+  {% endcomment %}
   {% block extra-head %}{% endblock %}
 </head>
 <body>
