@@ -1,4 +1,4 @@
--r base.txt
+-r common.txt
 coverage==3.7.1
 django_debug_toolbar==1.2.1
 pip-tools==0.3.4
