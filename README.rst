@@ -28,7 +28,7 @@ Node.js and npm are also required::
     brew install npm  # On OS X
 
 You also need an up-to-date installation of
-`foundation <http://foundation.zurb.com>`_.
+`foundation <http://foundation.zurb.com>`_::
 
     [sudo] gem install foundation
     [sudo] npm install -g bower grunt-cli
