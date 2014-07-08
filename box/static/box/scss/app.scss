@@ -5,8 +5,8 @@
 
 // GRID
 
-$row-width: em-calc(1000);
-$column-gutter: em-calc(50);
+$row-width: rem-calc(1000);
+$column-gutter: rem-calc(50);
 $total-columns: 12;
 
 $block-grid-elements: 4;
@@ -29,13 +29,13 @@ $header-font-family: $body-font-family;
 $header-font-weight: normal;
 $header-font-color: #444;
 
-$paragraph-font-size: em-calc(14);
+$paragraph-font-size: rem-calc(14);
 $small-font-size: 80%;
 
-$hr-margin: em-calc(15);
+$hr-margin: rem-calc(15);
 
 $f: 1.135;
-$h6-font-size: 1em;
+$h6-font-size: 1rem;
 $h5-font-size: $h6-font-size * $f;
 $h4-font-size: $h5-font-size * $f;
 $h3-font-size: $h4-font-size * $f;
@@ -54,7 +54,7 @@ $topbar-link-color: $body-font-color;
 $topbar-link-color-hover: darken($topbar-link-color, 10%);
 $topbar-link-color-active: darken($topbar-link-color, 10%);
 $topbar-link-weight: normal;
-$topbar-link-font-size: em-calc(14);
+$topbar-link-font-size: rem-calc(14);
 $topbar-dropdown-link-color: $body-font-color;
 
 $topbar-menu-link-color: #888;
@@ -84,7 +84,7 @@ $pagination-height: auto;
 $microformat-border-width: 0;
 $microformat-padding: 0;
 $microformat-margin: 0;
-$microformat-fullname-font-size: 1em;
+$microformat-fullname-font-size: 1rem;
 
 
 // SUB NAV
@@ -169,7 +169,7 @@ h1, h2, h3, h4, h5, h6 {
 // HEADER --------------------------------------------------------------------
 
 .row.collapse.header {
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
 }
 
 @media #{$small} {
@@ -183,33 +183,33 @@ h1, h2, h3, h4, h5, h6 {
 .search {
     input {
         border-radius: 50px;
-        font-size: em-calc(12);
-        padding: 0.5em 0.8em 0.5em 2.2em;
-        width: 15em;
+        font-size: rem-calc(12);
+        padding: 0.5rem 0.8rem 0.5rem 2.2rem;
+        width: 15rem;
     }
 
     .fi-magnifying-glass {
         position: absolute;
-        top: .2em;
-        left: .4em;
+        top: .2rem;
+        left: .4rem;
     }
 
     @media (max-width: 767px) {
         position: relative;
-        top: 0.6em;
-        left: 0.8em;
+        top: 0.6rem;
+        left: 0.8rem;
     }
 
     @media #{$small} {
         position: absolute;
-        top: 1em;
-        right: 1.52em;
+        top: 1rem;
+        right: 1.52rem;
 
         input {
-            width: 15em;
+            width: 15rem;
         }
         .fi-magnifying-glass {
-            top: .4em;
+            top: .4rem;
         }
     }
 }
@@ -231,7 +231,7 @@ h1, h2, h3, h4, h5, h6 {
         padding-top: 60px;
     }
     .top-bar ul.right {
-        margin-right: 1.52em;
+        margin-right: 1.52rem;
     }
 }
 
@@ -245,21 +245,21 @@ h1, h2, h3, h4, h5, h6 {
 .row.footer {  // :-( specifity of .row .row
     background-color: $medium-grey-bg;
     color: $inverse-font-color;
-    border-top: 1em solid #fff;
-    padding-top: .5em;
+    border-top: 1rem solid #fff;
+    padding-top: .5rem;
 
     .subheader {
-        font-size: 1.3em;
+        font-size: 1.3rem;
         border-bottom: 1px solid $inverse-font-color;
     }
     p, ul.vcard, .side-nav {
-        font-size: .8em;
+        font-size: .8rem;
     }
     .side-nav li {
-        font-size: 1em;
+        font-size: 1rem;
     }
     ul.vcard {
-        margin-bottom: 1em;
+        margin-bottom: 1rem;
     }
 
     .subheader, .side-nav li a, a {
@@ -274,7 +274,7 @@ h1, h2, h3, h4, h5, h6 {
     p {
         line-height: 2;
         margin-bottom: 0;
-        font-size: .8em;
+        font-size: .8rem;
     }
 }
 
@@ -300,10 +300,10 @@ label span {
 .form-errors {
     .errorlist {
         list-style: disc;
-        margin: 0 0 0 1.25em;
+        margin: 0 0 0 1.25rem;
     }
     strong + .errorlist {
-        margin-top: 0.5em;
+        margin-top: 0.5rem;
     }
 }
 
@@ -325,7 +325,7 @@ a.box {
         h3 {
             background: rgba(0, 0, 0, 0.6);
             color: $inverse-font-color;
-            padding: 0.2em .5em;
+            padding: 0.2rem .5rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -347,7 +347,7 @@ a.box {
 }
 
 .th {
-    margin-bottom: .25em;
+    margin-bottom: .25rem;
 }
 
 .caption {
@@ -367,13 +367,13 @@ a.box {
 }
 
 ul p, p ul {
-    font-size: 1em;
+    font-size: 1rem;
 }
 
 .home,
 .richtext ul,
 .richtext ol {
-    margin-left: 1.25em;
+    margin-left: 1.25rem;
 }
 
 
@@ -403,7 +403,7 @@ th {
 }
 
 table table tr {
-    th, td { font-size: 1em; }
+    th, td { font-size: 1rem; }
 }
 
 
