@@ -109,7 +109,7 @@ def setup():
     with open('box/local_settings.py', 'w') as f:
         rand = random.SystemRandom()
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-        secret_key = ''.join(random.choice(chars) for i in range(50))
+        secret_key = ''.join(rand.choice(chars) for i in range(50))
         f.write(
             'SECRET_KEY = \'%s\'\n'
             'ALLOWED_HOSTS = [\'*\']\n'
