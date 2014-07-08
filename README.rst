@@ -5,9 +5,11 @@ FeinCMS in a Box
 Prerequisites
 -------------
 
-An up-to-date installation of `bundler <http://bundler.io/>`_::
+An up-to-date installation of `foundation <http://foundation.zurb.com>`_. These
+commands assume that you have already installed nodejs and npm::
 
-    sudo gem install bundler
+    [sudo] gem install foundation
+    [sudo] npm install -g bower grunt-cli
 
 `pip <http://www.pip-installer.org/>`_,
 `virtualenv <http://www.virtualenv.org/>`_ and
@@ -60,7 +62,8 @@ The following command should get you up and running::
 Alternatively (or if ``fab setup`` fails) you can run the commands by hand.
 First, set up the frontend development tools::
 
-    bundle install --path .bundle/gems
+    cd box/static/box && npm install
+    cd box/static/box && bower install
 
 Then, the backend development toolsuite. If developing on OS X Mavericks,
 set the following environment variables (otherwise the Pillow compilation
