@@ -102,8 +102,8 @@ def setup():
     if platform.system() == 'Darwin' and platform.mac_ver()[0] >= '10.9':
         local(
             'export CFLAGS=-Qunused-arguments'
-            '&& export CPPFLAGS=-Qunused-arguments'
-            '&& venv/bin/pip install -r requirements/dev.txt')
+            ' && export CPPFLAGS=-Qunused-arguments'
+            ' && venv/bin/pip install -r requirements/dev.txt')
     else:
         local('venv/bin/pip install -r requirements/dev.txt')
 
