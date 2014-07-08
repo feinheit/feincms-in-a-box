@@ -5,24 +5,6 @@ FeinCMS in a Box
 Prerequisites
 -------------
 
-An up-to-date installation of `foundation <http://foundation.zurb.com>`_. These
-commands assume that you have already installed nodejs and npm::
-
-    [sudo] gem install foundation
-    [sudo] npm install -g bower grunt-cli
-
-`pip <http://www.pip-installer.org/>`_,
-`virtualenv <http://www.virtualenv.org/>`_ and
-`Fabric <http://fabfile.org>`_::
-
-    sudo pip install -U pip virtualenv fabric
-
-If ``pip`` is missing on your system, you can install it using
-``easy_install``.  That's also the one and only occasion when ``easy_install``
-should be used::
-
-    sudo easy_install pip
-
 Under Debian-derivatives, you need the following libraries to successfully
 compile all dependencies of FeinCMS-in-a-Box, notably
 `lxml <http://lxml.de/>`_ and
@@ -39,6 +21,29 @@ packages::
     brew install libxslt
     brew install libxml2
     brew install jpeg
+
+Node.js and npm are also required::
+
+    sudo apt-get install npm  # On Debian-derivatives
+    brew install npm  # On OS X
+
+You also need an up-to-date installation of
+`foundation <http://foundation.zurb.com>`_.
+
+    [sudo] gem install foundation
+    [sudo] npm install -g bower grunt-cli
+
+`pip <http://www.pip-installer.org/>`_,
+`virtualenv <http://www.virtualenv.org/>`_ and
+`Fabric <http://fabfile.org>`_::
+
+    sudo pip install -U pip virtualenv fabric
+
+If ``pip`` is missing on your system, you can install it using
+``easy_install``.  That's also the one and only occasion when ``easy_install``
+should be used::
+
+    sudo easy_install pip
 
 
 Installation
