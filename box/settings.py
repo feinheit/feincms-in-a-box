@@ -118,10 +118,10 @@ INSTALLED_APPS = (
 )
 
 LANGUAGES = (
-    #('en', 'English'),
+    # ('en', 'English'),
     ('de', 'German'),
-    #('fr', 'French'),
-    #('it', 'Italian'),
+    # ('fr', 'French'),
+    # ('it', 'Italian'),
 )
 
 SOUTH_MIGRATION_MODULES = dict((app, 'box.migrate.%s' % app) for app in (
@@ -189,7 +189,7 @@ LOGGING = {
     'handlers': {
         'sentry': {
             'level': 'ERROR',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'class': 'raven.contrib.django.handlers.SentryHandler',
             'filters': ['require_debug_false'],
         },
         'console': {
@@ -227,7 +227,9 @@ if DEBUG:
         'debug_toolbar',  # Django 1.7: debug_toolbar.apps.DebugToolbarConfig
     )
     INTERNAL_IPS = ('127.0.0.1',)
-    MIDDLEWARE_CLASSES = ('debug_toolbar.middleware.DebugToolbarMiddleware',) + MIDDLEWARE_CLASSES
+    MIDDLEWARE_CLASSES = (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ) + MIDDLEWARE_CLASSES
     DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 try:
