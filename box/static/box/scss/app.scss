@@ -3,18 +3,9 @@
 @import "lightbox";
 
 
-// GRID
-
-$row-width: rem-calc(1000);
-$column-gutter: rem-calc(50);
-$total-columns: 12;
-
-$block-grid-elements: 4;
-
-
 // COLORS
 
-$primary-color: #2ba6cb;
+$primary-color: #72b038;
 $medium-grey-bg: darken($primary-color, 25%);
 $dark-grey-bg: darken($medium-grey-bg, 10%);
 $inverse-font-color: #efefef;
@@ -22,13 +13,7 @@ $inverse-font-color: #efefef;
 
 // TYPOGRAPHY
 
-$body-font-color: #222;
-$body-font-family: Arial, Tahoma, Verdana, sans-serif;
-
-$header-font-family: $body-font-family;
-$header-font-weight: normal;
-$header-font-color: #444;
-
+$body-font-color: #222222;
 $paragraph-font-size: rem-calc(14);
 $small-font-size: 80%;
 
@@ -56,6 +41,9 @@ $topbar-link-color-active: darken($topbar-link-color, 10%);
 $topbar-link-weight: normal;
 $topbar-link-font-size: rem-calc(14);
 $topbar-dropdown-link-color: $body-font-color;
+
+$topbar-link-bg-hover: $primary-color;
+$topbar-link-bg-active-hover: $primary-color;
 
 $topbar-menu-link-color: #888;
 $topbar-menu-icon-color: #888;
