@@ -4,7 +4,7 @@ import os
 import platform
 import random
 
-from fabric.api import cd, env, local, run, task
+from fabric.api import cd, env, execute, local, run, task
 from fabric.colors import green, red
 
 
@@ -42,8 +42,8 @@ def dev():
     import socket
     from threading import Thread
     jobs = [
-        Thread(target=watch_styles),
-        Thread(target=runserver),
+        Thread(target=lambda: execute('watch_styles')),
+        Thread(target=lambda: execute('runserver')),
     ]
     try:
         socket.create_connection(('localhost', 6379), timeout=0.1).close()
@@ -55,7 +55,7 @@ def dev():
 
 @task(alias='ws')
 def watch_styles():
-    local('bundle exec compass watch {sass}')
+    local('cd {sass} && grunt')
 
 
 @task(alias='rs')
@@ -65,9 +65,10 @@ def runserver(port=8000):
 
 @task
 def deploy_styles():
-    local('bundle exec compass clean {sass}')
-    local('bundle exec compass compile -s compressed {sass}')
-    local('scp -r {sass}/stylesheets {host}:{folder}static/{project}/')
+    local('cd {sass} && grunt build')
+    local('rsync -avz {sass}/css {host}:{folder}static/{project}/')
+    local(
+        'rsync -avz {sass}/bower_components {host}:{folder}static/{project}/')
 
 
 @task
@@ -87,8 +88,8 @@ def deploy_code():
 
 @task
 def deploy():
-    deploy_styles()
-    deploy_code()
+    execute('deploy_styles')
+    execute('deploy_code')
 
 
 @task

@@ -1,6 +1,6 @@
-// Global Foundation Settings
 @import "settings";
 @import "foundation-icons";
+@import "lightbox";
 
 
 // GRID
@@ -97,56 +97,46 @@ $sub-nav-font-color: #666;
 $orbit-timer-show-progress-bar: false;
 
 
-@import "normalize";
-@import "foundation/components/global"; // *always required
-@import "foundation/components/grid";
+@import "foundation";
 
-//
-// Use this grid if you want to start using the new Foundation 5 grid early.
-// It will change breakpoints to min-width: 640px and 1024px.
-//
-// @import "foundation/components/grid-5";
-//
 
-@import "foundation/components/visibility";
-@import "foundation/components/block-grid";
-@import "foundation/components/type";
-@import "foundation/components/buttons";
-@import "foundation/components/forms"; // *requires components/buttons
-// @import "foundation/components/custom-forms"; // *requires components/buttons, components/forms
-// @import "foundation/components/button-groups"; // *requires components/buttons
-@import "foundation/components/dropdown-buttons"; // *requires components/buttons
-// @import "foundation/components/split-buttons"; // *requires components/buttons
-// @import "foundation/components/flex-video";
-// @import "foundation/components/section";
-@import "foundation/components/top-bar";  // *requires components/grid
-@import "foundation/components/orbit";
-@import "foundation/components/reveal";
-// @import "foundation/components/joyride";
-// @import "foundation/components/clearing";
-@import "foundation/components/alert-boxes";
-@import "foundation/components/breadcrumbs";
-// @import "foundation/components/keystrokes";
-// @import "foundation/components/labels";
-// @import "foundation/components/inline-lists";
-@import "foundation/components/pagination";
-@import "foundation/components/panels";
-// @import "foundation/components/pricing-tables";
-// @import "foundation/components/progress-bars";
-@import "foundation/components/side-nav";
-@import "foundation/components/sub-nav";
-// @import "foundation/components/switch";
-// @import "foundation/components/magellan";
-@import "foundation/components/tables";
-@import "foundation/components/thumbs";
-// @import "foundation/components/tooltips";
-@import "foundation/components/dropdown";
-
-@import "compass/css3/background-size";
-@import "compass/css3/box-shadow";
-@import "compass/css3/box-sizing";
-@import "compass/css3/transform";
-@import "compass/css3/transition";
+// Or selectively include components
+// @import
+//   "foundation/components/accordion",
+//   "foundation/components/alert-boxes",
+//   "foundation/components/block-grid",
+//   "foundation/components/breadcrumbs",
+//   "foundation/components/button-groups",
+//   "foundation/components/buttons",
+//   "foundation/components/clearing",
+//   "foundation/components/dropdown",
+//   "foundation/components/dropdown-buttons",
+//   "foundation/components/flex-video",
+//   "foundation/components/forms",
+//   "foundation/components/grid",
+//   "foundation/components/inline-lists",
+//   "foundation/components/joyride",
+//   "foundation/components/keystrokes",
+//   "foundation/components/labels",
+//   "foundation/components/magellan",
+//   "foundation/components/orbit",
+//   "foundation/components/pagination",
+//   "foundation/components/panels",
+//   "foundation/components/pricing-tables",
+//   "foundation/components/progress-bars",
+//   "foundation/components/reveal",
+//   "foundation/components/side-nav",
+//   "foundation/components/split-buttons",
+//   "foundation/components/sub-nav",
+//   "foundation/components/switch",
+//   "foundation/components/tables",
+//   "foundation/components/tabs",
+//   "foundation/components/thumbs",
+//   "foundation/components/tooltips",
+//   "foundation/components/top-bar",
+//   "foundation/components/type",
+//   "foundation/components/offcanvas",
+//   "foundation/components/visibility";
 
 
 body {
@@ -157,7 +147,7 @@ body {
     .wrapper {
         background-color: #fff;
         margin: 0 auto;
-        @include box-shadow(0px 0px 10px 0px rgba(0, 0, 0, 0.75));
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
     }
 }
 
@@ -226,7 +216,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .top-bar {
     .dropdown {
-        @include box-shadow(1px 1px 6px 0px rgba(0, 0, 0, 0.45));
+        box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.45);
     }
     ul li.active > a {
         border-bottom: 3px solid $primary-color;
@@ -246,7 +236,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sticky.fixed {
-    @include box-shadow(0px 4px 4px -4px rgba(0, 0, 0, 0.45));
+    box-shadow: 0px 4px 4px -4px rgba(0, 0, 0, 0.45);
 }
 
 
@@ -323,7 +313,7 @@ label span {
 a.box {
     background-repeat: none;
     background-position: center 25%;
-    @include background-size(cover);
+    background-size: cover;
     display: block;
     max-width: 500px;
     color: $body-font-color;
@@ -350,7 +340,7 @@ a.box {
         padding-top: 100%;
     }
 
-    @include transition(color 0.5s ease);
+    transition: color 0.5s ease;
     &:hover {
         color: $primary-color;
     }
@@ -390,8 +380,8 @@ ul p, p ul {
 // GOOGLE Custom Search Engine
 
 .gsc-control-cse {
-    * { @include box-sizing(content-box !important); }
-    input { @include box-shadow(none !important); }
+    * { box-sizing: content-box !important; }
+    input { box-shadow: none !important; }
     input:focus { outline: none; }
     table { border: none; background: transparent; }
 
@@ -401,7 +391,7 @@ ul p, p ul {
     }
 
     .gsc-input-box, .gsc-search-box .gsc-input > input, .gsc-input-box-hover {
-        @include box-shadow(none !important);
+        box-shadow: none !important;
     }
 }
 

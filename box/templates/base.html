@@ -4,7 +4,7 @@
 {% load compress i18n staticfiles feincms_tags feincms_page_tags navigation_tags %}
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>
     {% block title %}
@@ -14,12 +14,11 @@
   </title>
   {% compress css %}
   {% block css %}
-    <link rel="stylesheet" href="{% static 'box/stylesheets/app.css' %}">
-    <link rel="stylesheet" href="{% static 'box/lightbox/css/lightbox.css' %}">
+    <link rel="stylesheet" href="{% static 'box/css/app.css' %}">
   {% endblock %}
   {% endcompress %}
   <link rel="shortcut icon" href="{% static 'box/images/favicon.ico' %}">
-  <script src="{% static 'box/javascripts/vendor/custom.modernizr.js' %}"></script>
+  <script src="{% static 'box/bower_components/modernizr/modernizr.js' %}"></script>
   <script>onReady = [];</script>
 
   <meta name="keywords" content="{{ feincms_page.meta_keywords|default:'' }}">
@@ -187,37 +186,14 @@
 
 {% compress js %}
 {% block js %}
-  <script src="{% static 'box/javascripts/vendor/jquery.js' %}"></script>
-  <script src="{% static 'box/javascripts/foundation/foundation.js' %}"></script>
-  <!--
-  <script src="{% static 'box/javascripts/foundation/foundation.abide.js' %}"></script>
-  <script src="{% static 'box/javascripts/foundation/foundation.cookie.js' %}"></script>
-  <script src="{% static 'box/javascripts/foundation/foundation.forms.js' %}"></script>
-  <script src="{% static 'box/javascripts/foundation/foundation.section.js' %}"></script>
-  -->
-  <script src="{% static 'box/javascripts/foundation/foundation.orbit.js' %}"></script>
-  <script src="{% static 'box/javascripts/foundation/foundation.dropdown.js' %}"></script>
-  <!--
-  <script src="{% static 'box/javascripts/foundation/foundation.magellan.js' %}"></script>
-  -->
-  <script src="{% static 'box/javascripts/foundation/foundation.alerts.js' %}"></script>
-  <script src="{% static 'box/javascripts/foundation/foundation.reveal.js' %}"></script>
-  <!--
-  <script src="{% static 'box/javascripts/foundation/foundation.clearing.js' %}"></script>
-  <script src="{% static 'box/javascripts/foundation/foundation.interchange.js' %}"></script>
-  -->
-  <script src="{% static 'box/javascripts/foundation/foundation.topbar.js' %}"></script>
-  <!--
-  <script src="{% static 'box/javascripts/foundation/foundation.tooltips.js' %}"></script>
-  <script src="{% static 'box/javascripts/foundation/foundation.joyride.js' %}"></script>
-  -->
-  <script src="{% static 'box/javascripts/foundation/foundation.placeholder.js' %}"></script>
-  <script src="{% static 'box/lightbox/js/lightbox-2.6.min.js' %}"></script>
+  <script src="{% static 'box/bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'box/bower_components/foundation/js/foundation.min.js' %}"></script>
+  <script src="{% static 'box/js/lightbox.js' %}"></script>
+  <script src="{% static 'box/js/app.js' %}"></script>
 {% endblock %}
 {% endcompress %}
 {% block inline-js %}
   <script>
-    $(document).foundation();
     for (var i=0, l=onReady.length; i<l; ++i) {
       onReady[i].call(null, $);
     }
