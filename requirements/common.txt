@@ -4,7 +4,7 @@ South==1.0
 django-compressor==1.4
 django-mptt==0.6.1
 FeinCMS==1.9.4
-feincms-cleanse==3
+feincms-cleanse==4
 form_designer==0.3.0
 lxml==3.3.5
 raven==5.0.0
