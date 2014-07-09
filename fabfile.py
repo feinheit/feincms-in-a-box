@@ -98,7 +98,7 @@ def setup():
         print(red('It seems that this project is already set up, aborting.'))
         return 1
 
-    local('virtualenv --python python2.7 venv')
+    local('virtualenv venv')
     if platform.system() == 'Darwin' and platform.mac_ver()[0] >= '10.9':
         local(
             'export CFLAGS=-Qunused-arguments'
