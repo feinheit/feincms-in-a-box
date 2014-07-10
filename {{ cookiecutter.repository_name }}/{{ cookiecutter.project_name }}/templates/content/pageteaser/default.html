@@ -1,0 +1,15 @@
+{% raw %}{% load feincms_thumbnail i18n %}
+<ul class="small-block-grid-1">
+  <li>
+    <a href="{{ content.page.get_absolute_url }}" class="th box"
+    {% if content.mediafile %}style="background-image:url('{{ content.mediafile.file|cropscale:'500x300' }}')"{% endif %}}>
+
+      <span>
+        <h3>
+          {{ content.title }}
+        </h3>
+      </span>
+    </a>
+  </li>
+</ul>
+{% endraw %}

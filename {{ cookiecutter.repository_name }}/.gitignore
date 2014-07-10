@@ -1,0 +1,13 @@
+*.py?
+*~
+.*.sw*
+.DS_Store
+.sass-cache
+/data.db
+/log
+/media
+/{{ cookiecutter.project_name }}/local_settings.py
+/static
+/venv
+\#*#
+stylesheets

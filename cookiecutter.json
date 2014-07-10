@@ -1,0 +1,7 @@
+{
+    "project_name": "box",
+    "repository_name": "box",
+    "organisation": "feinheit",
+    "sentry_dsn": "",
+    "server": "www-data@feinheit04.nine.ch"
+}

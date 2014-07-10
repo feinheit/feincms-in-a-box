@@ -1,0 +1,257 @@
+{% raw %}<!DOCTYPE html>
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+{% load compress i18n staticfiles feincms_tags feincms_page_tags navigation_tags %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>
+    {% block title %}
+      {% if feincms_page %}{{ feincms_page.page_title }} | {% endif %}
+      FeinCMS-in-a-box
+    {% endblock %}
+  </title>
+  {% compress css %}
+  {% block css %}
+    <link rel="stylesheet" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/stylesheets/app.css' %}">
+    <link rel="stylesheet" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/lightbox/css/lightbox.css' %}">
+  {% endblock %}
+  {% endcompress %}
+  <link rel="shortcut icon" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/images/favicon.ico' %}">
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/vendor/custom.modernizr.js' %}"></script>
+  <script>onReady = [];</script>
+
+  <meta name="keywords" content="{{ feincms_page.meta_keywords|default:'' }}">
+  <meta name="description" content="{{ feincms_page.meta_description|default:'' }}">
+  <meta name="robots" content="index,follow,noodp">
+  <meta property="og:title" content="{{ og_title|default:feincms_page.page_title }} - FeinCMS-in-a-Box">
+  <meta property="og:image" content="http://www.box.ch{{ og_image|default:'/static/{% endraw %}{{ cookiecutter.project_name }}{% raw %}/images/NN4.png' }}">
+  <meta property="og:type" content="company">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:description" content="{{ og_description|default:feincms_page.meta_description|default:'' }}">
+  <meta property="fb:admins" content="100001975335850">
+
+  <link rel="alternate" type="application/rss+xml"
+    title="RSS Feed" href="http://www.box.ch/feeds/news/">
+  {% block extra-head %}{% endblock %}
+</head>
+<body>
+
+<div class="row collapse wrapper">
+  <div class="large-12 columns">
+
+    <div class="row collapse header">
+      <div class="large-6 columns">
+        <h1>
+          <a id="logo" href="/">
+            FeinCMS-in-a-Box
+          </a>
+        </h1>
+      </div>
+
+      <div class="large-6 columns push-for-medium">
+        <form method="get" action="/search/" class="search hide-for-small">
+          <input type="text" name="q" placeholder="Suche">
+          <i class="fi-magnifying-glass"></i>
+        </form>
+
+        <nav class="top-bar" data-options="back_text:{% trans 'Back' %};">
+          <ul class="title-area">
+            <li class="name">
+              <form method="get" action="/search/" class="search show-for-small">
+                <input type="text" name="q" placeholder="Suche">
+                <i class="fi-magnifying-glass"></i>
+              </form>
+            </li>
+            <li class="toggle-topbar menu-icon">
+              <a href="#"><span>Menu<!-- nothing --></span></a>
+            </li>
+          </ul>
+
+          <section class="top-bar-section">
+            <ul class="right">
+              {% feincms_nav feincms_page level=2 depth=2 as toplevel %}
+              {% for page, children in toplevel|group_by_tree %}
+                {% page_is_active page as is_active %}
+                <li class="{% if is_active %}active{% endif %} {% if children %}has-dropdown{% endif %}">
+                  <a href="{{ page.get_navigation_url }}">{{ page.title }}</a>
+                  {% if children %}
+                  <ul class="dropdown">
+                    <li class="show-for-small">
+                      {# The top-bar code does not allow navigating to top-level entries #}
+                      <a href="{{ page.get_navigation_url }}">{{ page.title }}</a>
+                    </li>
+                    {% for child in children %}
+                      {% page_is_active child as is_active %}
+                      <li class="{% if is_active %}active{% endif %}">
+                        <a href="{{ child.get_navigation_url }}">{{ child.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </section>
+        </nav>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+      <div class="large-8 large-centered column">
+
+		    <h1>Die von Ihnen gesuchte Seite konnte leider nicht gefunden werden!</h1>
+
+            <p>Bitte gehen Sie <a href="/">zur Startseite</a> oder suchen Sie
+            den Inhalt:</p>
+
+            <script type="text/javascript">
+            var GOOG_FIXURL_LANG = 'de';
+            var GOOG_FIXURL_SITE = 'http://www.box.ch'
+            </script>
+            <script type="text/javascript"
+            src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js">
+            </script>
+      </div>
+    </div>
+
+
+
+
+    <div class="row footer">
+      <div class="large-4 columns">
+        <h3 class="subheader">Kontakt</h3>
+        <ul class="vcard">
+          <li class="fn">FEINHEIT GmbH</li>
+          <li class="street-address">
+            <a href="http://maps.google.com/?q=Molkenstrasse+21+8004+Zürich" target="_blank">
+              Molkenstrasse 21
+            </a>
+          </li>
+          <li>
+            <a href="http://maps.google.com/?q=Molkenstrasse+21+8004+Zürich" target="_blank">
+              <span class="zip">8004</span>
+              <span class="locality">Zürich</span>
+            </a>
+          </li>
+          <li class="phone"><a href="tel:+41555111141">Tel. +41 555 11 11 41</a></li>
+          <li class="email"><a href="mailto:kontakt@feinheit.ch">kontakt@feinheit.ch</a></li>
+        </ul>
+      </div>
+
+      <div class="large-4 columns">
+        <h3 class="subheader">Direkteinstieg</h3>
+        <ul class="side-nav">
+          {% for page in meta_navigation %}
+            {% page_is_active page as is_active %}
+            <li {% if is_active %}class="current"{% endif %}>
+              <a href="{{ page.get_navigation_url }}">{{ page.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="large-4 columns">
+        <h3 class="subheader">
+            <a href="#">
+              Newsletter
+            </a>
+          </h3>
+        <form method="post" action="#">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="subscribe">
+          <div class="row collapse">
+            <div class="small-9 columns">
+              <input type="email" value="{{ request.user.email|default:'' }}"
+                placeholder="Emailadresse" name="email">
+            </div>
+            <div class="small-3 columns">
+              <button type="submit" class="button secondary postfix">
+                <i class="fi-mail"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row copyright">
+      <div class="large-12 columns">
+        <p>
+          &copy;2013 &ndash; {% now "Y" %} FEINHEIT GmbH. All rights reserved.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div><!-- row wrapper -->
+
+{% compress js %}
+{% block js %}
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/vendor/jquery.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.js' %}"></script>
+  <!--
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.abide.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.cookie.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.forms.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.section.js' %}"></script>
+  -->
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.orbit.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.dropdown.js' %}"></script>
+  <!--
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.magellan.js' %}"></script>
+  -->
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.alerts.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.reveal.js' %}"></script>
+  <!--
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.clearing.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.interchange.js' %}"></script>
+  -->
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.topbar.js' %}"></script>
+  <!--
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.tooltips.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.joyride.js' %}"></script>
+  -->
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.placeholder.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/lightbox/js/lightbox-2.6.min.js' %}"></script>
+{% endblock %}
+{% endcompress %}
+{% block inline-js %}
+  <script>
+    $(document).foundation();
+    for (var i=0, l=onReady.length; i<l; ++i) {
+      onReady[i].call(null, $);
+    }
+  </script>
+{% endblock %}
+
+{% comment %}<!--
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-16250062-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+-->{% endcomment %}
+<script>$(window).load(function() { $('.video-container').show(); });</script>
+
+  {% if request.user.is_staff and feincms_page %}
+    <div class="edit-tools">
+      {% block edit-tools %}
+      <a href="/admin/page/page/{{ feincms_page.id }}/"
+        class="button tiny">Edit page</a>
+      {% endblock %}
+    </div>
+  {% endif %}
+
+</body>
+</html>
+{% endraw %}

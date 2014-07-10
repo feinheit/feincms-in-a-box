@@ -1,8 +1,0 @@
-{% if trail|length > 1 %}
-<nav class="breadcrumbs">
-  {% for url, title in trail %}
-    <a {% if forloop.last %}class="current"{% endif %} href="{{ url|default:'' }}">{{ title }}</a>
-  {% endfor %}
-</nav>
-<hr>
-{% endif %}
