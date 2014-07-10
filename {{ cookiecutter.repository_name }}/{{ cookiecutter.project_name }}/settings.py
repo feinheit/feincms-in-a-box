@@ -5,31 +5,23 @@ from __future__ import absolute_import, unicode_literals
 import os
 import sys
 
-ABS_PATH = os.path.dirname(os.path.abspath(__file__))
-
-APP_BASEDIR = os.path.dirname(ABS_PATH)
-APP_MODULE = ABS_PATH.split('/')[-1]
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'root@oekohosting.ch'
 DATE_FORMAT = 'd.m.Y'
 
-DEBUG = 'runserver' in sys.argv
+DEBUG = any(r in sys.argv for r in ('runserver', 'shell', 'dbshell', 'test'))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('FEINHEIT Developers', 'dev@feinheit.ch'),
 )
-
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'data.db',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
     }
 }
 
@@ -38,11 +30,12 @@ LANGUAGE_CODE = 'de-ch'
 
 USE_I18N = True
 USE_L10N = True
+USE_TZ = True
 
-MEDIA_ROOT = os.path.join(APP_BASEDIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(APP_BASEDIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 if not DEBUG:
@@ -60,12 +53,14 @@ STATICFILES_FINDERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     '{{ cookiecutter.project_name }}.middleware.ForceDomainMiddleware',
 )
 
@@ -75,19 +70,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.request',
     'django.core.context_processors.static',
-
     'django.contrib.auth.context_processors.auth',
-
+    'django.contrib.messages.context_processors.messages',
     'feincms.context_processors.add_page_if_missing',
     '{{ cookiecutter.project_name }}.context_processors.{{ cookiecutter.project_name }}_context',
-
-    'django.contrib.messages.context_processors.messages',
 )
 
 ROOT_URLCONF = '{{ cookiecutter.project_name }}.urls'
+WSGI_APPLICATION = 'wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(APP_BASEDIR, APP_MODULE, 'templates'),
+    os.path.join(BASE_DIR, '{{ cookiecutter.project_name }}', 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -95,7 +88,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-
     'django.contrib.staticfiles',
 
     '{{ cookiecutter.project_name }}',
@@ -166,7 +158,7 @@ BLOG_DESCRIPTION = 'News'
 BLOG_PAGINATE_BY = 10
 
 LOCALE_PATHS = (
-    os.path.join(APP_BASEDIR, 'conf', 'locale'),
+    os.path.join(BASE_DIR, 'conf', 'locale'),
 )
 
 LOGGING = {
