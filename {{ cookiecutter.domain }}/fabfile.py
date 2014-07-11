@@ -141,7 +141,7 @@ RAVEN_CONFIG = {
     'dsn': '{{ cookiecutter.sentry_dsn }}',
 }
 ALLOWED_HOSTS = ['*']
-''' % CONFIG))
+''' % CONFIG)
 
     local('cd {sass} && npm install')
     local('cd {sass} && bower install')
