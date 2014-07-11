@@ -121,9 +121,6 @@ SOUTH_MIGRATION_MODULES = dict((app, '{{ cookiecutter.project_name }}.migrate.%s
     'elephantblog',
 ))
 
-FEINCMS_ADMIN_MEDIA = '/static/feincms/'
-TINYMCE_JS_URL = '/static/tinymce/tiny_mce.js'
-
 FEINCMS_RICHTEXT_INIT_TEMPLATE = 'admin/content/richtext/init_ckeditor.html'
 FEINCMS_RICHTEXT_INIT_CONTEXT = {
     'CKEDITOR_JS_URL': '/static/ckeditor/ckeditor.js',
