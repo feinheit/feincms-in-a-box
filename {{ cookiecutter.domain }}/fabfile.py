@@ -258,6 +258,9 @@ RAVEN_CONFIG = {
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 ''' % CONFIG))
 
+        run('venv/bin/python syncdb --noinput')
+        run('venv/bin/python migrate --noinput')
+
     run('supervisor-create-conf {domain} wsgi'
         ' > supervisor/conf.d/{domain}.conf')
     run('sctl reload')
