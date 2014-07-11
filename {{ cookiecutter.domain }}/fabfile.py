@@ -188,12 +188,14 @@ def init_bitbucket():
 
 @task
 def init_server():
-    organization = prompt('Organization', default='feinheit')
-    repository_name = prompt(
-        'Repository',
-        default=CONFIG['repository_name'])
+    print(green('We need the repository to initialize the server.'))
+    with hide('running'):
+        output = local('git config remote.origin.url', capture=True)
+    repo = prompt('Repository', default=output)
 
-    repo = 'git@bitbucket.org:%s/%s.git' % (organization, repository_name)
+    if not repo:
+        print(red('Cannot continue without a repository.'))
+        return 1
 
     run(
         'sudo nine-manage-vhosts virtual-host create {domain}'
