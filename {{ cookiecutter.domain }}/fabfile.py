@@ -128,19 +128,27 @@ def setup():
         local('venv/bin/pip install -r requirements/dev.txt')
 
     with open('{{ cookiecutter.project_name }}/local_settings.py', 'w') as f:
+        CONFIG['secret_key'] = get_random_string(50)
         f.write('''\
-SECRET_KEY = '%s'
-ALLOWED_HOSTS = ['*']
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '%(database_name)s',
+    }
+}
+SECRET_KEY = '%(secret_key)s'
 RAVEN_CONFIG = {
     'dsn': '{{ cookiecutter.sentry_dsn }}',
 }
-''' % get_random_string(50))
+ALLOWED_HOSTS = ['*']
+''' % CONFIG))
 
     local('cd {sass} && npm install')
     local('cd {sass} && bower install')
 
-    local('venv/bin/python manage.py syncdb --all --noinput')
-    local('venv/bin/python manage.py migrate --all --fake')
+    local('createdb {database_name} --encoding=UTF8 --template=template0')
+    local('venv/bin/python manage.py syncdb --noinput')
+    local('venv/bin/python manage.py migrate --noinput')
 
     print(green('Initial setup has completed successfully!', bold=True))
     print(green('Next steps:'))
