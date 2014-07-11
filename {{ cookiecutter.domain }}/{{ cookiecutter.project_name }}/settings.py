@@ -82,6 +82,10 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, '{{ cookiecutter.project_name }}', 'templates'),
 )
 
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'conf', 'locale'),
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -152,10 +156,6 @@ ABSOLUTE_URL_OVERRIDES = {
 BLOG_TITLE = 'FeinCMS-in-a-Box'
 BLOG_DESCRIPTION = 'News'
 BLOG_PAGINATE_BY = 10
-
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'conf', 'locale'),
-)
 
 LOGGING = {
     'version': 1,
