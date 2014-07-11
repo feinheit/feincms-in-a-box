@@ -2,5 +2,5 @@
     "project_name": "box",
     "domain": "",
     "server": "www-data@feinheit04.nine.ch",
-    "sentry_dsn": "",
+    "sentry_dsn": ""
 }
