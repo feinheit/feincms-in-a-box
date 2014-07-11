@@ -7,9 +7,6 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'root@oekohosting.ch'
-DATE_FORMAT = 'd.m.Y'
-
 DEBUG = any(r in sys.argv for r in ('runserver', 'shell', 'dbshell', 'test'))
 TEMPLATE_DEBUG = DEBUG
 
@@ -17,6 +14,8 @@ ADMINS = (
     ('FEINHEIT Developers', 'dev@feinheit.ch'),
 )
 MANAGERS = ADMINS
+DEFAULT_FROM_EMAIL = 'no-reply@{{ cookiecutter.domain }}'
+SERVER_EMAIL = 'root@oekohosting.ch'
 
 DATABASES = {
     'default': {
