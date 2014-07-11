@@ -139,7 +139,7 @@ DATABASES = {
 }
 SECRET_KEY = '%(secret_key)s'
 RAVEN_CONFIG = {
-    'dsn': '{{ cookiecutter.sentry_dsn }}',
+    'dsn': '{{ cookiecutter.sentry_dsn }}',  # noqa
 }
 ALLOWED_HOSTS = ['*']
 ''' % CONFIG)
@@ -269,7 +269,7 @@ DATABASES = {
 }
 SECRET_KEY = '%(secret_key)s'
 RAVEN_CONFIG = {
-    'dsn': '{{ cookiecutter.sentry_dsn }}',
+    'dsn': '{{ cookiecutter.sentry_dsn }}',  # noqa
 }
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 ''' % CONFIG))
