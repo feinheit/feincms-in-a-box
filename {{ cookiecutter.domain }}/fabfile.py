@@ -157,6 +157,9 @@ ALLOWED_HOSTS = ['*']
     print(green(
         '- Create a superuser: venv/bin/python manage.py createsuperuser'))
     print(green('- Run the development server: fab dev'))
+    print(green(
+        '- Create a Bitbucket repository: fab init_bitbucket'))
+    print(green('- Configure {server_name} for this project: fab init_server'))
 
 
 @task
