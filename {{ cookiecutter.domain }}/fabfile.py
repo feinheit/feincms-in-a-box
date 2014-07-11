@@ -169,7 +169,8 @@ def pull_database():
 
     local('createdb {database_name} --encoding=UTF8 --template=template0')
     local(
-        'ssh {server} "source .profile && pg_dump {database_name}"'
+        'ssh {server} "source .profile'
+        ' && pg_dump {database_name} --no-privileges --no-owner --no-reconnect"'
         ' | psql {database_name}')
 
 
@@ -177,7 +178,7 @@ def pull_database():
 def pull_mediafiles():
     if not confirm('Completely replace local mediafiles?'):
         return
-    local('rsync -avz --delete {server}:{domain}/media media/')
+    local('rsync -avz --delete {server}:{domain}/media .')
 
 
 @task
@@ -277,7 +278,7 @@ ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 
         run('venv/bin/python syncdb --noinput --all')
         run('venv/bin/python migrate --noinput --all --fake')
-        run('mkdir tmp')
+        run('mkdir media tmp')
 
     run('supervisor-create-conf {domain} wsgi'
         ' > supervisor/conf.d/{domain}.conf')
