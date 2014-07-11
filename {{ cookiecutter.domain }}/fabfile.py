@@ -224,6 +224,16 @@ def init_bitbucket():
 
 @task
 def init_server():
+    execute('init_server_step1_clone_repository')
+    execute('init_server_step2_create_virtualenv')
+    execute('init_server_step3_create_database_and_local_settings')
+    execute('init_server_step4_nginx_vhost_and_supervisor')
+    execute('deploy_styles')
+    print(green('Visit http://{domain}.{server_name} now!'.format(**CONFIG)))
+
+
+@task
+def init_server_step1_clone_repository():
     print(green('We need the repository to initialize the server.'))
     with hide('running'):
         output = local('git config remote.origin.url', capture=True)
@@ -238,9 +248,10 @@ def init_server():
     run('git clone {repository_url} {domain}')
     with settings(warn_only=True):
         local('git remote add -f live {server}:{domain}/')
-    run('sudo nine-manage-vhosts virtual-host create {domain}'
-        ' --template=feinheit --relative-path=htdocs')
 
+
+@task
+def init_server_step2_create_virtualenv():
     with cd('{domain}'):
         run('virtualenv --python python2.7 --prompt "(venv:{domain})" venv')
         run('venv/bin/pip install -U virtualenv pip wheel'
@@ -250,19 +261,23 @@ def init_server():
         run('venv/bin/pip install -r requirements/live.txt'
             ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
 
-        CONFIG['database_pw'] = get_random_string(
-            20, chars='abcdefghijklmopqrstuvwx01234567890')
-        CONFIG['secret_key'] = get_random_string(50)
 
-        run('psql -c "CREATE ROLE {database_name} WITH'
-            ' ENCRYPTED PASSWORD \'{database_pw}\''
-            ' LOGIN NOCREATEDB NOCREATEROLE NOSUPERUSER"')
-        run('psql -c "GRANT {database_name} TO admin"')
-        run('psql -c "CREATE DATABASE {database_name} WITH'
-            ' OWNER {database_name}'
-            ' TEMPLATE template0'
-            ' ENCODING \'UTF8\'"')
+@task
+def init_server_step3_create_database_and_local_settings():
+    CONFIG['database_pw'] = get_random_string(
+        20, chars='abcdefghijklmopqrstuvwx01234567890')
+    CONFIG['secret_key'] = get_random_string(50)
 
+    run('psql -c "CREATE ROLE {database_name} WITH'
+        ' ENCRYPTED PASSWORD \'{database_pw}\''
+        ' LOGIN NOCREATEDB NOCREATEROLE NOSUPERUSER"')
+    run('psql -c "GRANT {database_name} TO admin"')
+    run('psql -c "CREATE DATABASE {database_name} WITH'
+        ' OWNER {database_name}'
+        ' TEMPLATE template0'
+        ' ENCODING \'UTF8\'"')
+
+    with cd('{domain}'):
         put(StringIO('''\
 DATABASES = {
     'default': {
@@ -283,12 +298,16 @@ ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 
         run('venv/bin/python syncdb --noinput --all')
         run('venv/bin/python migrate --noinput --all --fake')
+
+
+@task
+def init_server_step4_nginx_vhost_and_supervisor():
+    run('sudo nine-manage-vhosts virtual-host create {domain}'
+        ' --template=feinheit --relative-path=htdocs')
+
+    with cd('{domain}'):
         run('mkdir media tmp')
 
     run('supervisor-create-conf {domain} wsgi'
         ' > supervisor/conf.d/{domain}.conf')
     run('sctl reload')
-
-    execute('deploy_styles')
-
-    print(green('Visit http://{domain}.{server_name} now!'.format(**CONFIG)))
