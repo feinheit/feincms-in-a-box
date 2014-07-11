@@ -149,6 +149,27 @@ RAVEN_CONFIG = {
 
 
 @task
+def pull_database():
+    if not confirm('Completely replace the local database (if it exists)?'):
+        return
+
+    with settings(warn_only=True):
+        local('dropdb {database_name}')
+
+    local('createdb {database_name} --encoding=UTF8 --template=template0')
+    local(
+        'ssh {server} "source .profile && pg_dump {database_name}"'
+        ' | psql {database_name}')
+
+
+@task
+def pull_mediafiles():
+    if not confirm('Completely replace local mediafiles?'):
+        return
+    local('rsync -avz --delete {server}:{domain}/media media/')
+
+
+@task
 def init_bitbucket():
     username = prompt('Username', default=os.environ.get('USER', ''))
     password = getpass.getpass('Password ')
