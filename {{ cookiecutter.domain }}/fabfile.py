@@ -147,8 +147,8 @@ ALLOWED_HOSTS = ['*']
     local('cd {sass} && bower install')
 
     local('createdb {database_name} --encoding=UTF8 --template=template0')
-    local('venv/bin/python manage.py syncdb --noinput')
-    local('venv/bin/python manage.py migrate --noinput')
+    local('venv/bin/python manage.py syncdb --noinput --all')
+    local('venv/bin/python manage.py migrate --noinput --all --fake')
 
     print(green('Initial setup has completed successfully!', bold=True))
     print(green('Next steps:'))
