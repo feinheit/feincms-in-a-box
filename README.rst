@@ -60,3 +60,5 @@ Run cookiecutter and follow the instructions on-screen::
     cookiecutter https://github.com/matthiask/cookiecutter-feincms-in-a-box/
 
 Afterwards, everything should be up and running.
+
+(If you get errors really, early, clone the repository locally and point cookiecutter to this folder instead. This worked better for me.)
