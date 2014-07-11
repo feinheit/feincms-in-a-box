@@ -227,12 +227,13 @@ def init_server():
         print(red('Cannot continue without a repository.'))
         return 1
 
-    run(
-        'sudo nine-manage-vhosts virtual-host create {domain}'
+    CONFIG['repository_url'] = repo
+
+    run('git clone {repository_url} {domain}')
+    run('sudo nine-manage-vhosts virtual-host create {domain}'
         ' --template=feinheit --relative-path=htdocs')
 
     with cd('{domain}'):
-        run('git clone %s .' % repo)
         run('virtualenv --python python2.7 --prompt "{domain}" venv')
         run('venv/bin/pip install -r requirements/live.txt')
 
@@ -246,7 +247,7 @@ def init_server():
         run('psql -c "CREATE DATABASE {database_name} WITH'
             ' OWNER {database_name}'
             ' TEMPLATE template0'
-            ' ENCODING UTF8')
+            ' ENCODING UTF8"')
 
         put('{project_name}/local_settings.py', StringIO('''\
 DATABASES = {
