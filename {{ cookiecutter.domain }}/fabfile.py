@@ -258,7 +258,7 @@ def init_server():
             ' TEMPLATE template0'
             ' ENCODING \'UTF8\'"')
 
-        put('{project_name}/local_settings.py', StringIO('''\
+        put(StringIO('''\
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -274,7 +274,7 @@ RAVEN_CONFIG = {
     'dsn': '{{ cookiecutter.sentry_dsn }}',  # noqa
 }
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
-''' % CONFIG))
+''' % CONFIG), '{project_name}/local_settings.py')
 
         run('venv/bin/python syncdb --noinput --all')
         run('venv/bin/python migrate --noinput --all --fake')
