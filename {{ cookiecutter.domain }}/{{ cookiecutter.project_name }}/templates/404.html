@@ -4,7 +4,7 @@
 {% load compress i18n staticfiles feincms_tags feincms_page_tags navigation_tags %}
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>
     {% block title %}
@@ -14,12 +14,11 @@
   </title>
   {% compress css %}
   {% block css %}
-    <link rel="stylesheet" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/stylesheets/app.css' %}">
-    <link rel="stylesheet" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/lightbox/css/lightbox.css' %}">
+    <link rel="stylesheet" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/css/app.css' %}">
   {% endblock %}
   {% endcompress %}
-  <link rel="shortcut icon" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/images/favicon.ico' %}">
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/vendor/custom.modernizr.js' %}"></script>
+  <link rel="shortcut icon" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/images/feincms.png' %}">
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/bower_components/modernizr/modernizr.js' %}"></script>
   <script>onReady = [];</script>
 
   <meta name="keywords" content="{{ feincms_page.meta_keywords|default:'' }}">
@@ -56,7 +55,7 @@
           <i class="fi-magnifying-glass"></i>
         </form>
 
-        <nav class="top-bar" data-options="back_text:{% trans 'Back' %};">
+        <nav class="top-bar" data-topbar data-options="back_text:{% trans 'Back' %};">
           <ul class="title-area">
             <li class="name">
               <form method="get" action="/search/" class="search show-for-small">
@@ -192,37 +191,14 @@
 
 {% compress js %}
 {% block js %}
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/vendor/jquery.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.js' %}"></script>
-  <!--
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.abide.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.cookie.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.forms.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.section.js' %}"></script>
-  -->
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.orbit.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.dropdown.js' %}"></script>
-  <!--
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.magellan.js' %}"></script>
-  -->
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.alerts.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.reveal.js' %}"></script>
-  <!--
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.clearing.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.interchange.js' %}"></script>
-  -->
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.topbar.js' %}"></script>
-  <!--
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.tooltips.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.joyride.js' %}"></script>
-  -->
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/javascripts/foundation/foundation.placeholder.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/lightbox/js/lightbox-2.6.min.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/bower_components/foundation/js/foundation.min.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/js/lightbox.js' %}"></script>
+  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/js/app.js' %}"></script>
 {% endblock %}
 {% endcompress %}
 {% block inline-js %}
   <script>
-    $(document).foundation();
     for (var i=0, l=onReady.length; i<l; ++i) {
       onReady[i].call(null, $);
     }
