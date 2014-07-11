@@ -1,40 +1,58 @@
 from __future__ import print_function
 
+from functools import wraps
+import getpass
+from io import StringIO
 import os
 import platform
 import random
+import re
 
-from fabric.api import cd, env, execute, local, run, task
+from fabric.api import (
+    env, execute, hide, prompt, put, settings, task,
+    cd as cd_raw,
+    local as local_raw,
+    run as run_raw)
 from fabric.colors import green, red
+from fabric.contrib.console import confirm
 
 
 CONFIG = {
-    'host': '{{ cookiecutter.server }}',
-    'project': '{{ cookiecutter.project_name }}',
+    'project_name': '{{ cookiecutter.project_name }}',
+    'domain': '{{ cookiecutter.domain }}',
+    'server': '{{ cookiecutter.server }}',
     'branch': 'master',
 }
 
 
 CONFIG.update({
-    'sass': '{project}/static/{project}'.format(**CONFIG),
-    'service': 'www-{project}'.format(**CONFIG),
-    'folder': 'www/{project}/'.format(**CONFIG),
+    'repository_name': re.sub(r'[^\w]+', '_', CONFIG['domain']),
+    'database_name': re.sub(r'[^\w]+', '_', CONFIG['domain']),
+    'sass': '{project_name}/static/{project_name}'.format(**CONFIG),
+    'server_name': CONFIG['server'].split('@')[-1],
 })
 
 
 env.forward_agent = True
-env.hosts = [CONFIG['host']]
+env.hosts = [CONFIG['server']]
 
 
-def _configure(fn):
+def format_with_config(fn):
+    @wraps(fn)
     def _dec(string, *args, **kwargs):
         return fn(string.format(**CONFIG), *args, **kwargs)
     return _dec
 
 
-local = _configure(local)
-cd = _configure(cd)
-run = _configure(run)
+local = format_with_config(local_raw)
+cd = format_with_config(cd_raw)
+run = format_with_config(run_raw)
+
+
+def get_random_string(length):
+    rand = random.SystemRandom()
+    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+    return ''.join(rand.choice(chars) for i in range(50))
 
 
 @task
@@ -66,16 +84,17 @@ def runserver(port=8000):
 @task
 def deploy_styles():
     local('cd {sass} && grunt build')
-    local('rsync -avz {sass}/css {host}:{folder}static/{project}/')
-    local(
-        'rsync -avz {sass}/bower_components {host}:{folder}static/{project}/')
+    for part in ['bower_components', 'css']:
+        local('rsync -avz {sass}/%s {server}:{domain}/{sass}/' % part)
+    with cd('{domain}'):
+        run('venv/bin/python manage.py collectstatic --noinput')
 
 
 @task
 def deploy_code():
     local('flake8 .')
     local('git push origin {branch}')
-    with cd('{folder}'):
+    with cd('{domain}'):
         run('git fetch')
         run('git reset --hard origin/{branch}')
         run('find . -name "*.pyc" -delete')
@@ -83,11 +102,12 @@ def deploy_code():
         run('venv/bin/python manage.py syncdb')
         run('venv/bin/python manage.py migrate')
         run('venv/bin/python manage.py collectstatic --noinput')
-        run('sudo service {service} restart')
+        run('sctl restart {domain}:*')
 
 
 @task
 def deploy():
+    local('flake8 .')
     execute('deploy_styles')
     execute('deploy_code')
 
@@ -108,16 +128,13 @@ def setup():
         local('venv/bin/pip install -r requirements/dev.txt')
 
     with open('{{ cookiecutter.project_name }}/local_settings.py', 'w') as f:
-        rand = random.SystemRandom()
-        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-        secret_key = ''.join(rand.choice(chars) for i in range(50))
         f.write('''\
 SECRET_KEY = '%s'
 ALLOWED_HOSTS = ['*']
 RAVEN_CONFIG = {
     'dsn': '{{ cookiecutter.sentry_dsn }}',
 }
-''' % secret_key)
+''' % get_random_string(50))
 
     local('venv/bin/python manage.py syncdb --all --noinput')
     local('venv/bin/python manage.py migrate --all --fake')
@@ -129,3 +146,92 @@ RAVEN_CONFIG = {
     print(green(
         '- Create a superuser: venv/bin/python manage.py createsuperuser'))
     print(green('- Run the development server: fab dev'))
+
+
+@task
+def init_bitbucket():
+    username = prompt('Username', default=os.environ.get('USER', ''))
+    password = getpass.getpass('Password ')
+    organization = prompt('Organization', default='feinheit')
+    repository_name = prompt(
+        'Repository',
+        default=CONFIG['repository_name'])
+
+    if not confirm(
+        'Initialize repository at https://bitbucket.org/%s/%s?' % (
+            organization, repository_name)):
+
+        print(red('Bitbucket repository creation aborted.'))
+        return 1
+
+    if username and password and organization and repository_name:
+        with hide('running'):
+            local_raw(
+                'curl -X POST -u %s:%s -H "content-type: application/json"'
+                ' https://api.bitbucket.org/2.0/repositories/%s/%s'
+                ' -d \'{"scm": "git", "is_private": true,'
+                ' "forking_policy": "no_public_forks"}\'' % (
+                    username,
+                    password,
+                    organization,
+                    repository_name))
+
+        with settings(warn_only=True):
+            local('git remote rm origin')
+
+        local('git remote add origin git@bitbucket.org:%s/%s.git' % (
+            organization,
+            repository_name))
+
+        local('git push -u origin master')
+
+
+@task
+def init_server():
+    organization = prompt('Organization', default='feinheit')
+    repository_name = prompt(
+        'Repository',
+        default=CONFIG['repository_name'])
+
+    repo = 'git@bitbucket.org:%s/%s.git' % (organization, repository_name)
+
+    run(
+        'sudo nine-manage-vhosts virtual-host create {domain}'
+        ' --template=feinheit --relative-path=htdocs')
+
+    with cd('{domain}'):
+        run('git clone %s .' % repo)
+        run('virtualenv --python python2.7 --prompt "{domain}" venv')
+        run('venv/bin/pip install -r requirements/live.txt')
+
+        CONFIG['database_pw'] = get_random_string(20)
+
+        run('psql -c "CREATE ROLE {database_name} WITH'
+            ' ENCRYPTED PASSWORD \'{database_pw}\''
+            ' NOCREATEDB NOCREATEROLE NOSUPERUSER"')
+        run('psql -c "GRANT {database_name} TO admin"')
+        run('psql -c "CREATE DATABASE {database_name} WITH'
+            ' OWNER {database_name}'
+            ' TEMPLATE template0'
+            ' ENCODING UTF8')
+
+        put('{project_name}/local_settings.py', StringIO('''\
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '%(database_name)s',
+        'USER': '%(database_name)s',
+        'PASSWORD': '%(database_pw)s',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
+''' % CONFIG))
+
+    run('supervisor-create-conf {domain} wsgi'
+        ' > supervisor/conf.d/{domain}.conf')
+    run('sctl reload')
+
+    print(green('Visit http://{domain}.{server_name} now!'))
