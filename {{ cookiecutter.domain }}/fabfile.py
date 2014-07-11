@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 from functools import wraps
 import getpass
@@ -49,9 +49,10 @@ cd = format_with_config(cd_raw)
 run = format_with_config(run_raw)
 
 
-def get_random_string(length):
+def get_random_string(length, chars=None):
     rand = random.SystemRandom()
-    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+    if chars is None:
+        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     return ''.join(rand.choice(chars) for i in range(50))
 
 
@@ -235,19 +236,25 @@ def init_server():
 
     with cd('{domain}'):
         run('virtualenv --python python2.7 --prompt "{domain}" venv')
-        run('venv/bin/pip install -r requirements/live.txt')
+        run('venv/bin/pip install -U virtualenv pip wheel'
+            ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
+        run('venv/bin/pip install -U setuptools'
+            ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
+        run('venv/bin/pip install -r requirements/live.txt'
+            ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
 
-        CONFIG['database_pw'] = get_random_string(20)
+        CONFIG['database_pw'] = get_random_string(
+            20, chars='abcdefghijklmopqrstuvwx01234567890')
         CONFIG['secret_key'] = get_random_string(50)
 
         run('psql -c "CREATE ROLE {database_name} WITH'
             ' ENCRYPTED PASSWORD \'{database_pw}\''
-            ' NOCREATEDB NOCREATEROLE NOSUPERUSER"')
+            ' LOGIN NOCREATEDB NOCREATEROLE NOSUPERUSER"')
         run('psql -c "GRANT {database_name} TO admin"')
         run('psql -c "CREATE DATABASE {database_name} WITH'
             ' OWNER {database_name}'
             ' TEMPLATE template0'
-            ' ENCODING UTF8"')
+            ' ENCODING \'UTF8\'"')
 
         put('{project_name}/local_settings.py', StringIO('''\
 DATABASES = {
@@ -267,11 +274,14 @@ RAVEN_CONFIG = {
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 ''' % CONFIG))
 
-        run('venv/bin/python syncdb --noinput')
-        run('venv/bin/python migrate --noinput')
+        run('venv/bin/python syncdb --noinput --all')
+        run('venv/bin/python migrate --noinput --all --fake')
+        run('mkdir tmp')
 
     run('supervisor-create-conf {domain} wsgi'
         ' > supervisor/conf.d/{domain}.conf')
     run('sctl reload')
 
-    print(green('Visit http://{domain}.{server_name} now!'))
+    execute('deploy_styles')
+
+    print(green('Visit http://{domain}.{server_name} now!'.format(**CONFIG)))
