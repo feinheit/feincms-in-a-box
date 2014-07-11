@@ -169,8 +169,8 @@ def pull_database():
 
     local('createdb {database_name} --encoding=UTF8 --template=template0')
     local(
-        'ssh {server} "source .profile'
-        ' && pg_dump {database_name} --no-privileges --no-owner --no-reconnect"'
+        'ssh {server} "source .profile &&'
+        ' pg_dump {database_name} --no-privileges --no-owner --no-reconnect"'
         ' | psql {database_name}')
 
 
