@@ -236,7 +236,7 @@ def init_server():
         ' --template=feinheit --relative-path=htdocs')
 
     with cd('{domain}'):
-        run('virtualenv --python python2.7 --prompt "{domain}" venv')
+        run('virtualenv --python python2.7 --prompt "(venv:{domain})" venv')
         run('venv/bin/pip install -U virtualenv pip wheel'
             ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
         run('venv/bin/pip install -U setuptools'
