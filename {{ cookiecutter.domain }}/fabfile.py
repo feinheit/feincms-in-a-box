@@ -136,10 +136,11 @@ RAVEN_CONFIG = {
 }
 ''' % get_random_string(50))
 
-    local('venv/bin/python manage.py syncdb --all --noinput')
-    local('venv/bin/python manage.py migrate --all --fake')
     local('cd {sass} && npm install')
     local('cd {sass} && bower install')
+
+    local('venv/bin/python manage.py syncdb --all --noinput')
+    local('venv/bin/python manage.py migrate --all --fake')
 
     print(green('Initial setup has completed successfully!', bold=True))
     print(green('Next steps:'))
