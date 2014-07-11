@@ -233,6 +233,8 @@ def init_server():
     CONFIG['repository_url'] = repo
 
     run('git clone {repository_url} {domain}')
+    with settings(warn_only=True):
+        local('git remote add -f live {server}:{domain}/')
     run('sudo nine-manage-vhosts virtual-host create {domain}'
         ' --template=feinheit --relative-path=htdocs')
 
