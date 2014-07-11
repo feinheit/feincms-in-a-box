@@ -229,6 +229,7 @@ def init_server():
         run('venv/bin/pip install -r requirements/live.txt')
 
         CONFIG['database_pw'] = get_random_string(20)
+        CONFIG['secret_key'] = get_random_string(50)
 
         run('psql -c "CREATE ROLE {database_name} WITH'
             ' ENCRYPTED PASSWORD \'{database_pw}\''
@@ -250,7 +251,10 @@ DATABASES = {
         'PORT': '',
     }
 }
-
+SECRET_KEY = '%(secret_key)s'
+RAVEN_CONFIG = {
+    'dsn': '{{ cookiecutter.sentry_dsn }}',
+}
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 ''' % CONFIG))
 
