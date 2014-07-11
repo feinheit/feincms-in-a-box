@@ -294,10 +294,10 @@ RAVEN_CONFIG = {
     'dsn': '{{ cookiecutter.sentry_dsn }}',  # noqa
 }
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
-''' % CONFIG), '{project_name}/local_settings.py')
+''' % CONFIG), '%(project_name)s/local_settings.py' % CONFIG)
 
-        run('venv/bin/python syncdb --noinput --all')
-        run('venv/bin/python migrate --noinput --all --fake')
+        run('venv/bin/python manage.py syncdb --noinput --all')
+        run('venv/bin/python manage.py migrate --noinput --all --fake')
 
 
 @task
