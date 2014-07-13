@@ -332,3 +332,12 @@ def init_server_step4_nginx_vhost_and_supervisor():
     run('supervisor-create-conf {domain} wsgi'
         ' > supervisor/conf.d/{domain}.conf')
     run('sctl reload')
+
+
+@task
+def create_sso_user():
+    domain = prompt('SSO Domain', default='feinheit.ch')
+    run('psql {database_name} -c "INSERT INTO auth_user VALUES'
+        " (1, '', NOW(), TRUE, 'admin', '', '', '', TRUE, TRUE, NOW())\"")
+    run('psql {database_name} -c "INSERT INTO admin_sso_assignment VALUES'
+        " (1, 0, '', '%s', FALSE, 10, 1)\"" % domain)
