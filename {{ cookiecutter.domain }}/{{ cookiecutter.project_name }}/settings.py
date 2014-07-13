@@ -129,6 +129,7 @@ FEINCMS_RICHTEXT_INIT_TEMPLATE = 'admin/content/richtext/init_ckeditor.html'
 FEINCMS_RICHTEXT_INIT_CONTEXT = {
     'CKEDITOR_JS_URL': '/static/ckeditor/ckeditor.js',
 }
+FEINCMS_CHECK_DATABASE_SCHEMA = False  # We are using South.
 
 
 def elephantblog_entry_url_app(self):

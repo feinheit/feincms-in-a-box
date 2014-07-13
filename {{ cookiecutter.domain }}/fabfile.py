@@ -149,8 +149,8 @@ ALLOWED_HOSTS = ['*']
     local('cd {sass} && bower install')
 
     local('createdb {database_name} --encoding=UTF8 --template=template0')
-    local('venv/bin/python manage.py syncdb --noinput --all')
-    local('venv/bin/python manage.py migrate --noinput --all --fake')
+    local('venv/bin/python manage.py syncdb --noinput')
+    local('venv/bin/python manage.py migrate --noinput')
 
     print(green('Initial setup has completed successfully!', bold=True))
     print(green('Next steps:'))
@@ -296,8 +296,8 @@ RAVEN_CONFIG = {
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 ''' % CONFIG), '%(project_name)s/local_settings.py' % CONFIG)
 
-        run('venv/bin/python manage.py syncdb --noinput --all')
-        run('venv/bin/python manage.py migrate --noinput --all --fake')
+        run('venv/bin/python manage.py syncdb --noinput')
+        run('venv/bin/python manage.py migrate --noinput')
 
 
 @task
