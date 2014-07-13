@@ -5,7 +5,7 @@ django-compressor==1.4
 django-mptt==0.6.1
 FeinCMS==1.9.5
 feincms-cleanse==4
-form_designer==0.3.0
+form_designer==0.4.0
 lxml==3.3.5
 psycopg2==2.5.3
 raven==5.0.0
