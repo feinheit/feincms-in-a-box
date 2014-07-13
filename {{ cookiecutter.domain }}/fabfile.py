@@ -150,6 +150,10 @@ ALLOWED_HOSTS = ['*']
 
     local('createdb {database_name} --encoding=UTF8 --template=template0')
     local('venv/bin/python manage.py syncdb --noinput')
+    local('venv/bin/python manage.py migrate --noinput medialibrary')
+    local('venv/bin/python manage.py migrate --noinput elephantblog')
+    local('venv/bin/python manage.py migrate --noinput form_designer')
+    local('venv/bin/python manage.py migrate --noinput page')
     local('venv/bin/python manage.py migrate --noinput')
 
     print(green('Initial setup has completed successfully!', bold=True))
@@ -297,6 +301,10 @@ ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 ''' % CONFIG), '%(project_name)s/local_settings.py' % CONFIG)
 
         run('venv/bin/python manage.py syncdb --noinput')
+        run('venv/bin/python manage.py migrate --noinput medialibrary')
+        run('venv/bin/python manage.py migrate --noinput elephantblog')
+        run('venv/bin/python manage.py migrate --noinput form_designer')
+        run('venv/bin/python manage.py migrate --noinput page')
         run('venv/bin/python manage.py migrate --noinput')
 
 
