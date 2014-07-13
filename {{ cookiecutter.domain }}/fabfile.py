@@ -140,7 +140,7 @@ DATABASES = {
 }
 SECRET_KEY = '%(secret_key)s'
 RAVEN_CONFIG = {
-    'dsn': '{{ cookiecutter.sentry_dsn }}',  # noqa
+    'dsn': '',  # Unused in local development.
 }
 ALLOWED_HOSTS = ['*']
 ''' % CONFIG)
@@ -268,6 +268,8 @@ def init_server_step2_create_virtualenv():
 
 @task
 def init_server_step3_create_database_and_local_settings():
+    CONFIG['sentry_dsn'] = prompt('Sentry DSN')
+
     CONFIG['database_pw'] = get_random_string(
         20, chars='abcdefghijklmopqrstuvwx01234567890')
     CONFIG['secret_key'] = get_random_string(50)
@@ -295,7 +297,7 @@ DATABASES = {
 }
 SECRET_KEY = '%(secret_key)s'
 RAVEN_CONFIG = {
-    'dsn': '{{ cookiecutter.sentry_dsn }}',  # noqa
+    'dsn': '%(sentry_dsn)s',  # noqa
 }
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
 ''' % CONFIG), '%(project_name)s/local_settings.py' % CONFIG)
