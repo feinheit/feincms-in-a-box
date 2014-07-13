@@ -109,6 +109,7 @@ INSTALLED_APPS = (
     'compressor',
 
     'django.contrib.admin',
+    'admin_sso',
 )
 
 LANGUAGES = (
@@ -128,6 +129,17 @@ FEINCMS_RICHTEXT_INIT_TEMPLATE = 'admin/content/richtext/init_ckeditor.html'
 FEINCMS_RICHTEXT_INIT_CONTEXT = {
     'CKEDITOR_JS_URL': '/static/ckeditor/ckeditor.js',
 }
+
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = ''
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET = ''
+DJANGO_ADMIN_SSO_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
+DJANGO_ADMIN_SSO_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
+DJANGO_ADMIN_SSO_REVOKE_URI = 'https://accounts.google.com/o/oauth2/revoke'
+DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON = False
+AUTHENTICATION_BACKENDS = (
+    'admin_sso.auth.DjangoSSOAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 def elephantblog_entry_url_app(self):

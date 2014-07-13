@@ -269,6 +269,8 @@ def init_server_step2_create_virtualenv():
 @task
 def init_server_step3_create_database_and_local_settings():
     CONFIG['sentry_dsn'] = prompt('Sentry DSN')
+    CONFIG['oauth2_client_id'] = prompt('Google OAuth2 Client ID')
+    CONFIG['oauth2_client_secret'] = prompt('Google OAuth2 Client Secret')
 
     CONFIG['database_pw'] = get_random_string(
         20, chars='abcdefghijklmopqrstuvwx01234567890')
@@ -300,6 +302,15 @@ RAVEN_CONFIG = {
     'dsn': '%(sentry_dsn)s',  # noqa
 }
 ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
+
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = '%(oauth2_client_id)s'
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET = '%(oauth2_client_secret)s'
+
+if all((
+    DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID,
+    DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET,
+)):
+    DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON = True
 ''' % CONFIG), '%(project_name)s/local_settings.py' % CONFIG)
 
         run('venv/bin/python manage.py syncdb --noinput')
