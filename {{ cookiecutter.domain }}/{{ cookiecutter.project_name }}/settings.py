@@ -106,7 +106,6 @@ INSTALLED_APPS = (
     'form_designer',
     'elephantblog',
 
-    'south',
     'compressor',
 
     'django.contrib.admin',
@@ -119,7 +118,7 @@ LANGUAGES = (
     # ('it', 'Italian'),
 )
 
-SOUTH_MIGRATION_MODULES = dict((app, '{{ cookiecutter.project_name }}.migrate.%s' % app) for app in (
+MIGRATION_MODULES = dict((app, '{{ cookiecutter.project_name }}.migrate.%s' % app) for app in (
     'page',
     'medialibrary',
     'elephantblog',
@@ -129,7 +128,6 @@ FEINCMS_RICHTEXT_INIT_TEMPLATE = 'admin/content/richtext/init_ckeditor.html'
 FEINCMS_RICHTEXT_INIT_CONTEXT = {
     'CKEDITOR_JS_URL': '/static/ckeditor/ckeditor.js',
 }
-FEINCMS_CHECK_DATABASE_SCHEMA = False  # We are using South.
 
 
 def elephantblog_entry_url_app(self):
