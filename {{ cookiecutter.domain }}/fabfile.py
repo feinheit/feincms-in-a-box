@@ -269,6 +269,7 @@ def init_server_step2_create_virtualenv():
 
 @task
 def init_server_step3_create_database_and_local_settings():
+    print('\nProvide a few details and secrets for the installation, please:')
     CONFIG['sentry_dsn'] = prompt('Sentry DSN')
     CONFIG['oauth2_client_id'] = prompt('Google OAuth2 Client ID')
     CONFIG['oauth2_client_secret'] = prompt('Google OAuth2 Client Secret')
