@@ -234,6 +234,7 @@ def init_server():
     execute('init_server_step4_nginx_vhost_and_supervisor')
     execute('deploy_styles')
     print(green('Visit http://{domain}.{server_name} now!'.format(**CONFIG)))
+    print(green('Create a SSO user: fab create_sso_user'))
 
 
 @task
