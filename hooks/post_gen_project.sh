@@ -7,4 +7,4 @@ find . -type f -print0|xargs -0 sed -i '' -e '$a\'
 git init
 git add -A
 git commit -m "Initial commit"
-fab setup
+fab setup_local
