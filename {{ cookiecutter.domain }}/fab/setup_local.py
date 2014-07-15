@@ -3,7 +3,7 @@ from __future__ import print_function, unicode_literals
 import os
 import platform
 
-from fabric.api import settings, task
+from fabric.api import execute, settings, task
 from fabric.colors import green, red
 from fabric.contrib.console import confirm
 
@@ -16,6 +16,27 @@ def setup():
         print(red('It seems that this project is already set up, aborting.'))
         return 1
 
+    execute('setup_local.create_virtualenv')
+    execute('setup_local.frontend_tools')
+    execute('setup_local.create_local_settings')
+    execute('setup_local.create_and_migrate_database')
+
+    print(green(
+        'Initial setup has completed successfully!', bold=True))
+    print(green(
+        'Next steps:'))
+    print(green(
+        '- Create a superuser: venv/bin/python manage.py createsuperuser'))
+    print(green(
+        '- Run the development server: fab dev'))
+    print(green(
+        '- Create a Bitbucket repository: fab versioning.init_bitbucket'))
+    print(green(
+        '- Configure {server_name} for this project: fab setup_server'))
+
+
+@task
+def create_virtualenv():
     local('virtualenv --python python2.7 --prompt "(venv:{domain})" venv')
     if platform.system() == 'Darwin' and platform.mac_ver()[0] >= '10.9':
         local(
@@ -25,6 +46,15 @@ def setup():
     else:
         local('venv/bin/pip install -r requirements/dev.txt')
 
+
+@task
+def frontend_tools():
+    local('cd {sass} && npm install')
+    local('cd {sass} && bower install')
+
+
+@task
+def create_local_settings():
     with open('%(project_name)s/local_settings.py' % CONFIG, 'w') as f:
         CONFIG['secret_key'] = get_random_string(50)
         f.write('''\
@@ -41,29 +71,11 @@ RAVEN_CONFIG = {
 ALLOWED_HOSTS = ['*']
 ''' % CONFIG)
 
-    local('cd {sass} && npm install')
-    local('cd {sass} && bower install')
 
+@task
+def create_and_migrate_database():
     local('createdb {database_name} --encoding=UTF8 --template=template0')
-    local('venv/bin/python manage.py syncdb --noinput')
-    local('venv/bin/python manage.py migrate --noinput medialibrary')
-    local('venv/bin/python manage.py migrate --noinput elephantblog')
-    local('venv/bin/python manage.py migrate --noinput form_designer')
-    local('venv/bin/python manage.py migrate --noinput page')
-    local('venv/bin/python manage.py migrate --noinput')
-
-    print(green(
-        'Initial setup has completed successfully!', bold=True))
-    print(green(
-        'Next steps:'))
-    print(green(
-        '- Create a superuser: venv/bin/python manage.py createsuperuser'))
-    print(green(
-        '- Run the development server: fab dev'))
-    print(green(
-        '- Create a Bitbucket repository: fab versioning.init_bitbucket'))
-    print(green(
-        '- Configure {server_name} for this project: fab setup_server'))
+    local('venv/bin/python manage.py migrate')
 
 
 @task
