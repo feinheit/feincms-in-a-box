@@ -33,8 +33,7 @@ def clone_repository():
     CONFIG['repository_url'] = repo
 
     run('git clone {repository_url} {domain}')
-    with settings(warn_only=True):
-        local('git remote add -f live {server}:{domain}/')
+    execute('versioning.add_live_remote')
 
 
 @task

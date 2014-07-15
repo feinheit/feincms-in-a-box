@@ -46,3 +46,9 @@ def init_bitbucket():
             repository_name))
 
         local('git push -u origin master')
+
+
+@task
+def add_live_remote():
+    with settings(warn_only=True):
+        local('git remote add -f live {server}:{domain}/')
