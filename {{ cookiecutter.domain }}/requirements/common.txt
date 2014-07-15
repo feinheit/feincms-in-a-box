@@ -4,7 +4,7 @@ Pillow==2.5.1
 django-admin-sso==1.0.0
 django-compressor==1.4
 django-mptt==0.6.1
-feincms-cleanse==4
+feincms-cleanse==5
 form_designer==0.4.0
 lxml==3.3.5
 psycopg2==2.5.3
