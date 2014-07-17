@@ -12,6 +12,8 @@ from fabfile.config import CONFIG, local, get_random_string
 
 @task(default=True)
 def initial_setup():
+    # TODO(mk) Check whether postgres is up and running before starting?
+
     if os.path.exists('venv'):
         print(red('It seems that this project is already set up, aborting.'))
         return 1
