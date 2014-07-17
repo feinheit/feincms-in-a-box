@@ -2,7 +2,7 @@ from __future__ import print_function, unicode_literals
 
 from fabric.api import execute, task
 
-from fab.config import local, cd, run
+from fabfile.config import local, cd, run
 
 
 @task(default=True)

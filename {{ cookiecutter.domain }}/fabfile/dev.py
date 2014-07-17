@@ -5,7 +5,7 @@ from threading import Thread
 
 from fabric.api import task
 
-from fab.config import local
+from fabfile.config import local
 
 
 @task(default=True)

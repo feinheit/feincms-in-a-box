@@ -7,11 +7,11 @@ from fabric.api import execute, settings, task
 from fabric.colors import green, red
 from fabric.contrib.console import confirm
 
-from fab.config import CONFIG, local, get_random_string
+from fabfile.config import CONFIG, local, get_random_string
 
 
 @task(default=True)
-def setup():
+def initial_setup():
     if os.path.exists('venv'):
         print(red('It seems that this project is already set up, aborting.'))
         return 1
@@ -33,6 +33,26 @@ def setup():
         '- Create a Bitbucket repository: fab versioning.init_bitbucket'))
     print(green(
         '- Configure {server_name} for this project: fab setup_server'))
+
+
+@task
+def setup_with_live_data():
+    if os.path.exists('venv'):
+        print(red('It seems that this project is already set up, aborting.'))
+        return 1
+
+    execute('setup_local.create_virtualenv')
+    execute('setup_local.frontend_tools')
+    execute('setup_local.create_local_settings')
+    execute('setup_local.pull_database')
+    execute('setup_local.pull_mediafiles')
+
+    print(green(
+        'Setup with live data has completed successfully!', bold=True))
+    print(green(
+        'Next steps:'))
+    print(green(
+        '- Run the development server: fab dev'))
 
 
 @task

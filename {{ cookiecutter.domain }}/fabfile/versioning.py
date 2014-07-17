@@ -7,7 +7,7 @@ from fabric.api import hide, prompt, settings, task
 from fabric.colors import red
 from fabric.contrib.console import confirm
 
-from fab.config import CONFIG, local, local_raw
+from fabfile.config import CONFIG, local, local_raw
 
 
 @task

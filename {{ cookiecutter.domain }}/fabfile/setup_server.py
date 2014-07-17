@@ -2,10 +2,10 @@ from __future__ import print_function, unicode_literals
 
 from io import StringIO
 
-from fabric.api import execute, hide, prompt, put, settings, task
+from fabric.api import execute, hide, prompt, put, task
 from fabric.colors import green, red
 
-from fab.config import CONFIG, local, cd, run, get_random_string
+from fabfile.config import CONFIG, local, cd, run, get_random_string
 
 
 @task(default=True)
