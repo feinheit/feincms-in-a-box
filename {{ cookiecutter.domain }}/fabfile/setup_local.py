@@ -52,6 +52,8 @@ def setup_with_live_data():
     print(green(
         'Next steps:'))
     print(green(
+        '- Create a superuser: venv/bin/python manage.py createsuperuser'))
+    print(green(
         '- Run the development server: fab dev'))
 
 
