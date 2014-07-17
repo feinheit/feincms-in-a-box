@@ -46,10 +46,18 @@ should be used::
 
     sudo easy_install pip
 
-Also, you need `PostgreSQL <http://www.postgresql.org/>`_::
+Also, you need `PostgreSQL <http://www.postgresql.org/>`_ up and running.
 
-    sudo apt-get install postgresql  # On Debian-derivatives
+On Debian-derivatives::
+
+    sudo apt-get install postgresql
+
+On OS X::
+
     brew install postgresql   # On OS X
+    echo "export PGDATA=/usr/local/var/postgres" >> .profile
+    source ~/.profile
+    postgres
 
 
 Installation
