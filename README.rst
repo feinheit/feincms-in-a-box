@@ -69,4 +69,5 @@ Run cookiecutter and follow the instructions on-screen::
 
 Afterwards, everything should be up and running.
 
-(If you get errors really early, clone the repository locally and point cookiecutter to this folder instead. This worked better for me.)
+(If you get errors really early, clone the repository locally and point
+cookiecutter to this folder instead. This worked better for me.)
