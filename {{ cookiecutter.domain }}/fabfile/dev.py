@@ -24,3 +24,12 @@ def dev():
         jobs.append(Thread(target=lambda: local('redis-server')))
     [j.start() for j in jobs]
     [j.join() for j in jobs]
+
+
+@task
+def makemessages():
+    local(
+        'venv/bin/python manage.py makemessages -a'
+        ' -i bower_components'
+        ' -i node_modules'
+        ' -i venv')
