@@ -33,7 +33,6 @@ def code():
         run('find . -name "*.pyc" -delete')
         run('venv/bin/pip install -r requirements/live.txt'
             ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
-        run('venv/bin/python manage.py syncdb')
-        run('venv/bin/python manage.py migrate')
+        run('venv/bin/python manage.py migrate --noinput')
         run('venv/bin/python manage.py collectstatic --noinput')
         run('sctl restart %(box_domain)s:*')

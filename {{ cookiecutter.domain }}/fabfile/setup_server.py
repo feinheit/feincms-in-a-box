@@ -96,11 +96,6 @@ if all((
     DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON = True
 ''' % env), '%(box_project_name)s/local_settings.py' % env)
 
-        run('venv/bin/python manage.py syncdb --noinput')
-        run('venv/bin/python manage.py migrate --noinput medialibrary')
-        run('venv/bin/python manage.py migrate --noinput elephantblog')
-        run('venv/bin/python manage.py migrate --noinput form_designer')
-        run('venv/bin/python manage.py migrate --noinput page')
         run('venv/bin/python manage.py migrate --noinput')
 
 
