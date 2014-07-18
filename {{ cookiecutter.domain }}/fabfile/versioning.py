@@ -38,8 +38,8 @@ def init_bitbucket():
                 ' -d \'{"scm": "git", "is_private": true,'
                 ' "forking_policy": "no_public_forks"}\'')
 
-        with settings(warn_only=True):
-            local('git remote rm origin')
+            with settings(warn_only=True):
+                local('git remote rm origin')
 
         local('git remote add origin git@bitbucket.org:%(box_repo)s.git')
         local('git push -u origin master')
