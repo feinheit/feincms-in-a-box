@@ -105,6 +105,7 @@ INSTALLED_APPS = (
     'mptt',
     'form_designer',
     'elephantblog',
+    'feincms_oembed',
 
     'compressor',
 

@@ -16,7 +16,7 @@ from elephantblog.contents import BlogEntryListContent
 from elephantblog.models import Entry
 
 from feincms_cleanse import cleanse_html
-
+from feincms_oembed.contents import OembedContent
 from form_designer.models import FormContent
 
 from {{ cookiecutter.project_name }}.cms.contents import (
@@ -96,6 +96,12 @@ Page.create_content_type(
     optgroup='Content',
     regions=('main', 'col1', 'col2'))
 Page.create_content_type(
+    OembedContent,
+    TYPE_CHOICES=[
+        ('default', _('Default presentation'), {
+            'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
+    ])
+Page.create_content_type(
     FormContent,
     optgroup='Dynamic',
     regions=('main', 'col1', 'col2'))
@@ -130,3 +136,9 @@ Entry.create_content_type(
     TYPE_CHOICES=(
         ('default', _('default')),
     ))
+Entry.create_content_type(
+    OembedContent,
+    TYPE_CHOICES=[
+        ('default', _('Default presentation'), {
+            'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
+    ])
