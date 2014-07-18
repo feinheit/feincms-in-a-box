@@ -2,10 +2,10 @@ from __future__ import print_function, unicode_literals
 
 from io import StringIO
 
-from fabric.api import execute, hide, prompt, put, task
+from fabric.api import env, execute, hide, prompt, put, task
 from fabric.colors import green, red
 
-from fabfile.config import CONFIG, local, cd, run, get_random_string
+from fabfile.config import local, cd, run, get_random_string
 
 
 @task(default=True)
@@ -16,7 +16,7 @@ def init():
     execute('setup_server.nginx_vhost_and_supervisor')
     execute('deploy.styles')
     execute('setup_server.create_sso_user')
-    print(green('Visit http://{domain}.{server_name} now!'.format(**CONFIG)))
+    print(green('Visit http://%(box_domain)s.%(box_server_name)s now!' % env))
 
 
 @task
@@ -30,16 +30,17 @@ def clone_repository():
         print(red('Cannot continue without a repository.'))
         return 1
 
-    CONFIG['repository_url'] = repo
+    env.box_repository_url = repo
 
-    run('git clone {repository_url} {domain}')
+    run('git clone %(box_repository_url)s %(box_domain)s')
     execute('versioning.add_live_remote')
 
 
 @task
 def create_virtualenv():
-    with cd('{domain}'):
-        run('virtualenv --python python2.7 --prompt "(venv:{domain})" venv')
+    with cd('%(box_domain)s'):
+        run('virtualenv --python python2.7'
+            ' --prompt "(venv:%(box_domain)s)" venv')
         run('venv/bin/pip install -U virtualenv pip wheel'
             ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
         run('venv/bin/pip install -U setuptools'
@@ -50,24 +51,24 @@ def create_virtualenv():
 
 @task
 def create_database_and_local_settings():
-    CONFIG['sentry_dsn'] = prompt('Sentry DSN')
-    CONFIG['oauth2_client_id'] = prompt('Google OAuth2 Client ID')
-    CONFIG['oauth2_client_secret'] = prompt('Google OAuth2 Client Secret')
+    env.box_sentry_dsn = prompt('Sentry DSN')
+    env.box_oauth2_client_id = prompt('Google OAuth2 Client ID')
+    env.box_oauth2_client_secret = prompt('Google OAuth2 Client Secret')
 
-    CONFIG['database_pw'] = get_random_string(
+    env.box_database_pw = get_random_string(
         20, chars='abcdefghijklmopqrstuvwx01234567890')
-    CONFIG['secret_key'] = get_random_string(50)
+    env.box_secret_key = get_random_string(50)
 
-    run('psql -c "CREATE ROLE {database_name} WITH'
-        ' ENCRYPTED PASSWORD \'{database_pw}\''
+    run('psql -c "CREATE ROLE %(box_database_name)s WITH'
+        ' ENCRYPTED PASSWORD \'%(box_database_pw)s\''
         ' LOGIN NOCREATEDB NOCREATEROLE NOSUPERUSER"')
-    run('psql -c "GRANT {database_name} TO admin"')
-    run('psql -c "CREATE DATABASE {database_name} WITH'
-        ' OWNER {database_name}'
+    run('psql -c "GRANT %(box_database_name)s TO admin"')
+    run('psql -c "CREATE DATABASE %(box_database_name)s WITH'
+        ' OWNER %(box_database_name)s'
         ' TEMPLATE template0'
         ' ENCODING \'UTF8\'"')
 
-    with cd('{domain}'):
+    with cd('%(box_domain)s'):
         put(StringIO('''\
 DATABASES = {
     'default': {
@@ -93,7 +94,7 @@ if all((
     DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET,
 )):
     DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON = True
-''' % CONFIG), '%(project_name)s/local_settings.py' % CONFIG)
+''' % env), '%(project_name)s/local_settings.py' % env)
 
         run('venv/bin/python manage.py syncdb --noinput')
         run('venv/bin/python manage.py migrate --noinput medialibrary')
@@ -105,25 +106,25 @@ if all((
 
 @task
 def nginx_vhost_and_supervisor():
-    run('sudo nine-manage-vhosts virtual-host create {domain}'
+    run('sudo nine-manage-vhosts virtual-host create %(box_domain)s'
         ' --template=feinheit --relative-path=htdocs')
 
-    with cd('{domain}'):
+    with cd('%(box_domain)s'):
         run('mkdir media tmp')
 
-    run('supervisor-create-conf {domain} wsgi'
-        ' > supervisor/conf.d/{domain}.conf')
+    run('supervisor-create-conf %(box_domain)s wsgi'
+        ' > supervisor/conf.d/%(box_domain)s.conf')
     run('sctl reload')
 
 
 @task
 def create_sso_user():
-    domain = prompt('SSO Domain (leave empty to skip)', default='')
-    if not domain:
+    env.box_domain = prompt('SSO Domain (leave empty to skip)', default='')
+    if not env.box_domain:
         print(red('Cannot continue without a SSO Domain.'))
         return 1
 
-    run('psql {database_name} -c "INSERT INTO auth_user VALUES'
+    run('psql %(box_database_name)s -c "INSERT INTO auth_user VALUES'
         " (1, '', NOW(), TRUE, 'admin', '', '', '', TRUE, TRUE, NOW())\"")
-    run('psql {database_name} -c "INSERT INTO admin_sso_assignment VALUES'
-        " (1, 0, '', '%s', FALSE, 10, 1)\"" % domain)
+    run('psql %(box_database_name)s -c "INSERT INTO admin_sso_assignment'
+        " VALUES (1, 0, '', '%(box_domain)s', FALSE, 10, 1)\"")

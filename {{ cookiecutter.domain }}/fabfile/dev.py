@@ -11,7 +11,7 @@ from fabfile.config import local
 @task(default=True)
 def dev():
     jobs = [Thread(target=fn) for fn in [
-        lambda: local('cd {sass} && grunt'),
+        lambda: local('cd %(box_sass)s && grunt'),
         lambda: local('venv/bin/python -Wall manage.py runserver'),
     ]]
     try:

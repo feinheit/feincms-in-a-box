@@ -3,11 +3,11 @@ from __future__ import print_function, unicode_literals
 import getpass
 import os
 
-from fabric.api import hide, prompt, settings, task
+from fabric.api import env, hide, prompt, settings, task
 from fabric.colors import red
 from fabric.contrib.console import confirm
 
-from fabfile.config import CONFIG, local, local_raw
+from fabfile.config import local
 
 
 @task
@@ -17,7 +17,7 @@ def init_bitbucket():
     organization = prompt('Organization', default='feinheit')
     repository_name = prompt(
         'Repository',
-        default=CONFIG['repository_name'])
+        default=env.box_repository_name)
 
     if not confirm(
         'Initialize repository at https://bitbucket.org/%s/%s?' % (
@@ -27,28 +27,25 @@ def init_bitbucket():
         return 1
 
     if username and password and organization and repository_name:
+        env.box_auth = '%s:%s' % (username, password)
+        env.box_repo = '%s/%s' % (organization, repository_name)
+
         with hide('running'):
-            local_raw(
-                'curl -X POST -u %s:%s -H "content-type: application/json"'
-                ' https://api.bitbucket.org/2.0/repositories/%s/%s'
+            local(
+                'curl'
+                ' -X POST -u %(box_auth)s -H "content-type: application/json"'
+                ' https://api.bitbucket.org/2.0/repositories/%(box_repo)s'
                 ' -d \'{"scm": "git", "is_private": true,'
-                ' "forking_policy": "no_public_forks"}\'' % (
-                    username,
-                    password,
-                    organization,
-                    repository_name))
+                ' "forking_policy": "no_public_forks"}\'')
 
         with settings(warn_only=True):
             local('git remote rm origin')
 
-        local('git remote add origin git@bitbucket.org:%s/%s.git' % (
-            organization,
-            repository_name))
-
+        local('git remote add origin git@bitbucket.org:%(box_repo)s.git')
         local('git push -u origin master')
 
 
 @task
 def add_live_remote():
     with settings(warn_only=True):
-        local('git remote add -f live {server}:{domain}/')
+        local('git remote add -f live %(box_server)s:%(box_domain)s/')

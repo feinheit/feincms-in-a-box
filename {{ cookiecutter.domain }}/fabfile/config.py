@@ -2,30 +2,21 @@ from functools import wraps
 import random
 import re
 
-from fabric.api import (
-    env,
-    cd as cd_raw,
-    local as local_raw,
-    run as run_raw)
+from fabric.api import env, cd, local, run
 
 
-CONFIG = {
-    'project_name': '{{ cookiecutter.project_name }}',
-    'domain': '{{ cookiecutter.domain }}',
-    'server': '{{ cookiecutter.server }}',
-    'branch': 'master',
-}
+env.box_project_name = '{{ cookiecutter.project_name }}'
+env.box_domain = '{{ cookiecutter.domain }}'
+env.box_server = '{{ cookiecutter.server }}'
+env.box_branch = 'master'
 
-CONFIG.update({
-    'repository_name': re.sub(r'[^\w]+', '_', CONFIG['domain']),
-    'database_name': re.sub(r'[^\w]+', '_', CONFIG['domain']),
-    'sass': '{project_name}/static/{project_name}'.format(**CONFIG),
-    'server_name': CONFIG['server'].split('@')[-1],
-})
-
+env.box_repository_name = re.sub(r'[^\w]+', '_', env.box_domain)
+env.box_database_name = re.sub(r'[^\w]+', '_', env.box_domain)
+env.box_sass = '%(box_project_name)s/static/%(box_project_name)s' % env
+env.box_server_name = env.box_server.split('@')[-1]
 
 env.forward_agent = True
-env.hosts = [CONFIG['server']]
+env.hosts = [env.box_server]
 
 
 def get_random_string(length, chars=None):
@@ -35,13 +26,13 @@ def get_random_string(length, chars=None):
     return ''.join(rand.choice(chars) for i in range(50))
 
 
-def format_with_config(fn):
+def interpolate_with_env(fn):
     @wraps(fn)
     def _dec(string, *args, **kwargs):
-        return fn(string.format(**CONFIG), *args, **kwargs)
+        return fn(string % env, *args, **kwargs)
     return _dec
 
 
-local = format_with_config(local_raw)
-cd = format_with_config(cd_raw)
-run = format_with_config(run_raw)
+local = interpolate_with_env(local)
+cd = interpolate_with_env(cd)
+run = interpolate_with_env(run)
