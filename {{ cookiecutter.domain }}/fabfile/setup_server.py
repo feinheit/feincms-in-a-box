@@ -73,28 +73,28 @@ def create_database_and_local_settings():
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '%(database_name)s',
-        'USER': '%(database_name)s',
-        'PASSWORD': '%(database_pw)s',
+        'NAME': '%(box_database_name)s',
+        'USER': '%(box_database_name)s',
+        'PASSWORD': '%(box_database_pw)s',
         'HOST': 'localhost',
         'PORT': '',
     }
 }
-SECRET_KEY = '%(secret_key)s'
+SECRET_KEY = '%(box_secret_key)s'
 RAVEN_CONFIG = {
-    'dsn': '%(sentry_dsn)s',  # noqa
+    'dsn': '%(box_sentry_dsn)s',  # noqa
 }
-ALLOWED_HOSTS = ['.%(domain)s', '.feinheit04.nine.ch']
+ALLOWED_HOSTS = ['.%(box_domain)s', '.feinheit04.nine.ch']
 
-DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = '%(oauth2_client_id)s'
-DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET = '%(oauth2_client_secret)s'
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = '%(box_oauth2_client_id)s'
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET = '%(box_oauth2_client_secret)s'
 
 if all((
     DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID,
     DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET,
 )):
     DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON = True
-''' % env), '%(project_name)s/local_settings.py' % env)
+''' % env), '%(box_project_name)s/local_settings.py' % env)
 
         run('venv/bin/python manage.py syncdb --noinput')
         run('venv/bin/python manage.py migrate --noinput medialibrary')

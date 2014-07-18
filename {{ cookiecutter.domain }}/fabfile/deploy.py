@@ -18,7 +18,7 @@ def styles():
     for part in ['bower_components', 'css']:
         local(
             'rsync -avz %%(box_sass)s/%s'
-            ' %%(server)s:%%(box_domain)s/%%(box_sass)s/' % part)
+            ' %%(box_server)s:%%(box_domain)s/%%(box_sass)s/' % part)
     with cd('%(box_domain)s'):
         run('venv/bin/python manage.py collectstatic --noinput')
 
