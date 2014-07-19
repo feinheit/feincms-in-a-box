@@ -1,6 +1,9 @@
 from __future__ import absolute_import, unicode_literals
 
+import logging
+
 from django.core.mail import EmailMultiAlternatives
+from django.http import UnreadablePostError
 from django.template.loader import TemplateDoesNotExist, render_to_string
 
 
@@ -46,3 +49,14 @@ def render_to_mail(template, context, **kwargs):
         pass
 
     return message
+
+
+class SkipUnreadablePostError(logging.Filter):
+    """
+    Skip errors which are caused by aborted POST requests.
+    """
+    def filter(self, record):
+        if (record.exc_info
+                and isinstance(record.exc_info[1], UnreadablePostError)):
+            return False
+        return True

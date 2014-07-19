@@ -180,6 +180,9 @@ LOGGING = {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse',
         },
+        'skip_unreadable_post_error': {
+            '()': '{{ cookiecutter.project_name }}.utils.SkipUnreadablePostError',
+        },
     },
     'formatters': {
         'verbose': {
@@ -190,7 +193,10 @@ LOGGING = {
         'sentry': {
             'level': 'ERROR',
             'class': 'raven.contrib.django.handlers.SentryHandler',
-            'filters': ['require_debug_false'],
+            'filters': [
+                'require_debug_false',
+                # 'skip_unreadable_post_error',
+            ],
         },
         'console': {
             'level': 'DEBUG',
