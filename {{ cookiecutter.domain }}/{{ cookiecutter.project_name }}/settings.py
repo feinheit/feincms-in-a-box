@@ -141,6 +141,7 @@ AUTHENTICATION_BACKENDS = (
     'admin_sso.auth.DjangoSSOAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+SESSION_COOKIE_HTTPONLY = True
 
 
 def elephantblog_entry_url_app(self):
