@@ -85,6 +85,7 @@ RAVEN_CONFIG = {
     'dsn': '%(box_sentry_dsn)s',  # noqa
 }
 ALLOWED_HOSTS = ['.%(box_domain)s', '.feinheit04.nine.ch']
+# FORCE_DOMAIN = 'www.%(box_domain)s'  # ForceDomainMiddleware
 
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = '%(box_oauth2_client_id)s'
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET = '%(box_oauth2_client_secret)s'
