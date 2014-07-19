@@ -3,10 +3,12 @@ Pillow==2.5.1
 django-admin-sso==1.0.0
 django-compressor==1.4
 django-mptt==0.6.1
+django-redis==3.7.0
 feincms==1.10.0
 feincms-cleanse==5
 feincms-oembed==1.2.0
 form_designer==0.4.0
+hiredis==0.1.4
 lxml==3.3.5
 psycopg2==2.5.3
 raven==5.0.0

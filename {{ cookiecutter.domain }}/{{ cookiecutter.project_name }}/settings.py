@@ -3,6 +3,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import os
+import re
 import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,8 +22,20 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'data.db',
-    }
+    },
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '127.0.0.1:6379:1',
+        'KEY_PREFIX': re.sub(r'[^\w]+', '_', '{{ cookiecutter.domain }}'),
+        'OPTIONS': {
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
+        },
+    },
+}
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 TIME_ZONE = 'Europe/Zurich'
 LANGUAGE_CODE = 'de-ch'
