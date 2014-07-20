@@ -196,7 +196,7 @@ LOGGING = {
             'class': 'raven.contrib.django.handlers.SentryHandler',
             'filters': [
                 'require_debug_false',
-                # 'skip_unreadable_post_error',
+                # 'skip_unreadable_post_error',
             ],
         },
         'console': {
