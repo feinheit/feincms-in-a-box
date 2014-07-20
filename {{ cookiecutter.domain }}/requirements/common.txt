@@ -1,9 +1,9 @@
 https://github.com/django/django/archive/stable/1.7.x.zip?v=63ae8de8fc
-https://github.com/feincms/feincms/archive/next.zip
 Pillow==2.5.1
 django-admin-sso==1.0.0
 django-compressor==1.4
 django-mptt==0.6.1
+feincms==1.10.0
 feincms-cleanse==5
 feincms-oembed==1.2.0
 form_designer==0.4.0
