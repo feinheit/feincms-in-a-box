@@ -64,6 +64,7 @@ def create_virtualenv():
     local(
         'virtualenv --python python2.7'
         ' --prompt "(venv:%(box_domain)s)" venv')
+    local('venv/bin/pip install -U wheel setuptools pip')
     if platform.system() == 'Darwin' and platform.mac_ver()[0] >= '10.9':
         local(
             'export CFLAGS=-Qunused-arguments'
