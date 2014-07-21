@@ -38,6 +38,7 @@ def init_bitbucket():
                 ' -d \'{"scm": "git", "is_private": true,'
                 ' "forking_policy": "no_public_forks"}\'')
 
+        with hide('everything'):
             with settings(warn_only=True):
                 local('git remote rm origin')
 
