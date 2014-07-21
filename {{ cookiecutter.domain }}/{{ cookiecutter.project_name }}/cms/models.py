@@ -98,6 +98,7 @@ Page.create_content_type(
     regions=('main', 'col1', 'col2'))
 Page.create_content_type(
     OembedContent,
+    optgroup='Content',
     TYPE_CHOICES=[
         ('default', _('Default presentation'), {
             'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
