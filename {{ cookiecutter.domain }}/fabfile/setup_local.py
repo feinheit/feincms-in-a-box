@@ -123,6 +123,14 @@ def pull_database():
         ' pg_dump %(box_database_name)s'
         ' --no-privileges --no-owner --no-reconnect"'
         ' | psql %(box_database_name)s')
+    local(
+        'psql %(box_database_name)s -c "UPDATE auth_user'
+        ' SET password=\'pbkdf2_sha256\$12000\$owbr7vjRCspg\$PAo53Cbqvek3nMqS'
+        'l+V+ubIlnZQ2Vj7ZVKcPhcXqWlY=\''
+        ' WHERE password=\'\'"')
+    print(green(
+        'Users with empty passwords (for example SSO users) now have a'
+        ' password of "password" (without quotes).'))
 
 
 @task
