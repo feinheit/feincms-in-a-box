@@ -79,6 +79,7 @@ Page.register_extensions(
     'feincms.module.page.extensions.navigation',
     'feincms.module.extensions.seo',
     'feincms.module.page.extensions.titles',
+    'feincms.module.page.extensions.navigationgroups',
     ExcerptExtension,
 )
 
