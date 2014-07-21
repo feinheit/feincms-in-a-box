@@ -63,11 +63,9 @@ On OS X::
 Installation
 ------------
 
-Run cookiecutter and follow the instructions on-screen::
+Ensure that postgres and redis-server are running. Run cookiecutter and follow
+the instructions on-screen::
 
-    cookiecutter https://github.com/matthiask/cookiecutter-feincms-in-a-box/
+    cookiecutter https://github.com/matthiask/cookiecutter-feincms-in-a-box
 
-Afterwards, everything should be up and running.
-
-(If you get errors really early, clone the repository locally and point
-cookiecutter to this folder instead. This worked better for me.)
+Enjoy!
