@@ -50,3 +50,9 @@ def init_bitbucket():
 def add_live_remote():
     with settings(warn_only=True):
         local('git remote add -f live %(box_server)s:%(box_domain)s/')
+
+
+@task
+def fetch_live_remote():
+    with settings(warn_only=True):
+        local('git fetch live')

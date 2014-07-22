@@ -36,3 +36,5 @@ def code():
         run('venv/bin/python manage.py migrate --noinput')
         run('venv/bin/python manage.py collectstatic --noinput')
         run('sctl restart %(box_domain)s:*')
+
+    execute('versioning.fetch_live_remote')
