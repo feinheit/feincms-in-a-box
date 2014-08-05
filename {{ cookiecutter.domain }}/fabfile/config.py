@@ -1,8 +1,12 @@
+from __future__ import print_function, unicode_literals
+
 from functools import wraps
 import random
 import re
+import socket
 
-from fabric.api import env, cd, local, run
+from fabric.api import env, cd, local, run, task
+from fabric.colors import red
 
 
 env.box_project_name = '{{ cookiecutter.project_name }}'
@@ -36,3 +40,23 @@ def interpolate_with_env(fn):
 local = interpolate_with_env(local)
 cd = interpolate_with_env(cd)
 run = interpolate_with_env(run)
+
+
+@task
+def check_services():
+    success = True
+
+    try:
+        socket.create_connection(('localhost', 5432), timeout=0.1).close()
+    except socket.error:
+        print(red('redis does not seem to be running!'))
+        success = False
+
+    try:
+        socket.create_connection(('localhost', 6379), timeout=0.1).close()
+    except socket.error:
+        print(red('postgres does not seem to be running!'))
+        success = False
+
+    if not success:
+        raise Exception('Some required services are not available.')

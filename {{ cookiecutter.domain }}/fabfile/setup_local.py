@@ -12,7 +12,7 @@ from fabfile.config import local, get_random_string
 
 @task(default=True)
 def initial_setup():
-    # TODO(mk) Check whether postgres is up and running before starting?
+    execute('config.check_services')
 
     if os.path.exists('venv'):
         print(red('It seems that this project is already set up, aborting.'))
@@ -42,6 +42,8 @@ def setup_with_live_data():
     if os.path.exists('venv'):
         print(red('It seems that this project is already set up, aborting.'))
         return 1
+
+    execute('config.check_services')
 
     execute('setup_local.create_virtualenv')
     execute('setup_local.frontend_tools')
@@ -101,6 +103,8 @@ ALLOWED_HOSTS = ['*']
 
 @task
 def create_and_migrate_database():
+    execute('config.check_services')
+
     local(
         'createdb %(box_database_name)s'
         ' --encoding=UTF8 --template=template0')
@@ -109,6 +113,8 @@ def create_and_migrate_database():
 
 @task
 def pull_database():
+    execute('config.check_services')
+
     if not confirm('Completely replace the local database (if it exists)?'):
         return
 
