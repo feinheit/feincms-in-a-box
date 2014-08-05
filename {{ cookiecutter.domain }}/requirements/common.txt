@@ -15,4 +15,4 @@ raven==5.0.0
 six==1.7.3
 towel==0.6.0
 towel-foundation==0.5.0
--e git://github.com/feincms/feincms-elephantblog.git@4d85887a439c985f16195059004ba54317bbfe28#egg=feincms_elephantblog-dev
+https://github.com/feincms/feincms-elephantblog/archive/master.zip?v=4d85887a439
