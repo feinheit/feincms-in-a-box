@@ -1,4 +1,4 @@
-https://github.com/django/django/archive/stable/1.7.x.zip?v=a582431b41
+https://github.com/django/django/archive/9cc5d99bdeff5be0f8df1618b989050061ed5629.zip
 Pillow==2.5.1
 django-admin-sso==1.0.0
 django-compressor==1.4
@@ -15,4 +15,4 @@ raven==5.0.0
 six==1.7.3
 towel==0.6.0
 towel-foundation==0.5.0
-https://github.com/feincms/feincms-elephantblog/archive/master.zip?v=4d85887a439
+https://github.com/feincms/feincms-elephantblog/archive/4d85887a439.zip
