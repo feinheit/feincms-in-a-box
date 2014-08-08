@@ -6,6 +6,7 @@ django-mptt==0.6.1
 django-redis==3.7.0
 feincms==1.10.0
 feincms-cleanse==5
+feincms-elephantblog==1.0.0
 feincms-oembed==1.2.0
 form_designer==0.4.0
 hiredis==0.1.4
@@ -15,4 +16,3 @@ raven==5.0.0
 six==1.7.3
 towel==0.6.0
 towel-foundation==0.5.0
-https://github.com/feincms/feincms-elephantblog/archive/4d85887a439.zip
