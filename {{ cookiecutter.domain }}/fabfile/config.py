@@ -49,13 +49,13 @@ def check_services():
     try:
         socket.create_connection(('localhost', 5432), timeout=0.1).close()
     except socket.error:
-        print(red('redis does not seem to be running!'))
+        print(red('postgres does not seem to be running!'))
         success = False
 
     try:
         socket.create_connection(('localhost', 6379), timeout=0.1).close()
     except socket.error:
-        print(red('postgres does not seem to be running!'))
+        print(red('redis does not seem to be running!'))
         success = False
 
     if not success:
