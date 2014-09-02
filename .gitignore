@@ -2,4 +2,5 @@
 *~
 .*.sw*
 .DS_Store
+.idea
 \#*#
