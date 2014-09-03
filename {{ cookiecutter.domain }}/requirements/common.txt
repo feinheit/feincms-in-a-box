@@ -1,4 +1,4 @@
-https://github.com/django/django/archive/9cc5d99bdeff5be0f8df1618b989050061ed5629.zip
+Django==1.7
 Pillow==2.5.1
 django-admin-sso==1.0.0
 django-compressor==1.4
