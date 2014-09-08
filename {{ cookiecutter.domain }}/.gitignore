@@ -8,6 +8,7 @@
 /media
 /{{ cookiecutter.project_name }}/local_settings.py
 /static
+/tmp
 /venv
 \#*#
 stylesheets

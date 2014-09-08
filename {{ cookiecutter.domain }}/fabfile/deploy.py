@@ -1,6 +1,8 @@
 from __future__ import print_function, unicode_literals
 
 from fabric.api import execute, task
+from fabric.colors import red
+from fabric.utils import abort
 
 from fabfile.config import local, cd, run
 
@@ -25,6 +27,11 @@ def styles():
 
 @task
 def code():
+    with cd('%(box_domain)s'):
+        result = run('git status --porcelain')
+        if result:
+            abort(red('Uncommitted changes detected, aborting deployment.'))
+
     local('flake8 .')
     local('git push origin %(box_branch)s')
     with cd('%(box_domain)s'):
