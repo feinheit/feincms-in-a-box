@@ -7,6 +7,7 @@ import socket
 
 from fabric.api import env, cd, local, run, task
 from fabric.colors import red
+from fabric.contrib.console import confirm
 
 
 env.box_project_name = '{{ cookiecutter.project_name }}'
@@ -40,6 +41,7 @@ def interpolate_with_env(fn):
 local = interpolate_with_env(local)
 cd = interpolate_with_env(cd)
 run = interpolate_with_env(run)
+confirm = interpolate_with_env(confirm)
 
 
 @task

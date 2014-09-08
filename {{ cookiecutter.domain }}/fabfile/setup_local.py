@@ -5,9 +5,8 @@ import platform
 
 from fabric.api import env, execute, settings, task
 from fabric.colors import green, red
-from fabric.contrib.console import confirm
 
-from fabfile.config import local, get_random_string
+from fabfile.config import confirm, local, get_random_string
 
 
 @task(default=True)
@@ -115,7 +114,9 @@ def create_and_migrate_database():
 def pull_database():
     execute('config.check_services')
 
-    if not confirm('Completely replace the local database (if it exists)?'):
+    if not confirm(
+            'Completely replace the local database'
+            ' "%(box_database_name)s" (if it exists)?'):
         return
 
     with settings(warn_only=True):
