@@ -27,6 +27,8 @@ def initial_setup():
     print(green(
         'Next steps:'))
     print(green(
+        '- Update the README: edit README.rst'))
+    print(green(
         '- Create a superuser: venv/bin/python manage.py createsuperuser'))
     print(green(
         '- Run the development server: fab dev'))
