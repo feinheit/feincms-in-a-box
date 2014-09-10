@@ -48,7 +48,12 @@ preferred periodicity.
 Dependencies on external services
 =================================
 
-Describe external services used here, if any.
+Google's OAuth2 endpoint is used with ``django-admin-sso`` to authenticate
+users wanting to access the admin panel. (Login using passwords is possible,
+but not configured by the setup script.)
+
+Sentry is used to collect error reports (by way of
+`raven <https://pypi.python.org/pypi/raven>`_).
 
 
 Other dependencies
@@ -58,6 +63,9 @@ Python packages are mostly contained in ``requirements/``.
 
 JavaScript packages are currently defined in
 ``{{ cookiecutter.project_name }}/static/{{ cookiecutter.project_name }}/bower.json``.
+
+PostgreSQL is used as primary database. Redis is used by ``django.core.cache``,
+and also as a write-through cache for ``django.contrib.sessions``.
 
 
 Development and deployment
