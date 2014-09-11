@@ -8,6 +8,8 @@ from fabfile.config import local
 
 _invalid_contents = [
     (r'import i?pdb', '*.py'),
+    (r'console.log', '*.js'),
+    (r'console.log', '*.html'),
 ]
 
 
