@@ -9,7 +9,7 @@ from fabfile.config import local, cd, run
 
 @task(default=True)
 def deploy():
-    local('flake8 .')
+    execute('check')
     execute('deploy.styles')
     execute('deploy.code')
 
@@ -32,7 +32,7 @@ def code():
         if result:
             abort(red('Uncommitted changes detected, aborting deployment.'))
 
-    local('flake8 .')
+    execute('check')
     local('git push origin %(box_branch)s')
     with cd('%(box_domain)s'):
         run('git fetch')
