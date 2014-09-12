@@ -66,6 +66,6 @@ Installation
 Ensure that postgres and redis-server are running. Run cookiecutter and follow
 the instructions on-screen::
 
-    cookiecutter https://github.com/matthiask/cookiecutter-feincms-in-a-box
+    cookiecutter https://github.com/feinheit/cookiecutter-box
 
 Enjoy!
