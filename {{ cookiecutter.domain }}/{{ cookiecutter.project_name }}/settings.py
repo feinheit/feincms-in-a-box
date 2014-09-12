@@ -179,7 +179,7 @@ ABSOLUTE_URL_OVERRIDES = {
     'elephantblog.category': elephantblog_category_url_app,
 }
 
-BLOG_TITLE = 'FeinCMS-in-a-Box'
+BLOG_TITLE = '{{ cookiecutter.nice_name }}'
 BLOG_DESCRIPTION = 'News'
 BLOG_PAGINATE_BY = 10
 

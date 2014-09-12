@@ -9,7 +9,7 @@
   <title>
     {% block title %}
       {% if feincms_page %}{{ feincms_page.page_title }} | {% endif %}
-      FeinCMS-in-a-box
+      {% endraw %}{{ cookiecutter.nice_name }}{% raw %}
     {% endblock %}
   </title>
   {% compress css %}
@@ -24,8 +24,8 @@
   <meta name="keywords" content="{{ feincms_page.meta_keywords|default:'' }}">
   <meta name="description" content="{{ feincms_page.meta_description|default:'' }}">
   <meta name="robots" content="index,follow,noodp">
-  <meta property="og:title" content="{{ og_title|default:feincms_page.page_title }} - FeinCMS-in-a-Box">
-  <meta property="og:image" content="http://www.box.ch{{ og_image|default:'/static/{% endraw %}{{ cookiecutter.project_name }}{% raw %}/images/NN4.png' }}">
+  <meta property="og:title" content="{{ og_title|default:feincms_page.page_title }} - {% endraw %}{{ cookiecutter.nice_name }}{% raw %}">
+  <meta property="og:image" content="http://www.{% endraw %}{{ cookiecutter.domain }}{% raw %}{{ og_image|default:'/static/{% endraw %}{{ cookiecutter.project_name }}{% raw %}/images/NN4.png' }}">
   <meta property="og:type" content="company">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:description" content="{{ og_description|default:feincms_page.meta_description|default:'' }}">
@@ -33,7 +33,7 @@
 
   {% comment %}
   <link rel="alternate" type="application/rss+xml"
-    title="RSS Feed" href="http://www.box.ch/feeds/news/">
+    title="RSS Feed" href="http://www.{% endraw %}{{ cookiecutter.domain }}{% raw %}/feeds/news/">
   {% endcomment %}
   {% block extra-head %}{% endblock %}
 </head>
@@ -46,7 +46,7 @@
       <div class="large-6 columns">
         <h1>
           <a id="logo" href="/">
-            FeinCMS-in-a-Box
+            {% endraw %}{{ cookiecutter.nice_name }}{% raw %}
           </a>
         </h1>
       </div>
