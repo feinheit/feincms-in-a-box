@@ -24,6 +24,8 @@ def _service_processes():
 
 @task(default=True)
 def dev():
+    """Runs the development server, SCSS watcher and backend services if they
+    are not running already"""
     jobs = [
         lambda: local('venv/bin/python -Wall manage.py runserver'),
     ]
@@ -41,6 +43,7 @@ def dev():
 
 @task
 def services():
+    """Runs the backend services if they are not running already"""
     jobs = _service_processes()
     jobs = [Process(target=j) for j in jobs]
     [j.start() for j in jobs]
@@ -49,6 +52,8 @@ def services():
 
 @task
 def makemessages():
+    """Wrapper around the ``makemessages`` management command which excludes
+    dependencies (virtualenv, bower components, node modules)"""
     local(
         'venv/bin/python manage.py makemessages -a'
         ' -i bower_components'

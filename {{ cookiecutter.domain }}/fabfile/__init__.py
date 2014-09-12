@@ -8,6 +8,9 @@ from fabfile import check, config, dev, deploy, setup_local, setup_server, versi
 
 
 def ensure_pre_commit_hook_installed():
+    """
+    Ensures that ``git commit`` fails if ``fab check`` returns any errors.
+    """
     p = Popen('git rev-parse --git-dir'.split(), stdout=PIPE)
     git_dir = p.stdout.read().strip()
     project_dir = dirname(git_dir)

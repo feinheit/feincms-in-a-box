@@ -11,6 +11,8 @@ from fabfile.config import local, cd, run
 
 @task(default=True)
 def deploy():
+    """Deploys frontend and backend code to the server if the checking step
+    did not report any problems"""
     execute('check')
     execute('deploy.styles')
     execute('deploy.code')
@@ -34,6 +36,7 @@ def _deploy_styles_foundation4_bundler():
 
 @task
 def styles():
+    """Compiles and compresses the CSS and deploys it to the server"""
     if os.path.exists('%(box_sass)s/bower.json' % env):
         _deploy_styles_foundation5_grunt()
     elif os.path.exists('%(box_sass)s/config.rb' % env):
@@ -47,6 +50,9 @@ def styles():
 
 @task
 def code():
+    """Deploys the currently committed project state to the server, if there
+    are no uncommitted changes on the server and the checking step did not
+    report any problems"""
     with cd('%(box_domain)s'):
         result = run('git status --porcelain')
         if result:

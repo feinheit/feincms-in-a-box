@@ -10,6 +10,7 @@ from fabfile.config import local, cd, run, get_random_string
 
 @task(default=True)
 def init():
+    """Sets up the server from a git repository"""
     execute('setup_server.clone_repository')
     execute('setup_server.create_virtualenv')
     execute('setup_server.create_database_and_local_settings')
@@ -87,7 +88,7 @@ RAVEN_CONFIG = {
 ALLOWED_HOSTS = ['.%(box_domain)s', '.feinheit04.nine.ch']
 
 # Do not forget to allow robots to index the site when going live!
-# - %(box_project_name)s/templates/base.html: Change "noindex" to "index"
+# - %(box_project_name)s/templates/base.html: Change "noindex" to "index"
 # - htdocs/robots.txt: Remove the "Disallow: /" line
 # FORCE_DOMAIN = 'www.%(box_domain)s'  # ForceDomainMiddleware
 

@@ -25,6 +25,8 @@ env.hosts = [env.box_server]
 
 
 def get_random_string(length, chars=None):
+    """Returns a random string; mostly used to generate passwords and
+    the contents of SECRET_KEY"""
     rand = random.SystemRandom()
     if chars is None:
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
@@ -32,6 +34,8 @@ def get_random_string(length, chars=None):
 
 
 def interpolate_with_env(fn):
+    """Wrapper which extends a few Fabric API commands to fill in values from
+    Fabric's environment dictionary"""
     @wraps(fn)
     def _dec(string, *args, **kwargs):
         return fn(string % env, *args, **kwargs)
@@ -46,6 +50,8 @@ confirm = interpolate_with_env(confirm)
 
 @task
 def check_services():
+    """Checks whether required services (postgres and redis) are up and
+    running, and fails if not"""
     success = True
 
     try:

@@ -11,6 +11,8 @@ from fabfile.config import confirm, local, get_random_string
 
 @task(default=True)
 def initial_setup():
+    """Initial setup of the project. Use ``setup_with_live_data`` instead if
+    the project is already installed on a server"""
     execute('config.check_services')
 
     if os.path.exists('venv'):
@@ -40,6 +42,8 @@ def initial_setup():
 
 @task
 def setup_with_live_data():
+    """Installs all dependencies and pulls the database and mediafiles from
+    the server to create an instant replica of the production environment"""
     if os.path.exists('venv'):
         print(red('It seems that this project is already set up, aborting.'))
         return 1
@@ -64,6 +68,7 @@ def setup_with_live_data():
 
 @task
 def create_virtualenv():
+    """Creates the virtualenv and installs all Python requirements"""
     local(
         'virtualenv --python python2.7'
         ' --prompt "(venv:%(box_domain)s)" venv')
@@ -85,6 +90,8 @@ def frontend_tools():
 
 @task
 def create_local_settings():
+    """Creates a local_settings.py file containing basic configuration for
+    local development"""
     with open('%(box_project_name)s/local_settings.py' % env, 'w') as f:
         env.box_secret_key = get_random_string(50)
         f.write('''\
@@ -104,6 +111,7 @@ ALLOWED_HOSTS = ['*']
 
 @task
 def create_and_migrate_database():
+    """Creates and migrates a Postgres database"""
     execute('config.check_services')
 
     local(
@@ -114,6 +122,8 @@ def create_and_migrate_database():
 
 @task
 def pull_database():
+    """Pulls the database contents from the server, dropping the local
+    database first (if it exists)"""
     execute('config.check_services')
 
     if not confirm(
@@ -144,6 +154,8 @@ def pull_database():
 
 @task
 def pull_mediafiles():
+    """Pulls all mediafiles from the server. Beware, it is possible that this
+    command pulls down several GBs!"""
     if not confirm('Completely replace local mediafiles?'):
         return
     local('rsync -avz --delete %(box_server)s:%(box_domain)s/media .')
