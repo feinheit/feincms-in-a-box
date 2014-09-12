@@ -85,6 +85,10 @@ RAVEN_CONFIG = {
     'dsn': '%(box_sentry_dsn)s',  # noqa
 }
 ALLOWED_HOSTS = ['.%(box_domain)s', '.feinheit04.nine.ch']
+
+# Do not forget to allow robots to index the site when going live!
+# - %(box_project_name)s/templates/base.html: Change "noindex" to "index"
+# - htdocs/robots.txt: Remove the "Disallow: /" line
 # FORCE_DOMAIN = 'www.%(box_domain)s'  # ForceDomainMiddleware
 
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = '%(box_oauth2_client_id)s'
