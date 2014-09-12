@@ -20,3 +20,12 @@ def check():
     _coding_style_check('.', env.box_project_name)
     # _coding_style_check('venv/src/???', '???')
     local('venv/bin/python manage.py check')
+
+
+@task
+def ready():
+    """Check whether this project is ready for production"""
+    local("! git grep -n -C3 -E '^Disallow: /$' -- 'robots.txt'")
+    with lcd(env.box_project_name):
+        local("! git grep -n -C3 -E 'meta.*robots.*noindex'")
+        local("! git grep -n -C3 -E '(XXX|FIXME|TODO)'")
