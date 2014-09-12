@@ -28,7 +28,7 @@ def _deploy_styles_foundation5_grunt():
 
 def _deploy_styles_foundation4_bundler():
     local('bundle exec compass clean %(box_sass)s')
-    local('bundle compile -s compressed %(box_sass)s')
+    local('bundle exec compass compile -s compressed %(box_sass)s')
     local(
         'rsync -avz %(box_sass)s/stylesheets'
         ' %(box_server)s:%(box_domain)s/%(box_sass)s/')
