@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         },
         files: {
           'css/app.css': 'scss/app.scss'
-        }        
+        }
       }
     },
 
@@ -31,4 +31,4 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['sass']);
   grunt.registerTask('default', ['build','watch']);
-}
+};

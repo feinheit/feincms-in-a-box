@@ -16,6 +16,10 @@ def _coding_style_check(base, project_name):
             "! git grep -n -C3 -E '(^| )print( |\(|$)'"
             " -- '%s/*py'" % project_name)
         local('flake8 .')
+        local(
+            "jshint $("
+            "git ls-files '*.js' | grep -vE '(ckeditor/|lightbox)'"
+            ")")
 
 
 @task(default=True)
