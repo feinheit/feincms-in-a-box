@@ -17,9 +17,9 @@ def _coding_style_check(base, project_name):
             " -- '%s/*py'" % project_name)
         local('flake8 .')
         local(
-            "jshint $("
-            "git ls-files '*.js' | grep -vE '(ckeditor/|lightbox)'"
-            ")")
+            "jshint $(git ls-files '*.js' | grep -vE '("
+            "ckeditor/|lightbox"  # Exclude libraries from JSHint checking.
+            ")')")
 
 
 @task(default=True)
