@@ -1,10 +1,8 @@
 from __future__ import unicode_literals
 
-from functools import wraps
 import re
 
-from fabric.api import env, cd, local, run
-from fabric.contrib.console import confirm
+from fabric.api import env
 
 
 env.box_staging_enabled = False
@@ -31,18 +29,3 @@ def derive_env_from_domain():
 
     env.forward_agent = True
     env.hosts = [env.box_server]
-
-
-def interpolate_with_env(fn):
-    """Wrapper which extends a few Fabric API commands to fill in values from
-    Fabric's environment dictionary"""
-    @wraps(fn)
-    def _dec(string, *args, **kwargs):
-        return fn(string % env, *args, **kwargs)
-    return _dec
-
-
-local = interpolate_with_env(local)
-cd = interpolate_with_env(cd)
-run = interpolate_with_env(run)
-confirm = interpolate_with_env(confirm)

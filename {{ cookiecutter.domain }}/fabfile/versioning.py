@@ -8,7 +8,7 @@ from fabric.colors import red
 from fabric.contrib.console import confirm
 from fabric.utils import puts
 
-from fabfile.config import local
+from fabfile import local
 
 
 @task

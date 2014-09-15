@@ -6,7 +6,7 @@ import socket
 
 from fabric.api import env, hosts, task
 
-from fabfile.config import local
+from fabfile import local
 
 
 def _service_processes():

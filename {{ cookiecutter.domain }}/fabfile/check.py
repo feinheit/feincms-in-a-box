@@ -7,7 +7,7 @@ from fabric.api import (
 from fabric.colors import cyan, red
 from fabric.utils import abort, puts
 
-from fabfile.config import cd, local
+from fabfile import cd, local
 
 
 def _step(str):

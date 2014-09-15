@@ -1,11 +1,14 @@
 from __future__ import unicode_literals
 
+from functools import wraps
 from os import chmod
 from os.path import dirname, exists, join
 from subprocess import Popen, PIPE
 
-from fabfile import (
-    check, config, dev, deploy, setup_local, setup_server, versioning)
+from fabric.api import env, cd, local, run, task
+from fabric.contrib.console import confirm
+
+from fabfile import config
 
 
 __all__ = (
@@ -19,17 +22,49 @@ __all__ = (
 )
 
 
+# Production vs staging -----------------------------------------------------
+def production():
+    """Configures the environment for deploying or initializing production"""
+    env.box_domain = env.box_domain_production
+    env.box_env = 'production'
+    config.derive_env_from_domain()
+
+
+def staging():
+    """Configures the environment for deploying or initializing staging"""
+    env.box_domain = env.box_domain_staging
+    env.box_env = 'staging'
+    config.derive_env_from_domain()
+
+
 if config.env.box_staging_enabled:
-    from fabfile.utils import production, staging
+    production = task(alias='p')(production)
+    staging = task(alias='s')(staging)
     __all__ += (
         'production',
         'staging',
     )
 else:
-    from fabfile.utils import production
     production()
 
 
+# Fabric commands with environment interpolation ----------------------------
+def interpolate_with_env(fn):
+    """Wrapper which extends a few Fabric API commands to fill in values from
+    Fabric's environment dictionary"""
+    @wraps(fn)
+    def _dec(string, *args, **kwargs):
+        return fn(string % env, *args, **kwargs)
+    return _dec
+
+
+local = interpolate_with_env(local)
+cd = interpolate_with_env(cd)
+run = interpolate_with_env(run)
+confirm = interpolate_with_env(confirm)
+
+
+# Git pre-commit hook which always runs "fab check" -------------------------
 def ensure_pre_commit_hook_installed():
     """
     Ensures that ``git commit`` fails if ``fab check`` returns any errors.
@@ -56,3 +91,8 @@ fab check
 
 # Run this each time the fabfile is loaded
 ensure_pre_commit_hook_installed()
+
+
+# Import other fabfile mods, now that interpolate_with_env has been run -----
+from fabfile import (
+    check, dev, deploy, setup_local, setup_server, versioning)

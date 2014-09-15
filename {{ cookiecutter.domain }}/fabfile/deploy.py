@@ -6,7 +6,7 @@ from fabric.api import env, execute, require, task
 from fabric.colors import red
 from fabric.utils import abort
 
-from fabfile.config import local, cd, run
+from fabfile import local, cd, run
 
 
 @task(default=True)

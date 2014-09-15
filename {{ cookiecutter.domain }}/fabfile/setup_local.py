@@ -7,7 +7,7 @@ from fabric.api import env, execute, hosts, settings, task
 from fabric.colors import green, red
 from fabric.utils import puts
 
-from fabfile.config import confirm, local
+from fabfile import confirm, local
 from fabfile.utils import get_random_string
 
 
