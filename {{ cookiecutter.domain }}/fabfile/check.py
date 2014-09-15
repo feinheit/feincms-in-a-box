@@ -2,7 +2,8 @@ from __future__ import unicode_literals
 
 import socket
 
-from fabric.api import env, execute, hide, lcd, settings, task
+from fabric.api import (
+    env, execute, hide, hosts, lcd, runs_once, settings, task)
 from fabric.colors import cyan, red
 from fabric.utils import puts
 
@@ -42,22 +43,20 @@ def _coding_style_check(base, project_name):
 
 
 @task(default=True)
+@hosts('')
+@runs_once
 def check():
     """Runs coding style checks, and Django's checking framework"""
-    if env.get('box_check_success'):
-        _step('Second invocation of check, skipping...')
-        return
-
     for base, project_name in env.box_check['coding_style']:
         _coding_style_check(base, project_name)
 
     _step('Invoking Django\'s systems check framework...')
     local('venv/bin/python manage.py check')
 
-    env.box_check_success = True
-
 
 @task
+@hosts('')
+@runs_once
 def ready():
     """Check whether this project is ready for production"""
     execute('check.check')
@@ -70,6 +69,8 @@ def ready():
 
 
 @task
+@hosts('')
+@runs_once
 def services():
     """Checks whether required services (postgres and redis) are up and
     running, and fails if not"""

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import os
 import platform
 
-from fabric.api import env, execute, settings, task
+from fabric.api import env, execute, hosts, settings, task
 from fabric.colors import green, red
 from fabric.utils import puts
 
@@ -12,6 +12,7 @@ from fabfile.utils import get_random_string
 
 
 @task(default=True)
+@hosts('')
 def initial_setup():
     """Initial setup of the project. Use ``setup_with_live_data`` instead if
     the project is already installed on a server"""
@@ -69,6 +70,7 @@ def setup_with_live_data():
 
 
 @task
+@hosts('')
 def create_virtualenv():
     """Creates the virtualenv and installs all Python requirements"""
     local(
@@ -85,6 +87,7 @@ def create_virtualenv():
 
 
 @task
+@hosts('')
 def frontend_tools():
     """Installs frontend tools. Knows how to handle npm/bower and bundler"""
     if os.path.exists('%(box_sass)s/bower.json' % env):
@@ -95,6 +98,7 @@ def frontend_tools():
 
 
 @task
+@hosts('')
 def create_local_settings():
     """Creates a local_settings.py file containing basic configuration for
     local development"""
@@ -116,6 +120,7 @@ ALLOWED_HOSTS = ['*']
 
 
 @task
+@hosts('')
 def create_and_migrate_database():
     """Creates and migrates a Postgres database"""
     execute('check.services')

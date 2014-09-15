@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import getpass
 import os
 
-from fabric.api import env, hide, prompt, settings, task
+from fabric.api import env, hide, hosts, prompt, settings, task
 from fabric.colors import red
 from fabric.contrib.console import confirm
 from fabric.utils import puts
@@ -12,6 +12,7 @@ from fabfile.config import local
 
 
 @task
+@hosts('')
 def init_bitbucket():
     username = prompt('Username', default=os.environ.get('USER', ''))
     password = getpass.getpass('Password ')
@@ -48,12 +49,14 @@ def init_bitbucket():
 
 
 @task
+@hosts('')
 def add_live_remote():
     with settings(warn_only=True):
         local('git remote add -f live %(box_server)s:%(box_domain)s/')
 
 
 @task
+@hosts('')
 def fetch_live_remote():
     with settings(warn_only=True):
         local('git fetch live')

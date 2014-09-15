@@ -4,7 +4,7 @@ from multiprocessing import Process
 import os
 import socket
 
-from fabric.api import env, task
+from fabric.api import env, hosts, task
 
 from fabfile.config import local
 
@@ -23,6 +23,7 @@ def _service_processes():
 
 
 @task(default=True)
+@hosts('')
 def dev():
     """Runs the development server, SCSS watcher and backend services if they
     are not running already"""
@@ -42,6 +43,7 @@ def dev():
 
 
 @task
+@hosts('')
 def services():
     """Runs the backend services if they are not running already"""
     jobs = _service_processes()
@@ -51,6 +53,7 @@ def services():
 
 
 @task
+@hosts('')
 def makemessages():
     """Wrapper around the ``makemessages`` management command which excludes
     dependencies (virtualenv, bower components, node modules)"""
