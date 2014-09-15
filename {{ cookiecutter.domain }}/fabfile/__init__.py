@@ -6,7 +6,6 @@ from subprocess import Popen, PIPE
 
 from fabfile import (
     check, config, dev, deploy, setup_local, setup_server, versioning)
-from fabfile.utils import production, staging
 
 
 __all__ = (
@@ -17,9 +16,18 @@ __all__ = (
     'setup_local',
     'setup_server',
     'versioning',
-    'production',
-    'staging',
 )
+
+
+if config.env.box_staging_enabled:
+    from fabfile.utils import production, staging
+    __all__ += (
+        'production',
+        'staging',
+    )
+else:
+    from fabfile.utils import production
+    production()
 
 
 def ensure_pre_commit_hook_installed():

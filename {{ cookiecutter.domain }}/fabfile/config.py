@@ -33,12 +33,6 @@ def derive_env_from_domain():
     env.hosts = [env.box_server]
 
 
-if not env.box_staging_enabled:
-    env.box_domain = env.box_domain_production
-    env.box_env = 'production'
-    derive_env_from_domain()
-
-
 def interpolate_with_env(fn):
     """Wrapper which extends a few Fabric API commands to fill in values from
     Fabric's environment dictionary"""
