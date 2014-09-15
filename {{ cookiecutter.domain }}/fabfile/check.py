@@ -21,6 +21,11 @@ def _coding_style_check(base, project_name):
             "ckeditor/|lightbox"  # Exclude libraries from JSHint checking.
             ")')")
 
+        with settings(warn_only=True):
+            # Remind the user about uglyness, but do not fail (there are good
+            # reasons to use the patterns warned about here).
+            local("! git grep -n -E '#.*noqa' -- '*.py'")
+
 
 @task(default=True)
 def check():
