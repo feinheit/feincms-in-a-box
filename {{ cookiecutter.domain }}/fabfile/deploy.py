@@ -2,19 +2,18 @@ from __future__ import unicode_literals
 
 import os
 
-from fabric.api import env, execute, require, task
+from fabric.api import env, execute, task
 from fabric.colors import red
 from fabric.utils import abort
 
-from fabfile import local, cd, run
+from fabfile import local, cd, require_env, run
 
 
 @task(default=True)
+@require_env
 def deploy():
     """Deploys frontend and backend code to the server if the checking step
     did not report any problems"""
-    require('box_domain', provided_by='staging / production')
-
     execute('check')
     execute('deploy.styles')
     execute('deploy.code')
@@ -37,10 +36,9 @@ def _deploy_styles_foundation4_bundler():
 
 
 @task
+@require_env
 def styles():
     """Compiles and compresses the CSS and deploys it to the server"""
-    require('box_domain', provided_by='staging / production')
-
     if os.path.exists('%(box_sass)s/bower.json' % env):
         _deploy_styles_foundation5_grunt()
     elif os.path.exists('%(box_sass)s/config.rb' % env):
@@ -53,12 +51,11 @@ def styles():
 
 
 @task
+@require_env
 def code():
     """Deploys the currently committed project state to the server, if there
     are no uncommitted changes on the server and the checking step did not
     report any problems"""
-    require('box_domain', 'box_branch', provided_by='staging / production')
-
     execute('check.deploy')
     local('git push origin %(box_branch)s')
     with cd('%(box_domain)s'):

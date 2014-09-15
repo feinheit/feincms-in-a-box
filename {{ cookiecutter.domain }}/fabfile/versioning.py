@@ -3,12 +3,12 @@ from __future__ import unicode_literals
 import getpass
 import os
 
-from fabric.api import env, hide, hosts, prompt, require, settings, task
+from fabric.api import env, hide, hosts, prompt, settings, task
 from fabric.colors import red
 from fabric.contrib.console import confirm
 from fabric.utils import puts
 
-from fabfile import local
+from fabfile import local, require_env
 
 
 @task
@@ -50,9 +50,8 @@ def init_bitbucket():
 
 @task
 @hosts('')
+@require_env
 def add_remote():
-    require('box_domain', provided_by='staging / production')
-
     with settings(warn_only=True):
         local(
             'git remote add -f %(box_remote)s %(box_server)s:%(box_domain)s/')
@@ -60,8 +59,7 @@ def add_remote():
 
 @task
 @hosts('')
+@require_env
 def fetch_remote():
-    require('box_remote', provided_by='staging / production')
-
     with settings(warn_only=True):
         local('git fetch %(box_remote)s')

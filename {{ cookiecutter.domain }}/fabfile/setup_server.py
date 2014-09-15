@@ -2,19 +2,18 @@ from __future__ import unicode_literals
 
 from io import StringIO
 
-from fabric.api import env, execute, hide, prompt, put, require, task
+from fabric.api import env, execute, hide, prompt, put, task
 from fabric.colors import green, red
 from fabric.utils import puts
 
-from fabfile import local, cd, run
+from fabfile import local, cd, require_env, run
 from fabfile.utils import get_random_string
 
 
 @task(default=True)
+@require_env
 def init():
     """Sets up the server from a git repository"""
-    require('box_domain', provided_by='staging / production')
-
     execute('setup_server.clone_repository')
     execute('setup_server.create_virtualenv')
     execute('setup_server.create_database_and_local_settings')
@@ -25,9 +24,8 @@ def init():
 
 
 @task
+@require_env
 def clone_repository():
-    require('box_domain', provided_by='staging / production')
-
     puts(green('We need the repository to initialize the server.'))
     with hide('running'):
         output = local('git config remote.origin.url', capture=True)
@@ -44,9 +42,8 @@ def clone_repository():
 
 
 @task
+@require_env
 def create_virtualenv():
-    require('box_domain', provided_by='staging / production')
-
     with cd('%(box_domain)s'):
         run('virtualenv --python python2.7'
             ' --prompt "(venv:%(box_domain)s)" venv')
@@ -59,9 +56,8 @@ def create_virtualenv():
 
 
 @task
+@require_env
 def create_database_and_local_settings():
-    require('box_domain', provided_by='staging / production')
-
     env.box_sentry_dsn = prompt('Sentry DSN')
     env.box_oauth2_client_id = prompt('Google OAuth2 Client ID')
     env.box_oauth2_client_secret = prompt('Google OAuth2 Client Secret')
@@ -116,9 +112,8 @@ if all((
 
 
 @task
+@require_env
 def nginx_vhost_and_supervisor():
-    require('box_domain', provided_by='staging / production')
-
     run('sudo nine-manage-vhosts virtual-host create %(box_domain)s'
         ' --template=feinheit --relative-path=htdocs')
 
@@ -131,9 +126,8 @@ def nginx_vhost_and_supervisor():
 
 
 @task
+@require_env
 def create_sso_user():
-    require('box_domain', provided_by='staging / production')
-
     env.box_sso_domain = prompt('SSO Domain (leave empty to skip)', default='')
     if not env.box_sso_domain:
         puts(red('Cannot continue without a SSO Domain.'))

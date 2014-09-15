@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 import socket
 
 from fabric.api import (
-    env, execute, hide, hosts, lcd, require, run, runs_once, settings, task)
+    env, execute, hide, hosts, lcd, run, runs_once, settings, task)
 from fabric.colors import cyan, red
 from fabric.utils import abort, puts
 
-from fabfile import cd, local
+from fabfile import cd, local, require_env
 
 
 def _step(str):
@@ -94,10 +94,10 @@ def services():
 
 @task
 @runs_once
+@require_env
 def deploy():
     """Checks whether everything is ready for deployment"""
     # XXX Maybe even execute('check.ready') if deploying to production?
-    require('box_domain', provided_by='staging / production')
 
     execute('check.check')
     with cd('%(box_domain)s'):

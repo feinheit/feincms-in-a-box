@@ -6,7 +6,9 @@ from os.path import dirname, exists, join
 from subprocess import Popen, PIPE
 
 from fabric.api import env, cd, local, run, task
+from fabric.colors import red
 from fabric.contrib.console import confirm
+from fabric.utils import abort
 
 from fabfile import config
 
@@ -36,12 +38,23 @@ if env.box_staging_enabled:
     # Create a task for all environments, and use the first character as alias
     g = globals()
     for environment in env.box_environments:
-        g[environment] = task(alias=environment[0])(
-            _create_setup_task_for_env(environment))
+        t = _create_setup_task_for_env(environment)
+        g[environment] = task(aliases=(environment[0], environment))(t)
         __all__ += (environment,)
 
 else:
     _create_setup_task_for_env('production')()
+
+
+def require_env(fn):
+    @wraps(fn)
+    def _dec(*args, **kwargs):
+        if not env.get('box_domain'):  # box_domain is as good as any value
+            abort(red(
+                'Environment (one of %s) missing. "fab <env> <command>"'
+                % ', '.join(env.box_environments.keys()), bold=True))
+        return fn(*args, **kwargs)
+    return _dec
 
 
 # Fabric commands with environment interpolation ----------------------------
