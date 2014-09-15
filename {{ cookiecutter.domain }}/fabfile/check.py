@@ -44,11 +44,17 @@ def _coding_style_check(base, project_name):
 @task(default=True)
 def check():
     """Runs coding style checks, and Django's checking framework"""
+    if env.get('box_check_success'):
+        _step('Second invocation of check, skipping...')
+        return
+
     for base, project_name in env.box_check['coding_style']:
         _coding_style_check(base, project_name)
 
     _step('Invoking Django\'s systems check framework...')
     local('venv/bin/python manage.py check')
+
+    env.box_check_success = True
 
 
 @task
