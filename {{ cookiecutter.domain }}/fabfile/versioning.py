@@ -1,4 +1,4 @@
-from __future__ import print_function, unicode_literals
+from __future__ import unicode_literals
 
 import getpass
 import os
@@ -6,6 +6,7 @@ import os
 from fabric.api import env, hide, prompt, settings, task
 from fabric.colors import red
 from fabric.contrib.console import confirm
+from fabric.utils import puts
 
 from fabfile.config import local
 
@@ -23,7 +24,7 @@ def init_bitbucket():
         'Initialize repository at https://bitbucket.org/%s/%s?' % (
             organization, repository_name)):
 
-        print(red('Bitbucket repository creation aborted.'))
+        puts(red('Bitbucket repository creation aborted.'))
         return 1
 
     if username and password and organization and repository_name:

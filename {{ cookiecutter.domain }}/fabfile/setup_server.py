@@ -1,9 +1,10 @@
-from __future__ import print_function, unicode_literals
+from __future__ import unicode_literals
 
 from io import StringIO
 
 from fabric.api import env, execute, hide, prompt, put, task
 from fabric.colors import green, red
+from fabric.utils import puts
 
 from fabfile.config import local, cd, run, get_random_string
 
@@ -17,18 +18,18 @@ def init():
     execute('setup_server.nginx_vhost_and_supervisor')
     execute('deploy.styles')
     execute('setup_server.create_sso_user')
-    print(green('Visit http://%(box_domain)s.%(box_server_name)s now!' % env))
+    puts(green('Visit http://%(box_domain)s.%(box_server_name)s now!' % env))
 
 
 @task
 def clone_repository():
-    print(green('We need the repository to initialize the server.'))
+    puts(green('We need the repository to initialize the server.'))
     with hide('running'):
         output = local('git config remote.origin.url', capture=True)
     repo = prompt('Repository', default=output)
 
     if not repo:
-        print(red('Cannot continue without a repository.'))
+        puts(red('Cannot continue without a repository.'))
         return 1
 
     env.box_repository_url = repo
@@ -122,7 +123,7 @@ def nginx_vhost_and_supervisor():
 def create_sso_user():
     env.box_domain = prompt('SSO Domain (leave empty to skip)', default='')
     if not env.box_domain:
-        print(red('Cannot continue without a SSO Domain.'))
+        puts(red('Cannot continue without a SSO Domain.'))
         return 1
 
     run('psql %(box_database_name)s -c "INSERT INTO auth_user VALUES'

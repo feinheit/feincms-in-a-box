@@ -1,10 +1,11 @@
-from __future__ import print_function, unicode_literals
+from __future__ import unicode_literals
 
 import os
 import platform
 
 from fabric.api import env, execute, settings, task
 from fabric.colors import green, red
+from fabric.utils import puts
 
 from fabfile.config import confirm, local, get_random_string
 
@@ -16,7 +17,7 @@ def initial_setup():
     execute('config.check_services')
 
     if os.path.exists('venv'):
-        print(red('It seems that this project is already set up, aborting.'))
+        puts(red('It seems that this project is already set up, aborting.'))
         return 1
 
     execute('setup_local.create_virtualenv')
@@ -24,19 +25,19 @@ def initial_setup():
     execute('setup_local.create_local_settings')
     execute('setup_local.create_and_migrate_database')
 
-    print(green(
+    puts(green(
         'Initial setup has completed successfully!', bold=True))
-    print(green(
+    puts(green(
         'Next steps:'))
-    print(green(
+    puts(green(
         '- Update the README: edit README.rst'))
-    print(green(
+    puts(green(
         '- Create a superuser: venv/bin/python manage.py createsuperuser'))
-    print(green(
+    puts(green(
         '- Run the development server: fab dev'))
-    print(green(
+    puts(green(
         '- Create a Bitbucket repository: fab versioning.init_bitbucket'))
-    print(green(
+    puts(green(
         '- Configure %(box_server_name)s for this project: fab setup_server'))
 
 
@@ -45,7 +46,7 @@ def setup_with_live_data():
     """Installs all dependencies and pulls the database and mediafiles from
     the server to create an instant replica of the production environment"""
     if os.path.exists('venv'):
-        print(red('It seems that this project is already set up, aborting.'))
+        puts(red('It seems that this project is already set up, aborting.'))
         return 1
 
     execute('config.check_services')
@@ -56,13 +57,13 @@ def setup_with_live_data():
     execute('setup_local.pull_database')
     execute('setup_local.pull_mediafiles')
 
-    print(green(
+    puts(green(
         'Setup with live data has completed successfully!', bold=True))
-    print(green(
+    puts(green(
         'Next steps:'))
-    print(green(
+    puts(green(
         '- Create a superuser: venv/bin/python manage.py createsuperuser'))
-    print(green(
+    puts(green(
         '- Run the development server: fab dev'))
 
 
@@ -151,7 +152,7 @@ def pull_database():
         ' SET password=\'pbkdf2_sha256\$12000\$owbr7vjRCspg\$PAo53Cbqvek3nMqS'
         'l+V+ubIlnZQ2Vj7ZVKcPhcXqWlY=\''
         ' WHERE password=\'\'"')
-    print(green(
+    puts(green(
         'Users with empty passwords (for example SSO users) now have a'
         ' password of "password" (without quotes).'))
 

@@ -1,13 +1,14 @@
-from __future__ import print_function, unicode_literals
+from __future__ import unicode_literals
 
 from fabric.api import env, execute, hide, lcd, settings, task
 from fabric.colors import cyan
+from fabric.utils import puts
 
 from fabfile.config import local
 
 
 def _step(str):
-    print(cyan('\n%s' % str, bold=True))
+    puts(cyan('\n%s' % str, bold=True))
 
 
 def _coding_style_check(base, project_name):

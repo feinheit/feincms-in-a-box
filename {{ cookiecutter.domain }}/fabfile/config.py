@@ -1,4 +1,4 @@
-from __future__ import print_function, unicode_literals
+from __future__ import unicode_literals
 
 from functools import wraps
 import random
@@ -8,6 +8,7 @@ import socket
 from fabric.api import env, cd, local, run, task
 from fabric.colors import red
 from fabric.contrib.console import confirm
+from fabric.utils import puts
 
 
 env.box_project_name = '{{ cookiecutter.project_name }}'
@@ -57,13 +58,13 @@ def check_services():
     try:
         socket.create_connection(('localhost', 5432), timeout=0.1).close()
     except socket.error:
-        print(red('postgres does not seem to be running!'))
+        puts(red('postgres does not seem to be running!'))
         success = False
 
     try:
         socket.create_connection(('localhost', 6379), timeout=0.1).close()
     except socket.error:
-        print(red('redis does not seem to be running!'))
+        puts(red('redis does not seem to be running!'))
         success = False
 
     if not success:
