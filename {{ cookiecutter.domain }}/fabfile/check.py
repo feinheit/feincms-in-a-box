@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 
+import socket
+
 from fabric.api import env, execute, hide, lcd, settings, task
-from fabric.colors import cyan
+from fabric.colors import cyan, red
 from fabric.utils import puts
 
 from fabfile.config import local
@@ -28,9 +30,8 @@ def _coding_style_check(base, project_name):
 
         _step('Checking JavaScript code with JSHint...')
         local(
-            "jshint $(git ls-files '*.js' | grep -vE '("
-            "ckeditor/|lightbox"  # Exclude libraries from JSHint checking.
-            ")')")
+            "jshint $(git ls-files '*.js' | grep -vE '(%s)')"
+            % env.box_check['exclude_from_jshint'])
 
         with settings(warn_only=True), hide('warnings'):
             # Remind the user about uglyness, but do not fail (there are good
@@ -43,8 +44,8 @@ def _coding_style_check(base, project_name):
 @task(default=True)
 def check():
     """Runs coding style checks, and Django's checking framework"""
-    _coding_style_check('.', env.box_project_name)
-    # _coding_style_check('venv/src/???', '???')
+    for base, project_name in env.box_check['coding_style']:
+        _coding_style_check(base, project_name)
 
     _step('Invoking Django\'s systems check framework...')
     local('venv/bin/python manage.py check')
@@ -60,3 +61,25 @@ def ready():
         "! git grep -n -C3 -E '^Disallow: /$' -- 'robots.txt'")
     local(
         "! git grep -n -C3 -E 'meta.*robots.*noindex' -- %(box_project_name)s")
+
+
+@task
+def services():
+    """Checks whether required services (postgres and redis) are up and
+    running, and fails if not"""
+    success = True
+
+    try:
+        socket.create_connection(('localhost', 5432), timeout=0.1).close()
+    except socket.error:
+        puts(red('postgres does not seem to be running!'))
+        success = False
+
+    try:
+        socket.create_connection(('localhost', 6379), timeout=0.1).close()
+    except socket.error:
+        puts(red('redis does not seem to be running!'))
+        success = False
+
+    if not success:
+        raise Exception('Some required services are not available.')

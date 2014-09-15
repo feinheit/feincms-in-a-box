@@ -7,14 +7,15 @@ from fabric.api import env, execute, settings, task
 from fabric.colors import green, red
 from fabric.utils import puts
 
-from fabfile.config import confirm, local, get_random_string
+from fabfile.config import confirm, local
+from fabfile.utils import get_random_string
 
 
 @task(default=True)
 def initial_setup():
     """Initial setup of the project. Use ``setup_with_live_data`` instead if
     the project is already installed on a server"""
-    execute('config.check_services')
+    execute('check.services')
 
     if os.path.exists('venv'):
         puts(red('It seems that this project is already set up, aborting.'))
@@ -49,7 +50,7 @@ def setup_with_live_data():
         puts(red('It seems that this project is already set up, aborting.'))
         return 1
 
-    execute('config.check_services')
+    execute('check.services')
 
     execute('setup_local.create_virtualenv')
     execute('setup_local.frontend_tools')
@@ -117,7 +118,7 @@ ALLOWED_HOSTS = ['*']
 @task
 def create_and_migrate_database():
     """Creates and migrates a Postgres database"""
-    execute('config.check_services')
+    execute('check.services')
 
     local(
         'createdb %(box_database_name)s'
@@ -129,7 +130,7 @@ def create_and_migrate_database():
 def pull_database():
     """Pulls the database contents from the server, dropping the local
     database first (if it exists)"""
-    execute('config.check_services')
+    execute('check.services')
 
     if not confirm(
             'Completely replace the local database'

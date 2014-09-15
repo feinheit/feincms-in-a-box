@@ -6,7 +6,8 @@ from fabric.api import env, execute, hide, prompt, put, task
 from fabric.colors import green, red
 from fabric.utils import puts
 
-from fabfile.config import local, cd, run, get_random_string
+from fabfile.config import local, cd, run
+from fabfile.utils import get_random_string
 
 
 @task(default=True)
