@@ -122,12 +122,12 @@ def nginx_vhost_and_supervisor():
 
 @task
 def create_sso_user():
-    env.box_domain = prompt('SSO Domain (leave empty to skip)', default='')
-    if not env.box_domain:
+    env.box_sso_domain = prompt('SSO Domain (leave empty to skip)', default='')
+    if not env.box_sso_domain:
         puts(red('Cannot continue without a SSO Domain.'))
         return 1
 
     run('psql %(box_database_name)s -c "INSERT INTO auth_user VALUES'
         " (1, '', NOW(), TRUE, 'admin', '', '', '', TRUE, TRUE, NOW())\"")
     run('psql %(box_database_name)s -c "INSERT INTO admin_sso_assignment'
-        " VALUES (1, 0, '', '%(box_domain)s', FALSE, 10, 1)\"")
+        " VALUES (1, 0, '', '%(box_sso_domain)s', FALSE, 10, 1)\"")
