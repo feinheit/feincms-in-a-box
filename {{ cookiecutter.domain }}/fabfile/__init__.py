@@ -23,29 +23,25 @@ __all__ = (
 
 
 # Production vs staging -----------------------------------------------------
-def production():
-    """Configures the environment for deploying or initializing production"""
-    env.box_domain = env.box_domain_production
-    env.box_env = 'production'
-    config.derive_env_from_domain()
+
+def _create_setup_task_for_env(environment):
+    def _setup():
+        for key, value in env.box_environments[environment].items():
+            env['box_%s' % key] = value
+        config.derive_env_from_domain()
+    return _setup
 
 
-def staging():
-    """Configures the environment for deploying or initializing staging"""
-    env.box_domain = env.box_domain_staging
-    env.box_env = 'staging'
-    config.derive_env_from_domain()
+if env.box_staging_enabled:
+    # Create a task for all environments, and use the first character as alias
+    g = globals()
+    for environment in env.box_environments:
+        g[environment] = task(alias=environment[0])(
+            _create_setup_task_for_env(environment))
+        __all__ += (environment,)
 
-
-if config.env.box_staging_enabled:
-    production = task(alias='p')(production)
-    staging = task(alias='s')(staging)
-    __all__ += (
-        'production',
-        'staging',
-    )
 else:
-    production()
+    _create_setup_task_for_env('production')()
 
 
 # Fabric commands with environment interpolation ----------------------------

@@ -57,7 +57,7 @@ def code():
     """Deploys the currently committed project state to the server, if there
     are no uncommitted changes on the server and the checking step did not
     report any problems"""
-    require('box_domain', provided_by='staging / production')
+    require('box_domain', 'box_branch', provided_by='staging / production')
 
     execute('check.deploy')
     local('git push origin %(box_branch)s')

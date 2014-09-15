@@ -54,11 +54,14 @@ def add_remote():
     require('box_domain', provided_by='staging / production')
 
     with settings(warn_only=True):
-        local('git remote add -f %(box_env)s %(box_server)s:%(box_domain)s/')
+        local(
+            'git remote add -f %(box_remote)s %(box_server)s:%(box_domain)s/')
 
 
 @task
 @hosts('')
 def fetch_remote():
+    require('box_remote', provided_by='staging / production')
+
     with settings(warn_only=True):
-        local('git fetch %(box_env)s')
+        local('git fetch %(box_remote)s')
