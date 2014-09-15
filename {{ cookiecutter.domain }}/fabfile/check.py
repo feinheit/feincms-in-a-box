@@ -44,6 +44,8 @@ def check():
     """Runs coding style checks, and Django's checking framework"""
     _coding_style_check('.', env.box_project_name)
     # _coding_style_check('venv/src/???', '???')
+
+    _step('Invoking Django\'s systems check framework...')
     local('venv/bin/python manage.py check')
 
 
