@@ -24,7 +24,7 @@ def _coding_style_check(base, project_name):
         with settings(warn_only=True):
             # Remind the user about uglyness, but do not fail (there are good
             # reasons to use the patterns warned about here).
-            local("! git grep -n -E '#.*noqa' -- '*.py'")
+            local("! git grep -n -E '#.*noqa' -- '%s/*.py'" % project_name)
 
 
 @task(default=True)
