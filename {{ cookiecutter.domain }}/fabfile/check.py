@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 import socket
 
 from fabric.api import (
-    env, execute, hide, hosts, lcd, runs_once, settings, task)
+    env, execute, hide, hosts, lcd, require, run, runs_once, settings, task)
 from fabric.colors import cyan, red
-from fabric.utils import puts
+from fabric.utils import abort, puts
 
-from fabfile.config import local
+from fabfile.config import cd, local
 
 
 def _step(str):
@@ -90,3 +90,17 @@ def services():
 
     if not success:
         raise Exception('Some required services are not available.')
+
+
+@task
+@runs_once
+def deploy():
+    """Checks whether everything is ready for deployment"""
+    # XXX Maybe even execute('check.ready') if deploying to production?
+    require('box_domain', provided_by='staging / production')
+
+    execute('check.check')
+    with cd('%(box_domain)s'):
+        result = run('git status --porcelain')
+        if result:
+            abort(red('Uncommitted changes detected, aborting deployment.'))

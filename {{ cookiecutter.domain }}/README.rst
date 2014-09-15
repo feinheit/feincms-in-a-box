@@ -84,7 +84,7 @@ Useful commands:
 - ``fab setup_local``:
   Create a new local development environment. Installs all dependencies.
 
-- ``fab setup_local.setup_with_live_data``:
+- ``fab setup_local.setup_with_production_data``:
   Create the local development environment and pull down the database and all
   mediafiles from the server. The services redis and postgres have to be
   running already.

@@ -4,7 +4,22 @@ from os import chmod
 from os.path import dirname, exists, join
 from subprocess import Popen, PIPE
 
-from fabfile import check, config, dev, deploy, setup_local, setup_server, versioning  # noqa
+from fabfile import (
+    check, config, dev, deploy, setup_local, setup_server, versioning)
+from fabfile.utils import production, staging
+
+
+__all__ = (
+    'check',
+    'config',
+    'dev',
+    'deploy',
+    'setup_local',
+    'setup_server',
+    'versioning',
+    'production',
+    'staging',
+)
 
 
 def ensure_pre_commit_hook_installed():

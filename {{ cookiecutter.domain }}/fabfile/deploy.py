@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import os
 
-from fabric.api import env, execute, task
+from fabric.api import env, execute, require, task
 from fabric.colors import red
 from fabric.utils import abort
 
@@ -13,6 +13,8 @@ from fabfile.config import local, cd, run
 def deploy():
     """Deploys frontend and backend code to the server if the checking step
     did not report any problems"""
+    require('box_domain', provided_by='staging / production')
+
     execute('check')
     execute('deploy.styles')
     execute('deploy.code')
@@ -37,6 +39,8 @@ def _deploy_styles_foundation4_bundler():
 @task
 def styles():
     """Compiles and compresses the CSS and deploys it to the server"""
+    require('box_domain', provided_by='staging / production')
+
     if os.path.exists('%(box_sass)s/bower.json' % env):
         _deploy_styles_foundation5_grunt()
     elif os.path.exists('%(box_sass)s/config.rb' % env):
@@ -53,21 +57,18 @@ def code():
     """Deploys the currently committed project state to the server, if there
     are no uncommitted changes on the server and the checking step did not
     report any problems"""
-    with cd('%(box_domain)s'):
-        result = run('git status --porcelain')
-        if result:
-            abort(red('Uncommitted changes detected, aborting deployment.'))
+    require('box_domain', provided_by='staging / production')
 
-    execute('check')
+    execute('check.deploy')
     local('git push origin %(box_branch)s')
     with cd('%(box_domain)s'):
         run('git fetch')
         run('git reset --hard origin/%(box_branch)s')
         run('find . -name "*.pyc" -delete')
-        run('venv/bin/pip install -r requirements/live.txt'
+        run('venv/bin/pip install -r requirements/production.txt'
             ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
         run('venv/bin/python manage.py migrate --noinput')
         run('venv/bin/python manage.py collectstatic --noinput')
         run('sctl restart %(box_domain)s:*')
 
-    execute('versioning.fetch_live_remote')
+    execute('versioning.fetch_remote')

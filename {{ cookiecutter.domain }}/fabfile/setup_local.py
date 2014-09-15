@@ -14,8 +14,8 @@ from fabfile.utils import get_random_string
 @task(default=True)
 @hosts('')
 def initial_setup():
-    """Initial setup of the project. Use ``setup_with_live_data`` instead if
-    the project is already installed on a server"""
+    """Initial setup of the project. Use ``setup_with_production_data`` instead
+    if the project is already installed on a server"""
     execute('check.services')
 
     if os.path.exists('venv'):
@@ -44,7 +44,7 @@ def initial_setup():
 
 
 @task
-def setup_with_live_data():
+def setup_with_production_data():
     """Installs all dependencies and pulls the database and mediafiles from
     the server to create an instant replica of the production environment"""
     if os.path.exists('venv'):
@@ -60,7 +60,7 @@ def setup_with_live_data():
     execute('setup_local.pull_mediafiles')
 
     puts(green(
-        'Setup with live data has completed successfully!', bold=True))
+        'Setup with production data has completed successfully!', bold=True))
     puts(green(
         'Next steps:'))
     puts(green(

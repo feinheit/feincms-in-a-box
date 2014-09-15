@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import getpass
 import os
 
-from fabric.api import env, hide, hosts, prompt, settings, task
+from fabric.api import env, hide, hosts, prompt, require, settings, task
 from fabric.colors import red
 from fabric.contrib.console import confirm
 from fabric.utils import puts
@@ -50,13 +50,15 @@ def init_bitbucket():
 
 @task
 @hosts('')
-def add_live_remote():
+def add_remote():
+    require('box_domain', provided_by='staging / production')
+
     with settings(warn_only=True):
-        local('git remote add -f live %(box_server)s:%(box_domain)s/')
+        local('git remote add -f %(box_env)s %(box_server)s:%(box_domain)s/')
 
 
 @task
 @hosts('')
-def fetch_live_remote():
+def fetch_remote():
     with settings(warn_only=True):
-        local('git fetch live')
+        local('git fetch %(box_env)s')
