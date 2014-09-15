@@ -1,6 +1,6 @@
 from __future__ import print_function, unicode_literals
 
-from fabric.api import env, lcd, task
+from fabric.api import env, execute, lcd, task
 
 from fabfile.config import local
 
@@ -38,6 +38,8 @@ def check():
 @task
 def ready():
     """Check whether this project is ready for production"""
+    execute('check.check')
+
     local("! git grep -n -C3 -E '^Disallow: /$' -- 'robots.txt'")
     with lcd(env.box_project_name):
         local("! git grep -n -C3 -E 'meta.*robots.*noindex'")
