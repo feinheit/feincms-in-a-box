@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import re
 import socket
 
 from fabric.api import (
@@ -55,10 +56,10 @@ def check():
 
 
 @task
-@hosts('')
 @runs_once
-def ready():
-    """Check whether this project is ready for production"""
+@require_env
+def primetime():
+    """Check whether this project is ready for prime time"""
     execute('check.check')
 
     _step('"noindex" should not hit production servers...')
@@ -66,6 +67,51 @@ def ready():
         "! git grep -n -C3 -E '^Disallow: /$' -- 'robots.txt'")
     local(
         "! git grep -n -C3 -E 'meta.*robots.*noindex' -- %(box_project_name)s")
+
+    _step('Check local settings on server...')
+    with cd('%(box_domain)s'):
+        output = run(
+            "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings"
+            " venv/bin/python -c \""
+            "from django.conf import settings as s;"
+            "print('fd:%%s\\ndsn:%%s\\nsso:%%s\\ndebug:%%s\\nsk:%%s' %% ("
+            "getattr(s, 'FORCE_DOMAIN', '-'),"
+            "getattr(s, 'RAVEN_CONFIG', {}).get('dsn', ''),"
+            "bool(getattr(s, 'DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON', False)),"
+            "bool(s.DEBUG),"
+            "s.SECRET_KEY,"
+            "))\"" % env, quiet=True).strip()
+
+        output = dict(
+            row.strip().split(':', 1) for row in re.split(r'[\r\n]+', output))
+
+        if output['fd'] == '':
+            puts(red('Warning: FORCE_DOMAIN is empty.'))
+        elif output['fd'] == '-':
+            puts(red('Warning: FORCE_DOMAIN is not defined.'))
+
+        if output['dsn'] == '':
+            puts(red(
+                'Warning: Sentry is not configured, fill in RAVEN_CONFIG.'))
+
+        if output['sso'] != 'True':
+            puts(red(
+                'Warning: SSO authentication for the administration is not'
+                ' configured.'))
+
+        if output['debug'] == 'True':
+            puts(red(
+                'DEBUG = True!?', bold=True))
+
+        with settings(warn_only=True), hide('everything'):
+            gitgrep = local("! git grep '%s'" % output['sk'], capture=True)
+            grep = local("! grep '%s' */*.py" % output['sk'], capture=True)
+        if gitgrep or grep:
+            puts(red(
+                'The remote value of SECRET_KEY also exists in local'
+                ' files. Set a new value for SECRET_KEY in'
+                ' %(box_project_name)s/local_settings.py on the server!'
+                % env, bold=True))
 
 
 @task
