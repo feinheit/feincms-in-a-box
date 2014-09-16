@@ -5,23 +5,27 @@ import re
 from fabric.api import env
 
 
-env.box_staging_enabled = False
 env.box_project_name = '{{ cookiecutter.project_name }}'
 
 env.box_environments = {
     'production': {
+        'shortcut': 'p',
         'domain': '{{ cookiecutter.domain }}',
         'branch': 'master',
         'server': '{{ cookiecutter.server }}',
         'remote': 'production',
     },
     'staging': {
+        'shortcut': 's',
         'domain': 'stage.{{ cookiecutter.domain }}',
         'branch': 'master',
         'server': '{{ cookiecutter.server }}',
         'remote': 'staging',
     },
 }
+
+# Remove this for multi-env support
+env.box_hardwired_environment = 'production'
 
 env.box_check = {
     'coding_style': [

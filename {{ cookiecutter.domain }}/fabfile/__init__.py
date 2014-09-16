@@ -24,32 +24,38 @@ __all__ = (
 )
 
 
-# Production vs staging -----------------------------------------------------
+# Multi-env support ---------------------------------------------------------
 
 def _create_setup_task_for_env(environment):
     def _setup():
         for key, value in env.box_environments[environment].items():
             env['box_%s' % key] = value
         config.derive_env_from_domain()
+    _setup.__name__ = str(environment)
+    _setup.__doc__ = 'Set environment to %s' % environment
     return _setup
 
 
-if env.box_staging_enabled:
+if env.get('box_hardwired_environment'):
+    _create_setup_task_for_env(env.box_hardwired_environment)()
+
+else:
     # Create a task for all environments, and use the first character as alias
     g = globals()
     for environment in env.box_environments:
         t = _create_setup_task_for_env(environment)
-        g[environment] = task(aliases=(environment[0], environment))(t)
+        shortcut = env.box_environments[environment].get('shortcut')
+        aliases = (shortcut,) if shortcut else ()
+        g[environment] = task(aliases=aliases)(t)
         __all__ += (environment,)
-
-else:
-    _create_setup_task_for_env('production')()
 
 
 def require_env(fn):
     @wraps(fn)
     def _dec(*args, **kwargs):
-        if not env.get('box_domain'):  # box_domain is as good as any value
+        # box_domain is as good as any value being set from the
+        # environment dictionary
+        if not env.get('box_domain'):
             abort(red(
                 'Environment (one of %s) missing. "fab <env> <command>"'
                 % ', '.join(env.box_environments.keys()), bold=True))
