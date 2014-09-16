@@ -101,6 +101,7 @@ def deploy():
 
     execute('check.check')
     with cd('%(box_domain)s'):
+        _step('\nChecking for uncommitted changes on the server...')
         result = run('git status --porcelain')
         if result:
             abort(red('Uncommitted changes detected, aborting deployment.'))
