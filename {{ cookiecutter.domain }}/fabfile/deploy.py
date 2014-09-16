@@ -14,7 +14,7 @@ from fabfile import local, cd, require_env, run
 def deploy():
     """Deploys frontend and backend code to the server if the checking step
     did not report any problems"""
-    execute('check')
+    execute('check.deploy')
     execute('deploy.styles')
     execute('deploy.code')
 
