@@ -68,7 +68,7 @@ def primetime():
     local(
         "! git grep -n -C3 -E 'meta.*robots.*noindex' -- %(box_project_name)s")
 
-    _step('Check local settings on server...')
+    _step('Checking local settings on server...')
     with cd('%(box_domain)s'):
         output = run(
             "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings"
@@ -101,14 +101,14 @@ def primetime():
 
         if output['debug'] == 'True':
             puts(red(
-                'DEBUG = True!?', bold=True))
+                'Error: DEBUG = True!?', bold=True))
 
         with settings(warn_only=True), hide('everything'):
             gitgrep = local("! git grep '%s'" % output['sk'], capture=True)
             grep = local("! grep '%s' */*.py" % output['sk'], capture=True)
         if gitgrep or grep:
             puts(red(
-                'The remote value of SECRET_KEY also exists in local'
+                'Error: The remote value of SECRET_KEY also exists in local'
                 ' files. Set a new value for SECRET_KEY in'
                 ' %(box_project_name)s/local_settings.py on the server!'
                 % env, bold=True))
