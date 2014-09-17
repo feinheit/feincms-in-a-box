@@ -18,7 +18,7 @@ env.box_environments = {
     'staging': {
         'shortcut': 's',
         'domain': 'stage.{{ cookiecutter.domain }}',
-        'branch': 'master',
+        'branch': 'staging',
         'server': '{{ cookiecutter.server }}',
         'remote': 'staging',
     },
