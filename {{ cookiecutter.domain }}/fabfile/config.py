@@ -11,14 +11,14 @@ env.box_environments = {
     'production': {
         'shortcut': 'p',
         'domain': '{{ cookiecutter.domain }}',
-        'branch': 'master',
+        'branch': 'master',  # Change to 'maint' when staging?
         'server': '{{ cookiecutter.server }}',
         'remote': 'production',
     },
     'staging': {
         'shortcut': 's',
         'domain': 'stage.{{ cookiecutter.domain }}',
-        'branch': 'staging',
+        'branch': 'master',
         'server': '{{ cookiecutter.server }}',
         'remote': 'staging',
     },
