@@ -11,6 +11,10 @@ class MediaFileFactory(factory.DjangoModelFactory):
         model = MediaFile
 
 
+class ImageMediaFileFactory(MediaFileFactory):
+    file = factory.django.ImageField(filename='hello.jpg')
+
+
 class PageFactory(factory.DjangoModelFactory):
     class Meta:
         model = Page
