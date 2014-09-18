@@ -1,0 +1,17 @@
+{
+  "name": "{{ cookiecutter.domain }}",
+  "description": "{{ cookiecutter.nice_name }}",
+  "version": "0.0.1",
+  "authors": [
+    "Feinheit <dev@feinheit.ch>"
+  ],
+  "private": true,
+  "dependencies": {
+    "fastclick": ">=0.6.11",
+    "foundation": "5.4.2",
+    "jquery.browser": "~0.0.6",
+    "lightbox2": "~2.7.1",
+    "uploadify": "~3.2.1",
+    "ckeditor": "~4.4.4"
+  }
+}

@@ -31,7 +31,9 @@ def dev():
         lambda: local('venv/bin/python -Wall manage.py runserver'),
     ]
 
-    if os.path.exists('%(box_sass)s/bower.json' % env):
+    if os.path.exists('gulpfile.js'):
+        jobs.append(lambda: local('./node_modules/.bin/gulp'))
+    elif os.path.exists('%(box_sass)s/Gruntfile.js' % env):
         jobs.append(lambda: local('cd %(box_sass)s && grunt'))
     elif os.path.exists('%(box_sass)s/config.rb' % env):
         jobs.append(lambda: local('bundle exec compass watch %(box_sass)s'))

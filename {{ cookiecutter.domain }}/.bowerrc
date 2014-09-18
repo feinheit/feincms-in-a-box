@@ -1,0 +1,3 @@
+{
+  "directory": "{{ cookiecutter.project_name }}/static/{{ cookiecutter.project_name }}/bower_components"
+}

@@ -19,6 +19,14 @@ def deploy():
     execute('deploy.code')
 
 
+def _deploy_styles_foundation5_gulp():
+    local('./node_modules/.bin/gulp build')
+    for part in ['bower_components', 'build']:
+        local(
+            'rsync -avz %%(box_sass)s/%s'
+            ' %%(box_server)s:%%(box_domain)s/%%(box_sass)s/' % part)
+
+
 def _deploy_styles_foundation5_grunt():
     local('cd %(box_sass)s && grunt build')
     for part in ['bower_components', 'css']:
@@ -39,7 +47,9 @@ def _deploy_styles_foundation4_bundler():
 @require_env
 def styles():
     """Compiles and compresses the CSS and deploys it to the server"""
-    if os.path.exists('%(box_sass)s/bower.json' % env):
+    if os.path.exists('gulpfile.js'):
+        _deploy_styles_foundation5_gulp()
+    elif os.path.exists('%(box_sass)s/Gulpfile.js' % env):
         _deploy_styles_foundation5_grunt()
     elif os.path.exists('%(box_sass)s/config.rb' % env):
         _deploy_styles_foundation4_bundler()

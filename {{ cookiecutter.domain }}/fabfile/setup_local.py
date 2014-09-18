@@ -90,7 +90,10 @@ def create_virtualenv():
 @hosts('')
 def frontend_tools():
     """Installs frontend tools. Knows how to handle npm/bower and bundler"""
-    if os.path.exists('%(box_sass)s/bower.json' % env):
+    if os.path.exists('bower.json'):
+        local('npm install')
+        local('bower install')
+    elif os.path.exists('%(box_sass)s/bower.json' % env):
         local('cd %(box_sass)s && npm install')
         local('cd %(box_sass)s && bower install')
     elif os.path.exists('%(box_sass)s/config.rb' % env):

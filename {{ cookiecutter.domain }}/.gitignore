@@ -1,14 +1,18 @@
-*.py?
+*.pyc
 *~
 .*.sw*
 .DS_Store
-.sass-cache
 /data.db
+/dump.rdb
 /log
 /media
 /{{ cookiecutter.project_name }}/local_settings.py
 /static
 /tmp
+/vendor
 /venv
 \#*#
 stylesheets
+node_modules
+bower_components
+{{ cookiecutter.project_name }}/static/{{ cookiecutter.project_name }}/build

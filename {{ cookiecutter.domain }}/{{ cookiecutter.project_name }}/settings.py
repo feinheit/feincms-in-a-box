@@ -141,7 +141,10 @@ MIGRATION_MODULES = dict((app, '{{ cookiecutter.project_name }}.migrate.%s' % ap
 
 FEINCMS_RICHTEXT_INIT_TEMPLATE = 'admin/content/richtext/init_ckeditor.html'
 FEINCMS_RICHTEXT_INIT_CONTEXT = {
-    'CKEDITOR_JS_URL': '/static/ckeditor/ckeditor.js',
+    'CKEDITOR_JS_URL': (
+        '%s{{ cookiecutter.project_name }}/'
+        'bower_components/ckeditor/ckeditor.js' % STATIC_URL,
+    )
 }
 
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = ''
