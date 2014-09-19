@@ -27,16 +27,6 @@ env.box_environments = {
 # Remove this for multi-env support
 env.box_hardwired_environment = 'production'
 
-env.box_check = {
-    'coding_style': [
-        ('.', env.box_project_name),
-        # ('venv/src/???', '???'),
-    ],
-    'exclude_from_jshint': (
-        'ckeditor/|lightbox'
-    ),
-}
-
 
 def derive_env_from_domain():
     env.update({

@@ -19,7 +19,7 @@ gulp.task('jshint', function() {
 });
 
 // Sass
-gulp.task('sass', function() {
+gulp.task('css', function() {
   gulp.src([
     base + 'scss/app.scss',
     base + 'bower_components/lightbox2/css/lightbox.css'
@@ -38,7 +38,7 @@ gulp.task('sass', function() {
 });
 
 // Uglify
-gulp.task('uglify', function() {
+gulp.task('js', function() {
   gulp.src([
     base + 'js/*.js',
     base + 'bower_components/lightbox2/js/lightbox.js'
@@ -51,11 +51,11 @@ gulp.task('uglify', function() {
 
 // Watch
 gulp.task('watch', function(event) {
-  gulp.watch(base + 'scss/*.scss', ['sass']);
-  gulp.watch(base + 'js/*.js', ['uglify']);
+  gulp.watch(base + 'scss/*.scss', ['css']);
+  gulp.watch(base + 'js/*.js', ['js']);
 });
 
 // Build
-gulp.task('build', ['sass', 'uglify']);
-
+gulp.task('build', ['css', 'js']);
+gulp.task('check', ['jshint']);
 gulp.task('default', ['watch']);
