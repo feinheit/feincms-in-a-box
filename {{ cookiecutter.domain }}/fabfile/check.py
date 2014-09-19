@@ -5,14 +5,10 @@ import socket
 
 from fabric.api import (
     env, execute, hide, hosts, run, runs_once, settings, task)
-from fabric.colors import cyan, red
+from fabric.colors import red
 from fabric.utils import abort, puts
 
-from fabfile import cd, local, require_env
-
-
-def _step(str):
-    puts(cyan('\n%s' % str, bold=True))
+from fabfile import cd, local, require_env, step
 
 
 @task(default=True)
@@ -20,26 +16,26 @@ def _step(str):
 @runs_once
 def check():
     """Runs coding style checks, and Django's checking framework"""
-    _step('Searching for debugging statements...')
+    step('Searching for debugging statements...')
     local("! git grep -n -C3 -E 'import i?pdb' -- '*.py'")
     local("! git grep -n -C3 -E 'console\.log' -- '*.html' '*.js'")
     local(
         "! git grep -n -C3 -E '(^| )print( |\(|$)'"
         " -- '%(box_project_name)s/*py'")
 
-    _step('Checking Python code with flake8...')
+    step('Checking Python code with flake8...')
     local('flake8 .')
 
-    _step('Checking frontend code...')
+    step('Checking frontend code...')
     local('./node_modules/.bin/gulp check')
 
-    _step('Invoking Django\'s systems check framework...')
+    step('Invoking Django\'s systems check framework...')
     local('venv/bin/python manage.py check')
 
     with settings(warn_only=True), hide('warnings'):
         # Remind the user about uglyness, but do not fail (there are good
         # reasons to use the patterns warned about here).
-        _step('Pointing to potential tasks...')
+        step('Pointing to potential tasks...')
         local("! git grep -n -E '#.*noqa' -- '%(box_project_name)s/*.py'")
         local("! git grep -n -E '(XXX|FIXME|TODO)'")
 
@@ -51,13 +47,13 @@ def primetime():
     """Check whether this project is ready for prime time"""
     execute('check.check')
 
-    _step('"noindex" should not hit production servers...')
+    step('"noindex" should not hit production servers...')
     local(
         "! git grep -n -C3 -E '^Disallow: /$' -- 'robots.txt'")
     local(
         "! git grep -n -C3 -E 'meta.*robots.*noindex' -- %(box_project_name)s")
 
-    _step('Checking local settings on server...')
+    step('Checking local settings on server...')
     with cd('%(box_domain)s'):
         output = run(
             "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings"
@@ -132,11 +128,13 @@ def services():
 @require_env
 def deploy():
     """Checks whether everything is ready for deployment"""
-    # XXX Maybe even execute('check.ready') if deploying to production?
 
+    execute('check.check')
     execute('check.test')
+    # XXX Maybe even execute('check.primetime') if deploying to production?
+
     with cd('%(box_domain)s'):
-        _step('\nChecking for uncommitted changes on the server...')
+        step('\nChecking for uncommitted changes on the server...')
         result = run('git status --porcelain')
         if result:
             abort(red('Uncommitted changes detected, aborting deployment.'))
@@ -152,11 +150,12 @@ def test():
 @task
 @hosts('')
 def test_backend():
+    step('Running backend testsuite...')
     local('venv/bin/python manage.py test')
 
 
 @task
 @hosts('')
 def test_frontend():
+    step('Running frontend testsuite...')
     # local('./node_modules/.bin/gulp test')
-    pass

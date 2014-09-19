@@ -6,7 +6,7 @@ from fabric.api import env, execute, task
 from fabric.colors import red
 from fabric.utils import abort
 
-from fabfile import local, cd, require_env, run
+from fabfile import local, cd, require_env, run, step
 
 
 @task(default=True)
@@ -47,6 +47,8 @@ def _deploy_styles_foundation4_bundler():
 @require_env
 def styles():
     """Compiles and compresses the CSS and deploys it to the server"""
+    step('\nBuilding and deploying assets...')
+
     if os.path.exists('gulpfile.js'):
         _deploy_styles_foundation5_gulp()
     elif os.path.exists('%(box_sass)s/Gulpfile.js' % env):
@@ -67,7 +69,13 @@ def code():
     are no uncommitted changes on the server and the checking step did not
     report any problems"""
     execute('check.deploy')
+
+    # XXX Maybe abort deployment if branch-to-be-deployed is not checked out?
+
+    step('\nPushing changes...')
     local('git push origin %(box_branch)s')
+
+    step('\nDeploying new code on server...')
     with cd('%(box_domain)s'):
         run('git fetch')
         run('git reset --hard origin/%(box_branch)s')

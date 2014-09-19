@@ -8,7 +8,7 @@ from fabric.colors import red
 from fabric.contrib.console import confirm
 from fabric.utils import puts
 
-from fabfile import local, require_env
+from fabfile import local, require_env, step
 
 
 @task
@@ -61,5 +61,6 @@ def add_remote():
 @hosts('')
 @require_env
 def fetch_remote():
+    step('Updating git remote...')
     with settings(warn_only=True):
         local('git fetch %(box_remote)s')

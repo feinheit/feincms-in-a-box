@@ -6,9 +6,9 @@ from os.path import dirname, exists, join
 from subprocess import Popen, PIPE
 
 from fabric.api import env, cd, local, run, task
-from fabric.colors import red
+from fabric.colors import cyan, red
 from fabric.contrib.console import confirm
-from fabric.utils import abort
+from fabric.utils import abort, puts
 
 from fabfile import config
 
@@ -64,6 +64,7 @@ def require_env(fn):
 
 
 # Fabric commands with environment interpolation ----------------------------
+
 def interpolate_with_env(fn):
     """Wrapper which extends a few Fabric API commands to fill in values from
     Fabric's environment dictionary"""
@@ -79,7 +80,14 @@ run = interpolate_with_env(run)
 confirm = interpolate_with_env(confirm)
 
 
+# Progress ------------------------------------------------------------------
+
+def step(str):
+    puts(cyan('\n%s' % str, bold=True))
+
+
 # Git pre-commit hook which always runs "fab check" -------------------------
+
 def ensure_pre_commit_hook_installed():
     """
     Ensures that ``git commit`` fails if ``fab check`` returns any errors.
