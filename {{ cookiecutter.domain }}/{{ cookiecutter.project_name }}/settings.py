@@ -212,6 +212,7 @@ LOGGING = {
             'class': 'raven.contrib.django.handlers.SentryHandler',
             'filters': [
                 'require_debug_false',
+                # XXX You might want to skip unreadable post error reports.
                 # 'skip_unreadable_post_error',
             ],
         },
