@@ -1,6 +1,6 @@
 // Gulp
 var gulp = require('gulp');
-var base = './naturnetz/static/naturnetz/';
+var base = './{{ cookiecutter.project_name }}/static/{{ cookiecutter.project_name }}/';
 
 // Plugins
 var jshint = require('gulp-jshint');
