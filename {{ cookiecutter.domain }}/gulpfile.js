@@ -4,18 +4,25 @@ var base = './naturnetz/static/naturnetz/';
 
 // Plugins
 var jshint = require('gulp-jshint');
+var scsslint = require('gulp-scss-lint');
 var sass = require('gulp-sass');
 var prefixer = require('gulp-autoprefixer');
 var minifycss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
+var rename = require('gulp-rename');
 
-// JS hint task
+// Style checking
 gulp.task('jshint', function() {
   gulp.src(base + 'js/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'));
+});
+gulp.task('scss-lint', function() {
+  gulp.src(base + 'scss/*.scss')
+    .pipe(scsslint())
+    .pipe(scsslint.failReporter());
 });
 
 // Sass
@@ -57,5 +64,5 @@ gulp.task('watch', function(event) {
 
 // Build
 gulp.task('build', ['css', 'js']);
-gulp.task('check', ['jshint']);
+gulp.task('check', ['jshint', 'scss-lint']);
 gulp.task('default', ['watch']);

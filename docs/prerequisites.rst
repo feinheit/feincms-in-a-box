@@ -87,6 +87,14 @@ gulp_ is recommended, but not strictly required::
     npm install -g gulp
 
 
+Ruby-based command line tools
+=============================
+
+Install scss-lint_ to check SCSS code for style violations::
+
+    gem install scss-lint
+
+
 .. _PostgreSQL: http://www.postgresql.org/
 .. _Homebrew: http://brew.sh/
 .. _Python: https://www.python.org/
@@ -96,3 +104,4 @@ gulp_ is recommended, but not strictly required::
 .. _pipsi: https://github.com/mitsuhiko/pipsi
 .. _npm: https://www.npmjs.org/
 .. _gulp: http://gulpjs.com/
+.. _scss-lint: https://github.com/causes/scss-lint
