@@ -12,3 +12,7 @@ indent_size = 4
 # HTML: 2 spaces
 [*.html]
 indent_size = 2
+
+# SCSS: 2 spaces according to scss-lint
+[*.scss]
+indent_size = 2
