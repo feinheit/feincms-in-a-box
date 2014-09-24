@@ -7,17 +7,16 @@ from fabric.api import env, execute, hosts, settings, task
 from fabric.colors import green, red
 from fabric.utils import puts
 
-from fabfile import confirm, local
+from fabfile import confirm, local, require_services
 from fabfile.utils import get_random_string
 
 
 @task(default=True)
 @hosts('')
+@require_services
 def initial_setup():
     """Initial setup of the project. Use ``setup_with_production_data`` instead
     if the project is already installed on a server"""
-    execute('check.services')
-
     if os.path.exists('venv'):
         puts(red('It seems that this project is already set up, aborting.'))
         return 1
@@ -44,14 +43,13 @@ def initial_setup():
 
 
 @task
+@require_services
 def setup_with_production_data():
     """Installs all dependencies and pulls the database and mediafiles from
     the server to create an instant replica of the production environment"""
     if os.path.exists('venv'):
         puts(red('It seems that this project is already set up, aborting.'))
         return 1
-
-    execute('check.services')
 
     execute('setup_local.create_virtualenv')
     execute('setup_local.frontend_tools')
@@ -124,10 +122,9 @@ ALLOWED_HOSTS = ['*']
 
 @task
 @hosts('')
+@require_services
 def create_and_migrate_database():
     """Creates and migrates a Postgres database"""
-    execute('check.services')
-
     local(
         'createdb %(box_database_name)s'
         ' --encoding=UTF8 --template=template0')
@@ -135,10 +132,10 @@ def create_and_migrate_database():
 
 
 @task
+@require_services
 def pull_database():
     """Pulls the database contents from the server, dropping the local
     database first (if it exists)"""
-    execute('check.services')
 
     if not confirm(
             'Completely replace the local database'

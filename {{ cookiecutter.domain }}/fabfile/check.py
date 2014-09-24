@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 import re
-import socket
 
 from fabric.api import (
     env, execute, hide, hosts, run, runs_once, settings, task)
@@ -97,30 +96,6 @@ def primetime():
                 ' files. Set a new value for SECRET_KEY in'
                 ' %(box_project_name)s/local_settings.py on the server!'
                 % env, bold=True))
-
-
-@task
-@hosts('')
-@runs_once
-def services():
-    """Checks whether required services (postgres and redis) are up and
-    running, and fails if not"""
-    success = True
-
-    try:
-        socket.create_connection(('localhost', 5432), timeout=0.1).close()
-    except socket.error:
-        puts(red('postgres does not seem to be running!'))
-        success = False
-
-    try:
-        socket.create_connection(('localhost', 6379), timeout=0.1).close()
-    except socket.error:
-        puts(red('redis does not seem to be running!'))
-        success = False
-
-    if not success:
-        raise Exception('Some required services are not available.')
 
 
 @task

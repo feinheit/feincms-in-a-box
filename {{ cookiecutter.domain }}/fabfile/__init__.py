@@ -1,9 +1,11 @@
 from __future__ import unicode_literals
 
 from functools import wraps
-from os import chmod
+from os import chmod, mkdir
 from os.path import dirname, exists, join
-from subprocess import Popen, PIPE
+import socket
+from subprocess import Popen, PIPE, call
+import time
 
 from fabric.api import env, cd, local, run, task
 from fabric.colors import cyan, red
@@ -59,6 +61,37 @@ def require_env(fn):
             abort(red(
                 'Environment (one of %s) missing. "fab <env> <command>"'
                 % ', '.join(env.box_environments.keys()), bold=True))
+        return fn(*args, **kwargs)
+    return _dec
+
+
+def require_services(fn):
+    def _service(port, executable, delay):
+        if not exists('tmp'):
+            mkdir('tmp')
+
+        try:
+            socket.create_connection(
+                ('localhost', port),
+                timeout=0.1).close()
+        except socket.error:
+            step('Launching %s in the background...' % executable)
+            call('%(executable)s &> tmp/%(executable)s.log &' % {
+                'executable': executable,
+            }, shell=True)
+            time.sleep(delay)
+
+            try:
+                socket.create_connection(
+                    ('localhost', port),
+                    timeout=0.1).close()
+            except socket.error:
+                abort(red('Unable to start %s!' % executable, bold=True))
+
+    @wraps(fn)
+    def _dec(*args, **kwargs):
+        _service(5432, 'postgres', 0.5)
+        _service(6379, 'redis-server', 0.1)
         return fn(*args, **kwargs)
     return _dec
 
