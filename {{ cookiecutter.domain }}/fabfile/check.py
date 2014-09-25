@@ -43,8 +43,8 @@ def check():
         local("! git grep -n -E '#.*noqa' -- '%(box_project_name)s/*.py'")
         local("! git grep -n -E '(XXX|FIXME|TODO)'")
         complain_on_failure(
-            local("! git grep -n -E '^-e[^@]*$' -- requirements/"),
-            'Warning: Editable and unpinned requirements found!')
+            local("! git grep -n -E '^-e.+$' -- requirements/"),
+            'Warning: Editable requirements found. Releases are preferred!')
 
 
 @task
