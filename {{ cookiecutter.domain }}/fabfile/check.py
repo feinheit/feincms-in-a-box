@@ -10,6 +10,11 @@ from fabric.utils import abort, puts
 from fabfile import cd, local, require_env, step
 
 
+def complain_on_failure(task, complaint):
+    if not task.succeeded:
+        puts(red(complaint))
+
+
 @task(default=True)
 @hosts('')
 @runs_once
@@ -37,6 +42,9 @@ def check():
         step('Pointing to potential tasks...')
         local("! git grep -n -E '#.*noqa' -- '%(box_project_name)s/*.py'")
         local("! git grep -n -E '(XXX|FIXME|TODO)'")
+        complain_on_failure(
+            local("! git grep -n -E '^-e[^@]*$' -- requirements/"),
+            'Warning: Editable and unpinned requirements found!')
 
 
 @task
