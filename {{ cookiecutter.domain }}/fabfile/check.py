@@ -53,6 +53,7 @@ def check():
 def primetime():
     """Check whether this project is ready for prime time"""
     execute('check.check')
+    execute('check.test')
 
     step('"noindex" should not hit production servers...')
     local(
