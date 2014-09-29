@@ -10,16 +10,15 @@ class ForceDomainMiddleware(object):
         if settings.DEBUG:
             raise MiddlewareNotUsed
 
-        try:
-            self.domain = settings.FORCE_DOMAIN
-        except AttributeError:
+        self.domain = getattr(settings, 'FORCE_DOMAIN', None)
+        if not self.domain:
             raise MiddlewareNotUsed
 
     def process_request(self, request):
         if request.method != 'GET':
             return
 
-        if request.META['HTTP_HOST'] != self.domain:
+        if request.META.get('HTTP_HOST') != self.domain:
             target = 'http%s://%s%s' % (
                 request.is_secure() and 's' or '',
                 self.domain,
