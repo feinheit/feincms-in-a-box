@@ -4,6 +4,7 @@ import os
 
 from fabric.api import env, execute, task
 from fabric.colors import red
+from fabric.contrib.project import rsync_project
 from fabric.utils import abort
 
 from fabfile import local, cd, require_env, run, step
@@ -22,9 +23,11 @@ def deploy():
 def _deploy_styles_foundation5_gulp():
     local('./node_modules/.bin/gulp build')
     for part in ['bower_components', 'build']:
-        local(
-            'rsync -avz %%(box_sass)s/%s'
-            ' %%(box_server)s:%%(box_domain)s/%%(box_sass)s/' % part)
+        rsync_project(
+            local_dir='%(box_sass)s/%(part)s' % dict(env, part=part),
+            remote_dir='%(box_domain)s/%(box_sass)s/' % env,
+            delete=True,
+        )
 
 
 def _deploy_styles_foundation5_grunt():

@@ -5,6 +5,7 @@ import platform
 
 from fabric.api import env, execute, hosts, settings, task
 from fabric.colors import green, red
+from fabric.contrib.project import rsync_project
 from fabric.utils import puts
 
 from fabfile import confirm, local, require_services
@@ -169,4 +170,9 @@ def pull_mediafiles():
     command pulls down several GBs!"""
     if not confirm('Completely replace local mediafiles?'):
         return
-    local('rsync -avz --delete %(box_server)s:%(box_domain)s/media .')
+    rsync_project(
+        local_dir='media/',
+        remote_dir='%(box_domain)s/media/' % env,
+        delete=True,
+        upload=False,
+    )
