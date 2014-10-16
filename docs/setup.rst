@@ -8,8 +8,10 @@ Setting up a new project
 ========================
 
 After following all the steps outlined in :ref:`prerequisites`, you're now
-ready to generate the first project. Run the following command inside a
-Terminal of your choice::
+ready to generate the first project. A folder is automatically created. It will
+have the domain name as folder name.
+
+Run the following command inside a terminal of your choice::
 
     cookiecutter https://github.com/feinheit/cookiecutter-box
 
@@ -27,7 +29,10 @@ You'll be asked a few questions:
   will most probably have).
 
 Next, ``fab setup_local`` will be executed automatically. The setup step should
-complete successfully, if it does not please report it as a bug!
+complete successfully, if it does not please report it as a bug_!
+
+.. _bug: https://www.pivotaltracker.com/projects/1156128
+
 
 Further steps
 -------------
