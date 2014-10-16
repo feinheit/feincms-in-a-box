@@ -107,8 +107,8 @@ def create_dotenv():
     with open('.env', 'w') as f:
         env.box_secret_key = get_random_string(50)
         f.write('''\
-DATABASE_URL=postgres://localhost:5432/%(box_database_name)s
-CACHE_URL=hiredis://localhost:6379/1/%(box_database_name)s
+DATABASE_URL=postgres://localhost:5432/%(box_database_local)s
+CACHE_URL=hiredis://localhost:6379/1/%(box_database_local)s
 SECRET_KEY=%(box_secret_key)s
 SENTRY_DSN=
 ''' % env)
@@ -120,7 +120,7 @@ SENTRY_DSN=
 def create_and_migrate_database():
     """Creates and migrates a Postgres database"""
     local(
-        'createdb %(box_database_name)s'
+        'createdb %(box_database_local)s'
         ' --encoding=UTF8 --template=template0')
     local('venv/bin/python manage.py migrate')
 
@@ -133,22 +133,22 @@ def pull_database():
 
     if not confirm(
             'Completely replace the local database'
-            ' "%(box_database_name)s" (if it exists)?'):
+            ' "%(box_database_local)s" (if it exists)?'):
         return
 
     with settings(warn_only=True):
-        local('dropdb %(box_database_name)s')
+        local('dropdb %(box_database_local)s')
 
     local(
-        'createdb %(box_database_name)s'
+        'createdb %(box_database_local)s'
         ' --encoding=UTF8 --template=template0')
     local(
         'ssh %(box_server)s "source .profile &&'
-        ' pg_dump %(box_database_name)s'
+        ' pg_dump %(box_database)s'
         ' --no-privileges --no-owner --no-reconnect"'
-        ' | psql %(box_database_name)s')
+        ' | psql %(box_database_local)s')
     local(
-        'psql %(box_database_name)s -c "UPDATE auth_user'
+        'psql %(box_database_local)s -c "UPDATE auth_user'
         ' SET password=\'pbkdf2_sha256\$12000\$owbr7vjRCspg\$PAo53Cbqvek3nMqS'
         'l+V+ubIlnZQ2Vj7ZVKcPhcXqWlY=\''
         ' WHERE password=\'\'"')
@@ -166,6 +166,6 @@ def pull_mediafiles():
     rsync_project(
         local_dir='media/',
         remote_dir='%(box_domain)s/media/' % env,
-        delete=True,  # Devs can take care of their media folders.
+        delete=False,  # Devs can take care of their media folders.
         upload=False,
     )

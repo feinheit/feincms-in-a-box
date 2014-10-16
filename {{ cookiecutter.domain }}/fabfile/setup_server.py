@@ -66,19 +66,20 @@ def create_database_and_dotenv():
         20, chars='abcdefghijklmopqrstuvwx01234567890')
     env.box_secret_key = get_random_string(50)
 
-    run('psql -c "CREATE ROLE %(box_database_name)s WITH'
+    run('psql -c "CREATE ROLE %(box_database)s WITH'
         ' ENCRYPTED PASSWORD \'%(box_database_pw)s\''
         ' LOGIN NOCREATEDB NOCREATEROLE NOSUPERUSER"')
-    run('psql -c "GRANT %(box_database_name)s TO admin"')
-    run('psql -c "CREATE DATABASE %(box_database_name)s WITH'
-        ' OWNER %(box_database_name)s'
+    run('psql -c "GRANT %(box_database)s TO admin"')
+    run('psql -c "CREATE DATABASE %(box_database)s WITH'
+        ' OWNER %(box_database)s'
         ' TEMPLATE template0'
         ' ENCODING \'UTF8\'"')
 
     with cd('%(box_domain)s'):
+
         put(StringIO('''\
-DATABASE_URL=postgres://%(box_database_name)s:%(box_database_pw)s@localhost:5432/%(box_database_name)s
-CACHE_URL=hiredis://localhost:6379/1/%(box_database_name)s
+DATABASE_URL=postgres://%(box_database)s:%(box_database_pw)s@localhost:5432/%(box_database)s
+CACHE_URL=hiredis://localhost:6379/1/%(box_database)s
 SECRET_KEY=%(box_secret_key)s
 SENTRY_DSN=%(box_sentry_dsn)s
 # ALLOWED_HOSTS = ['.%(box_domain)s', '.feinheit04.nine.ch']  FIXME
@@ -88,7 +89,7 @@ DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET=%(box_oauth2_client_secret)s
 # Do not forget to allow robots to index the site when going live!
 # - %(box_project_name)s/templates/base.html: Change "noindex" to "index"
 # - htdocs/robots.txt: Remove the "Disallow: /" line
-# FORCE_DOMAIN = 'www.%(box_domain)s'
+# FORCE_DOMAIN = www.%(box_domain)s
 ''' % env), '.env')
 
         run('venv/bin/python manage.py migrate --noinput')
@@ -116,7 +117,7 @@ def create_sso_user():
         puts(red('Cannot continue without a SSO Domain.'))
         return 1
 
-    run('psql %(box_database_name)s -c "INSERT INTO auth_user VALUES'
+    run('psql %(box_database)s -c "INSERT INTO auth_user VALUES'
         " (1, '', NOW(), TRUE, 'admin', '', '', '', TRUE, TRUE, NOW())\"")
-    run('psql %(box_database_name)s -c "INSERT INTO admin_sso_assignment'
+    run('psql %(box_database)s -c "INSERT INTO admin_sso_assignment'
         " VALUES (1, 0, '', '%(box_sso_domain)s', FALSE, 10, 1)\"")

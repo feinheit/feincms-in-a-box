@@ -12,26 +12,28 @@ env.box_environments = {
         'shortcut': 'p',
         'domain': '{{ cookiecutter.domain }}',
         'branch': 'master',
-        'server': '{{ cookiecutter.server }}',
+        'server': 'www-data@feinheit04.nine.ch',
         'remote': 'production',
     },
     'staging': {
         'shortcut': 's',
         'domain': 'stage.{{ cookiecutter.domain }}',
-        'branch': 'develop',
-        'server': '{{ cookiecutter.server }}',
+        'branch': 'master',
+        'server': 'www-data@feinheit04.nine.ch',
         'remote': 'staging',
     },
 }
 
 # Remove this for multi-env support
-env.box_hardwired_environment = 'production'
+# env.box_hardwired_environment = 'production'
 
 
 def derive_env_from_domain():
     env.update({
-        'box_repository_name': re.sub(r'[^\w]+', '_', env.box_domain),
-        'box_database_name': re.sub(r'[^\w]+', '_', env.box_domain),
+        'box_repository': re.sub(r'[^\w]+', '_', env.box_domain),
+        'box_database': re.sub(r'[^\w]+', '_', env.box_domain),
+        'box_database_local': re.sub(
+            r'[^\w]+', '_', '{{ cookiecutter.domain }}'),
         'box_sass': '%(box_project_name)s/static/%(box_project_name)s' % env,
         'box_server_name': env.box_server.split('@')[-1],
         'forward_agent': True,

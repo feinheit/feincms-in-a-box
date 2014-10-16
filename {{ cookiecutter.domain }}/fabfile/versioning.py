@@ -17,20 +17,20 @@ def init_bitbucket():
     username = prompt('Username', default=os.environ.get('USER', ''))
     password = getpass.getpass('Password ')
     organization = prompt('Organization', default='feinheit')
-    repository_name = prompt(
+    repository = prompt(
         'Repository',
-        default=env.box_repository_name)
+        default=env.box_repository)
 
     if not confirm(
         'Initialize repository at https://bitbucket.org/%s/%s?' % (
-            organization, repository_name)):
+            organization, repository)):
 
         puts(red('Bitbucket repository creation aborted.'))
         return 1
 
-    if username and password and organization and repository_name:
+    if username and password and organization and repository:
         env.box_auth = '%s:%s' % (username, password)
-        env.box_repo = '%s/%s' % (organization, repository_name)
+        env.box_repo = '%s/%s' % (organization, repository)
 
         with hide('running'):
             local(
