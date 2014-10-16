@@ -16,7 +16,7 @@ def init():
     """Sets up the server from a git repository"""
     execute('setup_server.clone_repository')
     execute('setup_server.create_virtualenv')
-    execute('setup_server.create_database_and_local_settings')
+    execute('setup_server.create_database_and_dotenv')
     execute('setup_server.nginx_vhost_and_supervisor')
     execute('deploy.styles')
     execute('setup_server.create_sso_user')
@@ -57,7 +57,7 @@ def create_virtualenv():
 
 @task
 @require_env
-def create_database_and_local_settings():
+def create_database_and_dotenv():
     env.box_sentry_dsn = prompt('Sentry DSN')
     env.box_oauth2_client_id = prompt('Google OAuth2 Client ID')
     env.box_oauth2_client_secret = prompt('Google OAuth2 Client Secret')
@@ -77,36 +77,19 @@ def create_database_and_local_settings():
 
     with cd('%(box_domain)s'):
         put(StringIO('''\
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '%(box_database_name)s',
-        'USER': '%(box_database_name)s',
-        'PASSWORD': '%(box_database_pw)s',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-SECRET_KEY = '%(box_secret_key)s'
-RAVEN_CONFIG = {
-    'dsn': '%(box_sentry_dsn)s',  # noqa
-}
-ALLOWED_HOSTS = ['.%(box_domain)s', '.feinheit04.nine.ch']
+DATABASE_URL=postgres://%(box_database_name)s:%(box_database_pw)s@localhost:5432/%(box_database_name)s
+CACHE_URL=hiredis://localhost:6379/1/%(box_database_name)s
+SECRET_KEY=%(box_secret_key)s
+SENTRY_DSN=%(box_sentry_dsn)s
+# ALLOWED_HOSTS = ['.%(box_domain)s', '.feinheit04.nine.ch']  FIXME
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID=%(box_oauth2_client_id)s
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET=%(box_oauth2_client_secret)s
 
 # Do not forget to allow robots to index the site when going live!
 # - %(box_project_name)s/templates/base.html: Change "noindex" to "index"
 # - htdocs/robots.txt: Remove the "Disallow: /" line
-# FORCE_DOMAIN = 'www.%(box_domain)s'  # ForceDomainMiddleware
-
-DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = '%(box_oauth2_client_id)s'
-DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET = '%(box_oauth2_client_secret)s'
-
-if all((
-    DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID,
-    DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET,
-)):
-    DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON = True
-''' % env), '%(box_project_name)s/local_settings.py' % env)
+# FORCE_DOMAIN = 'www.%(box_domain)s'
+''' % env), '.env')
 
         run('venv/bin/python manage.py migrate --noinput')
 

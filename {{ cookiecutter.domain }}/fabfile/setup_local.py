@@ -24,7 +24,7 @@ def initial_setup():
 
     execute('setup_local.create_virtualenv')
     execute('setup_local.frontend_tools')
-    execute('setup_local.create_local_settings')
+    execute('setup_local.create_dotenv')
     execute('setup_local.create_and_migrate_database')
 
     puts(green(
@@ -54,7 +54,7 @@ def setup_with_production_data():
 
     execute('setup_local.create_virtualenv')
     execute('setup_local.frontend_tools')
-    execute('setup_local.create_local_settings')
+    execute('setup_local.create_dotenv')
     execute('setup_local.pull_database')
     execute('setup_local.pull_mediafiles')
 
@@ -101,23 +101,16 @@ def frontend_tools():
 
 @task
 @hosts('')
-def create_local_settings():
-    """Creates a local_settings.py file containing basic configuration for
+def create_dotenv():
+    """Creates a .env file containing basic configuration for
     local development"""
-    with open('%(box_project_name)s/local_settings.py' % env, 'w') as f:
+    with open('.env', 'w') as f:
         env.box_secret_key = get_random_string(50)
         f.write('''\
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '%(box_database_name)s',
-    }
-}
-SECRET_KEY = '%(box_secret_key)s'
-RAVEN_CONFIG = {
-    'dsn': '',  # Unused in local development.
-}
-ALLOWED_HOSTS = ['*']
+DATABASE_URL=postgres://localhost:5432/%(box_database_name)s
+CACHE_URL=hiredis://localhost:6379/1/%(box_database_name)s
+SECRET_KEY=%(box_secret_key)s
+SENTRY_DSN=
 ''' % env)
 
 

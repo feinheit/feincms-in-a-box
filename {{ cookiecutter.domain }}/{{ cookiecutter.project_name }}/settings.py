@@ -2,8 +2,10 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from env import env
+import dj_database_url
+import django_cache_url
 import os
-import re
 import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,26 +21,27 @@ DEFAULT_FROM_EMAIL = 'no-reply@{{ cookiecutter.domain }}'
 SERVER_EMAIL = 'root@oekohosting.ch'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'data.db',
-    },
+    'default': dj_database_url.config(),
 }
 
 CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': '127.0.0.1:6379:1',
-        'KEY_PREFIX': re.sub(r'[^\w]+', '_', '{{ cookiecutter.domain }}'),
-        'OPTIONS': {
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
-        },
-    },
+    'default': django_cache_url.config(),
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
+ALLOWED_HOSTS = [
+    '{{ cookiecutter.domain }}',
+    '.{{ cookiecutter.domain }}',
+    '.feinheit04.nine.ch',
+]
 TIME_ZONE = 'Europe/Zurich'
 LANGUAGE_CODE = 'de-ch'
+LANGUAGES = (
+    # ('en', 'English'),
+    ('de', 'German'),
+    # ('fr', 'French'),
+    # ('it', 'Italian'),
+)
 
 USE_I18N = True
 USE_L10N = True
@@ -126,13 +129,6 @@ INSTALLED_APPS = (
     'admin_sso',
 )
 
-LANGUAGES = (
-    # ('en', 'English'),
-    ('de', 'German'),
-    # ('fr', 'French'),
-    # ('it', 'Italian'),
-)
-
 MIGRATION_MODULES = dict((app, '{{ cookiecutter.project_name }}.migrate.%s' % app) for app in (
     'page',
     'medialibrary',
@@ -147,12 +143,17 @@ FEINCMS_RICHTEXT_INIT_CONTEXT = {
     )
 }
 
-DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = ''
-DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET = ''
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = env(
+    'DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID')
+DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET = env(
+    'DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET')
+DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON = all((
+    DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID,
+    DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET,
+))
 DJANGO_ADMIN_SSO_AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
 DJANGO_ADMIN_SSO_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
 DJANGO_ADMIN_SSO_REVOKE_URI = 'https://accounts.google.com/o/oauth2/revoke'
-DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON = False
 AUTHENTICATION_BACKENDS = (
     'admin_sso.auth.DjangoSSOAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -233,6 +234,10 @@ LOGGING = {
     },
 }
 
+RAVEN_CONFIG = {
+    'dsn': env('SENTRY_DSN'),
+}
+
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     LOGGING['loggers'].update({
@@ -255,8 +260,3 @@ if DEBUG:
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     ) + MIDDLEWARE_CLASSES
     DEBUG_TOOLBAR_PATCH_SETTINGS = False
-
-try:
-    from .local_settings import *  # noqa
-except ImportError:
-    pass

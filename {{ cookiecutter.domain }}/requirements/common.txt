@@ -1,6 +1,8 @@
 Django==1.7
 Pillow==2.5.1
 django-admin-sso==1.0.0
+dj-database-url==0.3.0
+django-cache-url==0.8.0
 django-compressor==1.4
 django-mptt==0.6.1
 django-redis==3.7.0

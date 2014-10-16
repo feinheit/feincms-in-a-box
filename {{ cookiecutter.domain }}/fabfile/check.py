@@ -103,7 +103,7 @@ def primetime():
             puts(red(
                 'Error: The remote value of SECRET_KEY also exists in local'
                 ' files. Set a new value for SECRET_KEY in'
-                ' %(box_project_name)s/local_settings.py on the server!'
+                ' .env on the server!'
                 % env, bold=True))
 
 
