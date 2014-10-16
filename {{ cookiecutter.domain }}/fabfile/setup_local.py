@@ -173,6 +173,6 @@ def pull_mediafiles():
     rsync_project(
         local_dir='media/',
         remote_dir='%(box_domain)s/media/' % env,
-        delete=True,
+        delete=True,  # Devs can take care of their media folders.
         upload=False,
     )
