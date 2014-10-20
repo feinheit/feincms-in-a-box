@@ -4,7 +4,7 @@ from io import StringIO
 
 from fabric.api import env, execute, hide, prompt, put, task
 from fabric.colors import green, red
-from fabric.utils import puts
+from fabric.utils import abort, puts
 
 from fabfile import local, cd, require_env, run
 from fabfile.utils import get_random_string
@@ -37,7 +37,7 @@ def clone_repository():
 
     env.box_repository_url = repo
 
-    run('git clone %(box_repository_url)s %(box_domain)s')
+    run('git clone -b %(box_branch)s %(box_repository_url)s %(box_domain)s')
     execute('versioning.add_remote')
 
 
@@ -121,3 +121,39 @@ def create_sso_user():
         " (1, '', NOW(), TRUE, 'admin', '', '', '', TRUE, TRUE, NOW())\"")
     run('psql %(box_database)s -c "INSERT INTO admin_sso_assignment'
         " VALUES (1, 0, '', '%(box_sso_domain)s', FALSE, 10, 1)\"")
+
+
+@task
+@require_env
+def copy_data_from(environment=None):
+    if env.get('box_hardwired_environment'):
+        abort(red('Cannot continue with a hardwired environment.'))
+    if environment not in env.box_environments:
+        abort(red('Invalid environment %s.' % environment))
+
+    source = env.box_environments[environment]
+    target = env.box_environments[env.get('box_environment')]
+    if source == target:
+        abort(red(
+            'Source environment %s must not equal target environment %s.'
+            % (environment, env.get('box_environment'))))
+
+    if source['server'] != target['server']:
+        abort(red('The environments have to be on the same server, sorry!'))
+
+    puts('dropdb %s' % target['domain'])
+    puts('createdb %s' % target['domain'])
+    puts(
+        'pg_dump %s --no-privileges --no-owner --no-reconnect'
+        ' | psql %s %s' % (
+            source['domain'],
+            target['domain'],
+            target['domain'],
+        ))
+    puts(
+        'Copying data from %s to %s'
+        % (source, target))
+    puts('cp -rl ~/%s/media/ ~/%s/media/' % (
+        source['domain'],
+        target['domain'],
+    ))
