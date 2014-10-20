@@ -20,10 +20,15 @@ urlpatterns = patterns(
 )
 
 if settings.DEBUG:
-    import debug_toolbar
+    try:
+        urlpatterns += patterns(
+            '',
+            url(r'^__debug__/', include(__import__('debug_toolbar').urls)),
+        )
+    except ImportError:
+        pass
     urlpatterns += patterns(
         '',
-        url(r'^__debug__/', include(debug_toolbar.urls)),
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
             {'document_root': settings.MEDIA_ROOT}),
     )
