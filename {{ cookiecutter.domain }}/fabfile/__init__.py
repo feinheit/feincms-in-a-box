@@ -56,9 +56,9 @@ else:
 def require_env(fn):
     @wraps(fn)
     def _dec(*args, **kwargs):
-        # box_domain is as good as any value being set from the
+        # box_server is as good as any value being set from the
         # environment dictionary
-        if not env.get('box_domain'):
+        if not env.get('box_server'):
             abort(red(
                 'Environment (one of %s) missing. "fab <env> <command>"'
                 % ', '.join(env.box_environments.keys()), bold=True))
