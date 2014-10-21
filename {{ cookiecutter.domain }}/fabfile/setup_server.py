@@ -2,11 +2,11 @@ from __future__ import unicode_literals
 
 from io import StringIO
 
-from fabric.api import env, execute, hide, prompt, put, task
+from fabric.api import env, execute, hide, prompt, put, settings, task
 from fabric.colors import green, red
 from fabric.utils import abort, puts
 
-from fabfile import local, cd, require_env, run
+from fabfile import confirm, local, cd, require_env, run
 from fabfile.utils import get_random_string
 
 
@@ -141,19 +141,22 @@ def copy_data_from(environment=None):
     if source['server'] != target['server']:
         abort(red('The environments have to be on the same server, sorry!'))
 
-    puts('dropdb %s' % target['domain'])
-    puts('createdb %s' % target['domain'])
-    puts(
-        'pg_dump %s --no-privileges --no-owner --no-reconnect'
-        ' | psql %s %s' % (
-            source['domain'],
-            target['domain'],
-            target['domain'],
-        ))
-    puts(
-        'Copying data from %s to %s'
-        % (source, target))
-    puts('cp -rl ~/%s/media/ ~/%s/media/' % (
-        source['domain'],
-        target['domain'],
-    ))
+    if not confirm(
+            'Completely replace the remote database'
+            ' "%(box_database)s" (if it exists)?' % env, default=False):
+        return
+
+    with settings(warn_only=True):
+        run('dropdb %(box_database)s')
+    run(
+        'createdb %(box_database)s --encoding=UTF8 --template=template0'
+        ' --owner=%(box_database)s')
+    with cd(env.box_domain):
+        run(
+            'pg_dump %s --no-privileges --no-owner --no-reconnect | '
+            ' PGPASSWORD="$('
+            'grep DATABASE_URL .env|cut -f3 -d:|cut -f1 -d@|tr -d \'\n\''
+            ')" venv/bin/python manage.py dbshell' % source['database'])
+
+        run('cp -al ~/%s/media/* media/' % source['domain'])
+        run('sctl restart %(box_domain)s:*')
