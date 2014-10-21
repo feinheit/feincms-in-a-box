@@ -160,3 +160,23 @@ def copy_data_from(environment=None):
 
         run('cp -al ~/%s/media/* media/' % source['domain'])
         run('sctl restart %(box_domain)s:*')
+
+
+@task
+@require_env
+def remove_host():
+    if not confirm(
+            'Really remove the host "%(box_domain)s" and all associated data?',
+            default=False):
+        return
+
+    run('sudo nine-manage-vhosts virtual-host remove %(box_domain)s')
+    run('rm supervisor/conf.d/%(box_domain)s.conf')
+    run('sctl reload')
+    with cd(env.box_domain):
+        run(
+            'pg_dump %(box_database)s'
+            ' --no-privileges --no-owner --no-reconnect'
+            ' > tmp/pg-$(date --rfc-3339=date).dump')
+    run('dropdb %(box_database)s')
+    run('dropuser %(box_database)s')
