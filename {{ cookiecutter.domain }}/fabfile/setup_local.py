@@ -8,7 +8,7 @@ from fabric.colors import green, red
 from fabric.contrib.project import rsync_project
 from fabric.utils import puts
 
-from fabfile import confirm, local, require_services
+from fabfile import confirm, local, require_env, require_services
 from fabfile.utils import get_random_string
 
 
@@ -44,6 +44,7 @@ def initial_setup():
 
 
 @task
+@require_env
 @require_services
 def setup_with_production_data():
     """Installs all dependencies and pulls the database and mediafiles from
@@ -126,6 +127,7 @@ def create_and_migrate_database():
 
 
 @task
+@require_env
 @require_services
 def pull_database():
     """Pulls the database contents from the server, dropping the local
@@ -158,6 +160,7 @@ def pull_database():
 
 
 @task
+@require_env
 def pull_mediafiles():
     """Pulls all mediafiles from the server. Beware, it is possible that this
     command pulls down several GBs!"""
