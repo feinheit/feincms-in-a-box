@@ -102,7 +102,7 @@ def nginx_vhost_and_supervisor():
         ' --template=feinheit --relative-path=htdocs')
 
     with cd('%(box_domain)s'):
-        run('mkdir media tmp')
+        run('mkdir -p media tmp')
 
     run('supervisor-create-conf %(box_domain)s wsgi'
         ' > supervisor/conf.d/%(box_domain)s.conf')
