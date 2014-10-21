@@ -9,4 +9,4 @@ def get_random_string(length, chars=None):
     rand = random.SystemRandom()
     if chars is None:
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-    return ''.join(rand.choice(chars) for i in range(50))
+    return ''.join(rand.choice(chars) for i in range(length))
