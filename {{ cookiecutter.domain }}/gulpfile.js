@@ -10,7 +10,6 @@ var prefixer = require('gulp-autoprefixer');
 var minifycss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
-var rename = require('gulp-rename');
 
 // Style checking
 gulp.task('jshint', function() {
