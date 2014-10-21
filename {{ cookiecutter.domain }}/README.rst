@@ -34,7 +34,6 @@ used in the making of this project.
    cronjobs and other non-obvious dependencies.
 
 
-``{{ cookiecutter.project_name }}.cms``
----------------------------------------
+**{{ cookiecutter.project_name }}.cms**
 
 Django app containing FeinCMS configuration.
