@@ -180,3 +180,7 @@ def remove_host():
             ' > tmp/pg-$(date --rfc-3339=date).dump')
     run('dropdb %(box_database)s')
     run('dropuser %(box_database)s')
+
+    puts(red(
+        'The folder ~/%(box_domain)s on the server has not been removed. The'
+        ' "tmp" subfolder also contains a fresh database dump.' % env))
