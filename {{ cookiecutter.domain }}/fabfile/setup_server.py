@@ -143,22 +143,27 @@ def copy_data_from(environment=None):
 
     if not confirm(
             'Completely replace the remote database'
-            ' "%(box_database)s" (if it exists)?' % env, default=False):
+            ' "%(box_database)s" (if it exists)?', default=False):
         return
+
+    for key, value in source.items():
+        env['source_%s' % key] = value
 
     with settings(warn_only=True):
         run('dropdb %(box_database)s')
     run(
         'createdb %(box_database)s --encoding=UTF8 --template=template0'
         ' --owner=%(box_database)s')
-    with cd(env.box_domain):
-        run(
-            'pg_dump %s --no-privileges --no-owner --no-reconnect | '
-            ' PGPASSWORD="$('
-            'grep DATABASE_URL .env|cut -f3 -d:|cut -f1 -d@|tr -d \'\n\''
-            ')" venv/bin/python manage.py dbshell' % source['database'])
+    run(
+        'pg_dump %(source_database)s'
+        ' --no-privileges --no-owner --no-reconnect'
+        ' | psql %(box_database)s')
+    run(
+        'psql %(box_database)s -c "REASSIGN OWNED BY admin '
+        ' TO %(box_database)s"')
 
-        run('cp -al ~/%s/media/* media/' % source['domain'])
+    with cd(env.box_domain):
+        run('cp -al ~/%(source_domain)s/media/* media/')
         run('sctl restart %(box_domain)s:*')
 
 
