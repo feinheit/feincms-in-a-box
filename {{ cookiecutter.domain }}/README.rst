@@ -11,8 +11,8 @@ Overview
 - Production server: {{ cookiecutter.server }}:{{ cookiecutter.domain }}/
 
 
-Project team
-============
+Team
+====
 
 - Project manager: ...
 - Design: ...
@@ -20,13 +20,12 @@ Project team
 - Backend programming: ...
 
 
-Project description
-===================
+Description
+===========
 
-This project has been generated using
-`cookiecutter-box <https://github.com/feinheit/cookiecutter-box`_. Its
-documentation is available on
-`RTD <http://cookiecutter-box.readthedocs.org/>`_.
+`cookiecutter-box <https://github.com/feinheit/cookiecutter-box>`_ has been
+used in the making of this project.
+`Documentation is available on Read the Docs <https://cookiecutter-box.readthedocs.org/>`_.
 
 .. note::
 
