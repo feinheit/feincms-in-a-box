@@ -53,3 +53,31 @@ After that, clone the repository and run the setup command::
     git clone <repo-url>
     cd <project>
     fab setup_local.setup_with_production_data
+
+
+Installing the project on a server
+==================================
+
+That's all::
+
+    fab setup_server
+
+
+Installing a staging copy of an existing project
+================================================
+
+First, edit ``fabfile/config.py`` and remove (or comment out) the line
+``env.box_hardwired_environment = 'production'``. This activates multi-env
+support which is required to work with several installations of the same code
+base.
+
+Switch to the ``develop`` branch (creating it if it does not exist already),
+and run the following commands::
+
+    fab staging setup_server
+    fab staging setup_server.copy_data_from:production
+
+If the staging site is not required anymore, it can be removed using the
+following command::
+
+    fab staging remove_host
