@@ -27,11 +27,9 @@ Description
 used in the making of this project.
 `Documentation is available on Read the Docs <https://cookiecutter-box.readthedocs.org/>`_.
 
-.. note::
-
-   The following should be a list of included Django apps with a short
-   description what they are all about. Also mention management commands,
-   cronjobs and other non-obvious dependencies.
+*The following should be a list of included Django apps with a short
+description what they are all about. Also mention management commands,
+cronjobs and other non-obvious dependencies.*
 
 
 **{{ cookiecutter.project_name }}.cms**
