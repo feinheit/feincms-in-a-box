@@ -40,7 +40,8 @@ def initial_setup():
     puts(green(
         '- Create a Bitbucket repository: fab versioning.init_bitbucket'))
     puts(green(
-        '- Configure %(box_server_name)s for this project: fab setup_server'))
+        '- Configure %(box_server_name)s for this project: fab setup_server'
+        % env))
 
 
 @task
