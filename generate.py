@@ -16,15 +16,14 @@ except NameError:
     raw_input = input
 
 
-DEFAULT_CONTEXT = [
-    ('NICE_NAME', 'This isn\'t a nice name'),
-    ('DOMAIN', 'test.406.ch'),
-    ('PROJECT_NAME', 'box'),
-    ('SERVER', 'www-data@feinheit04.nine.ch'),
-]
-
-
 def readline(prompt, default=None, required=True):
+    """
+    Prompts the user for the value described in ``prompt``.
+
+    If ``required`` is set to ``True`` ensures that a non-empty value is
+    returned (which might also be the default value if the default was
+    non-empty).
+    """
     if default:
         prompt += ' [%s]' % default
     prompt += ': '
@@ -38,11 +37,24 @@ def readline(prompt, default=None, required=True):
         elif default:
             return default
 
+        print(color('This value is required.', 'red'))
+
 
 def ask_for_context():
+    """
+    Ask nicely for a few details regarding the project we are about to
+    generate.
+    """
+    default_context = [
+        ('NICE_NAME', ''),
+        ('DOMAIN', ''),
+        ('PROJECT_NAME', 'box'),
+        ('SERVER', 'www-data@feinheit04.nine.ch'),
+    ]
+
     context = dict((
         key,
-        readline(key, default=default)) for key, default in DEFAULT_CONTEXT)
+        readline(key, default=default)) for key, default in default_context)
 
     context.update({
         'NICE_NAME': context['NICE_NAME'].replace('\'', '\\\''),
@@ -52,18 +64,13 @@ def ask_for_context():
     return context
 
 
-class FilterIgnored(object):
-    def __init__(self, patterns):
-        self.patterns = patterns
-
-    def __call__(self, iterable):
-        for item in iterable:
-            if any(fnmatch(item, pattern) for pattern in self.patterns):
-                continue
-            yield item
-
-
 def copy_file_to(from_, to_, context):
+    """
+    Copies the file at path ``from_`` to the path ``to_``, while also
+    substituting variables in the context if the contents of the file can be
+    decoded as UTF-8. Otherwise, simply copies the file (which is what we want
+    for example for binary files).
+    """
     try:
         with io.open(from_, 'r', encoding='utf-8') as handle:
             contents = handle.read()
@@ -78,9 +85,14 @@ def copy_file_to(from_, to_, context):
 
 
 def walker(base, context):
+    """
+    Walks over all files in ``base`` while substituting the contents of
+    ``context`` inside paths and file contents. Skips over anything which
+    matches a line inside ``.gitignore``.
+    """
     with io.open('.gitignore', 'r', encoding='utf-8') as gitignore:
-        filter_ignored = FilterIgnored(
-            [line for line in gitignore.read().splitlines() if line])
+        gitignore_patterns = [
+            line for line in gitignore.read().splitlines() if line]
 
     base_dir = os.path.join(
         os.path.dirname(__file__),
@@ -88,14 +100,19 @@ def walker(base, context):
     )
     project_dir = os.path.join(
         base_dir,
-        context['DOMAIN'],
+        context['DOMAIN_SLUG'],
     )
 
     if os.path.exists(project_dir):
-        print(
+        print(color(
             'Project directory %s exists already, cannot continue.'
-            % project_dir)
+            % project_dir,
+            'red', True))
         return
+
+    print(color(
+        'Generating the project inside %s.' % project_dir,
+        'cyan', True))
 
     for dirpath, dirnames, filenames in os.walk(base):
         dir = os.path.join(
@@ -103,21 +120,42 @@ def walker(base, context):
             Template(dirpath).safe_substitute(context),
         )
         os.makedirs(dir)
-        for filename in filter_ignored(filenames):
+        for fn in filenames:
+            if any(fnmatch(fn, pattern) for pattern in gitignore_patterns):
+                continue
+
             copy_file_to(
-                os.path.join(dirpath, filename),
-                os.path.join(dir, filename),
+                os.path.join(dirpath, fn),
+                os.path.join(dir, fn),
                 context,
             )
 
     os.chdir(project_dir)
     subprocess.call(['git', 'init'])
     subprocess.call(['git', 'add', '-A'])
-    subprocess.call(['git', 'commit', '-m', 'Initial commit'])
+    subprocess.call(['git', 'commit', '-q', '-m', 'Initial commit'])
+
+    print(color(
+        'Successfully initialized the project in %s.' % project_dir,
+        'cyan', True))
+    print(color(
+        'Run "fab setup_local" inside the project folder to continue.',
+        'green', True))
+
+
+def color(str, color=None, bold=False):
+    color = {
+        'red': 31, 'green': 32, 'yellow': 33, 'blue': 34, 'magenta': 35,
+        'cyan': 36, 'white': 37,
+    }.get(color)
+    if color:
+        return '\033[%s%sm%s\033[0m' % ('1;' if bold else '', color, str)
+    return str
 
 
 if __name__ == '__main__':
+    print(color('Welcome to FeinCMS-in-a-Box', 'cyan', True))
+    print(color('===========================', 'cyan', True))
+
     context = ask_for_context()
-    from pprint import pprint
-    pprint(context)
-    walker('$DOMAIN', context)
+    walker('$DOMAIN_SLUG', context)
