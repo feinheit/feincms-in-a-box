@@ -77,7 +77,7 @@ for installing pipsi_ can be found on
 Node-based command line tools
 =============================
 
-Finally, install the following packages using npm_::
+Install the following packages using npm_::
 
     npm install -g bower jshint
 
