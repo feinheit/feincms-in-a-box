@@ -1,4 +1,4 @@
-{% raw %}{% load feincms_thumbnail %}
+{% load feincms_thumbnail %}
 <li>
     <img src="{{ content.mediafile.file|cropscale:content.crop }}" alt="">
     {% with title=content.title subtitle=content.subtitle|default_if_none:'' %}
@@ -10,4 +10,3 @@
     {% endif %}
     {% endwith %}
 </li>
-{% endraw %}

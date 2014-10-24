@@ -1,4 +1,4 @@
-{% raw %}{% load feincms_thumbnail %}
+{% load feincms_thumbnail %}
 
 <a href="{{ content.mediafile.file|thumbnail:"1200x1000" }}" class="th"
     title="{{ content.mediafile.translation.caption }}"
@@ -19,4 +19,3 @@
     {% endif %}
   </p>
 {% endif %}
-{% endraw %}

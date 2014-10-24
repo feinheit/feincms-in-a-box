@@ -1,4 +1,4 @@
-{% raw %}{% load i18n towel_form_tags %}
+{% load i18n towel_form_tags %}
 <div id="form{{ content.id }}">
   {% if content.show_form_title %}
     <h2>{{ content.form.title }}</h2>
@@ -14,4 +14,3 @@
     {{ message|safe }}
   {% endif %}
 </div>
-{% endraw %}

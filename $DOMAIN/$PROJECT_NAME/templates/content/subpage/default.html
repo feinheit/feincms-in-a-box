@@ -1,4 +1,4 @@
-{% raw %}{% load feincms_thumbnail %}
+{% load feincms_thumbnail %}
 {% for page in page_list %}
   <a href="{{ page.get_navigation_url }}" class="box">
     <h2>{{ page }}</h2>
@@ -12,4 +12,3 @@
     <p class="text-right">mehr &raquo;</p>
   </a>
 {% endfor %}
-{% endraw %}
