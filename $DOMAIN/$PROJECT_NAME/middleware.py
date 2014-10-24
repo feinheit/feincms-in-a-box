@@ -33,7 +33,9 @@ class OnlyStaffMiddleware(object):
             raise MiddlewareNotUsed
 
     def process_request(self, request):
-        if not request.user.is_staff:
+        if request.path.startswith('/admin/'):
+            pass
+        elif not request.user.is_staff:
             response = render_to_response('only_staff.html', {})
             response.status_code = 403
             return response

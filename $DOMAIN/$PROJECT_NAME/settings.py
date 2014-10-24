@@ -70,13 +70,13 @@ STATICFILES_FINDERS = (
 
 MIDDLEWARE_CLASSES = (
     '${PROJECT_NAME}.middleware.ForceDomainMiddleware',
-    '${PROJECT_NAME}.middleware.OnlyStaffMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    '${PROJECT_NAME}.middleware.OnlyStaffMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
