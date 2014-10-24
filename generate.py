@@ -39,7 +39,7 @@ def readline(prompt, default=None, required=True):
             return default
 
 
-def determine_context():
+def ask_for_context():
     context = dict((
         key,
         readline(key, default=default)) for key, default in DEFAULT_CONTEXT)
@@ -117,7 +117,7 @@ def walker(base, context):
 
 
 if __name__ == '__main__':
-    context = determine_context()
+    context = ask_for_context()
     from pprint import pprint
     pprint(context)
     walker('$DOMAIN', context)

@@ -65,12 +65,11 @@ background. Adding the following lines to your ``~/.profile`` and starting
 Python-based command line tools
 ===============================
 
-We also require a few Python-based command line tools, cookiecutter_, Fabric_
-and flake8_. It is very much recommended to use pipsi_ for their installation.
-Instructions for installing pipsi_ can be found on `Github
-<https://github.com/mitsuhiko/pipsi>`_::
+We also require a few Python-based command line tools, Fabric_ and flake8_. It
+is very much recommended to use pipsi_ for their installation.  Instructions
+for installing pipsi_ can be found on
+`Github <https://github.com/mitsuhiko/pipsi>`_::
 
-    pipsi install cookiecutter
     pipsi install fabric
     pipsi install flake8
 
@@ -98,7 +97,6 @@ Install scss-lint_ to check SCSS code for style violations::
 .. _PostgreSQL: http://www.postgresql.org/
 .. _Homebrew: http://brew.sh/
 .. _Python: https://www.python.org/
-.. _cookiecutter: https://pypi.python.org/pypi/cookiecutter/
 .. _Fabric: http://fabfile.org/
 .. _flake8: https://pypi.python.org/pypi/flake8
 .. _pipsi: https://github.com/mitsuhiko/pipsi
