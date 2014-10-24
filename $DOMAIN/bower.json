@@ -1,6 +1,6 @@
 {
-  "name": "{{ cookiecutter.domain }}",
-  "description": "{{ cookiecutter.nice_name }}",
+  "name": "${DOMAIN}",
+  "description": "${NICE_NAME}",
   "version": "0.0.1",
   "authors": [
     "Feinheit <dev@feinheit.ch>"

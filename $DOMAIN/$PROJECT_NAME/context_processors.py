@@ -13,7 +13,7 @@ class Context(object):
     #     return ...
 
 
-def {{ cookiecutter.project_name }}_context(request):
+def ${PROJECT_NAME}_context(request):
     return {
-        '{{ cookiecutter.project_name }}': Context(request),
+        '${PROJECT_NAME}': Context(request),
     }

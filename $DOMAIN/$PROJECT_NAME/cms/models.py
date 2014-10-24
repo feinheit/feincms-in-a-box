@@ -19,7 +19,7 @@ from feincms_cleanse import cleanse_html
 from feincms_oembed.contents import OembedContent
 from form_designer.models import FormContent
 
-from {{ cookiecutter.project_name }}.cms.contents import (
+from ${PROJECT_NAME}.cms.contents import (
     SubpageContent, SlideContent, PageTeaserContent)
 
 

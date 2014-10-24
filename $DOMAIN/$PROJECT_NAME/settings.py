@@ -17,7 +17,7 @@ ADMINS = (
     ('FEINHEIT Developers', 'dev@feinheit.ch'),
 )
 MANAGERS = ADMINS
-DEFAULT_FROM_EMAIL = 'no-reply@{{ cookiecutter.domain }}'
+DEFAULT_FROM_EMAIL = 'no-reply@${DOMAIN}'
 SERVER_EMAIL = 'root@oekohosting.ch'
 
 DATABASES = {
@@ -31,8 +31,8 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 SECRET_KEY = env('SECRET_KEY', required=True)
 ALLOWED_HOSTS = [
-    '{{ cookiecutter.domain }}',
-    '.{{ cookiecutter.domain }}',
+    '${DOMAIN}',
+    '.${DOMAIN}',
     '.feinheit04.nine.ch',
 ]
 TIME_ZONE = 'Europe/Zurich'
@@ -69,7 +69,7 @@ STATICFILES_FINDERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    '{{ cookiecutter.project_name }}.middleware.ForceDomainMiddleware',
+    '${PROJECT_NAME}.middleware.ForceDomainMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,14 +89,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'feincms.context_processors.add_page_if_missing',
-    '{{ cookiecutter.project_name }}.context_processors.{{ cookiecutter.project_name }}_context',
+    '${PROJECT_NAME}.context_processors.${PROJECT_NAME}_context',
 )
 
-ROOT_URLCONF = '{{ cookiecutter.project_name }}.urls'
+ROOT_URLCONF = '${PROJECT_NAME}.urls'
 WSGI_APPLICATION = 'wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, '{{ cookiecutter.project_name }}', 'templates'),
+    os.path.join(BASE_DIR, '${PROJECT_NAME}', 'templates'),
 )
 
 LOCALE_PATHS = (
@@ -110,8 +110,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    '{{ cookiecutter.project_name }}',
-    '{{ cookiecutter.project_name }}.cms',
+    '${PROJECT_NAME}',
+    '${PROJECT_NAME}.cms',
 
     'towel_foundation',
     'towel',
@@ -130,7 +130,7 @@ INSTALLED_APPS = (
     'admin_sso',
 )
 
-MIGRATION_MODULES = dict((app, '{{ cookiecutter.project_name }}.migrate.%s' % app) for app in (
+MIGRATION_MODULES = dict((app, '${PROJECT_NAME}.migrate.%s' % app) for app in (
     'page',
     'medialibrary',
     'elephantblog',
@@ -139,7 +139,7 @@ MIGRATION_MODULES = dict((app, '{{ cookiecutter.project_name }}.migrate.%s' % ap
 FEINCMS_RICHTEXT_INIT_TEMPLATE = 'admin/content/richtext/init_ckeditor.html'
 FEINCMS_RICHTEXT_INIT_CONTEXT = {
     'CKEDITOR_JS_URL': (
-        '%s{{ cookiecutter.project_name }}/'
+        '%s${PROJECT_NAME}/'
         'bower_components/ckeditor/ckeditor.js' % STATIC_URL
     )
 }
@@ -184,7 +184,7 @@ ABSOLUTE_URL_OVERRIDES = {
     'elephantblog.category': elephantblog_category_url_app,
 }
 
-BLOG_TITLE = '{{ cookiecutter.nice_name }}'
+BLOG_TITLE = '${NICE_NAME}'
 BLOG_DESCRIPTION = 'News'
 BLOG_PAGINATE_BY = 10
 
@@ -200,7 +200,7 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse',
         },
         'skip_unreadable_post_error': {
-            '()': '{{ cookiecutter.project_name }}.utils.SkipUnreadablePostError',
+            '()': '${PROJECT_NAME}.utils.SkipUnreadablePostError',
         },
     },
     'formatters': {

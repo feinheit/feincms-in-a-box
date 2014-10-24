@@ -1,6 +1,6 @@
 // Gulp
 var gulp = require('gulp');
-var base = './{{ cookiecutter.project_name }}/static/{{ cookiecutter.project_name }}/';
+var base = './${PROJECT_NAME}/static/${PROJECT_NAME}/';
 
 // Plugins
 var jshint = require('gulp-jshint');

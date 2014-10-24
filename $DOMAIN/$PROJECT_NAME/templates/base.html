@@ -9,23 +9,23 @@
   <title>
     {% block title %}
       {% if feincms_page %}{{ feincms_page.page_title }} | {% endif %}
-      {% endraw %}{{ cookiecutter.nice_name }}{% raw %}
+      {% endraw %}${NICE_NAME}{% raw %}
     {% endblock %}
   </title>
   {% compress css %}
   {% block css %}
-    <link rel="stylesheet" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/css/app.css' %}">
+    <link rel="stylesheet" href="{% static '{% endraw %}${PROJECT_NAME}{% raw %}/css/app.css' %}">
   {% endblock %}
   {% endcompress %}
-  <link rel="shortcut icon" href="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/images/feincms.png' %}">
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/bower_components/modernizr/modernizr.js' %}"></script>
+  <link rel="shortcut icon" href="{% static '{% endraw %}${PROJECT_NAME}{% raw %}/images/feincms.png' %}">
+  <script src="{% static '{% endraw %}${PROJECT_NAME}{% raw %}/bower_components/modernizr/modernizr.js' %}"></script>
   <script>onReady = [];</script>
 
   <meta name="keywords" content="{{ feincms_page.meta_keywords|default:'' }}">
   <meta name="description" content="{{ feincms_page.meta_description|default:'' }}">
   <meta name="robots" content="noindex,follow,noodp">  {# TODO Remove "noindex" when going live! #}
-  <meta property="og:title" content="{{ og_title|default:feincms_page.page_title }} - {% endraw %}{{ cookiecutter.nice_name }}{% raw %}">
-  <meta property="og:image" content="http://www.{% endraw %}{{ cookiecutter.domain }}{% raw %}{{ og_image|default:'/static/{% endraw %}{{ cookiecutter.project_name }}{% raw %}/images/NN4.png' }}">
+  <meta property="og:title" content="{{ og_title|default:feincms_page.page_title }} - {% endraw %}${NICE_NAME}{% raw %}">
+  <meta property="og:image" content="http://www.{% endraw %}${DOMAIN}{% raw %}{{ og_image|default:'/static/{% endraw %}${PROJECT_NAME}{% raw %}/images/NN4.png' }}">
   <meta property="og:type" content="company">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   <meta property="og:description" content="{{ og_description|default:feincms_page.meta_description|default:'' }}">
@@ -33,7 +33,7 @@
 
   {% comment %}
   <link rel="alternate" type="application/rss+xml"
-    title="RSS Feed" href="http://www.{% endraw %}{{ cookiecutter.domain }}{% raw %}/feeds/news/">
+    title="RSS Feed" href="http://www.{% endraw %}${DOMAIN}{% raw %}/feeds/news/">
   {% endcomment %}
   {% block extra-head %}{% endblock %}
 </head>
@@ -46,7 +46,7 @@
       <div class="large-6 columns">
         <h1>
           <a id="logo" href="/">
-            {% endraw %}{{ cookiecutter.nice_name }}{% raw %}
+            {% endraw %}${NICE_NAME}{% raw %}
           </a>
         </h1>
       </div>
@@ -189,10 +189,10 @@
 
 {% compress js %}
 {% block js %}
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/bower_components/jquery/dist/jquery.min.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/bower_components/foundation/js/foundation.min.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/js/lightbox.js' %}"></script>
-  <script src="{% static '{% endraw %}{{ cookiecutter.project_name }}{% raw %}/js/app.js' %}"></script>
+  <script src="{% static '{% endraw %}${PROJECT_NAME}{% raw %}/bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static '{% endraw %}${PROJECT_NAME}{% raw %}/bower_components/foundation/js/foundation.min.js' %}"></script>
+  <script src="{% static '{% endraw %}${PROJECT_NAME}{% raw %}/js/lightbox.js' %}"></script>
+  <script src="{% static '{% endraw %}${PROJECT_NAME}{% raw %}/js/app.js' %}"></script>
 {% endblock %}
 {% endcompress %}
 {% block inline-js %}

@@ -1,14 +1,14 @@
 ============================
-{{ cookiecutter.nice_name }}
+${NICE_NAME}
 ============================
 
 Overview
 ========
 
 - Title: ...
-- Repository: https://bitbucket.org/feinheit/{{ cookiecutter.domain }}
-- URL: http://www.{{ cookiecutter.domain }}/
-- Production server: {{ cookiecutter.server }}:{{ cookiecutter.domain }}/
+- Repository: https://bitbucket.org/feinheit/${DOMAIN}
+- URL: http://www.${DOMAIN}/
+- Production server: ${SERVER}:${DOMAIN}/
 
 
 Team
@@ -32,6 +32,6 @@ description what they are all about. Also mention management commands,
 cronjobs and other non-obvious dependencies.*
 
 
-**{{ cookiecutter.project_name }}.cms**
+**${PROJECT_NAME}.cms**
 
 Django app containing FeinCMS configuration.

@@ -1,13 +1,11 @@
 from __future__ import unicode_literals
 
-import re
-
 from fabric.api import env
 
 
-env.box_project_name = '{{ cookiecutter.project_name }}'
-env.box_domain = '{{ cookiecutter.domain }}'
-env.box_database_local = re.sub(r'[^\w]+', '_', env.box_domain)
+env.box_project_name = '${PROJECT_NAME}'
+env.box_domain = '${DOMAIN}'
+env.box_database_local = '${DOMAIN_SLUG}'
 env.box_sass = '%(box_project_name)s/static/%(box_project_name)s' % env
 env.forward_agent = True
 
@@ -17,23 +15,22 @@ env.box_hardwired_environment = 'production'
 env.box_environments = {
     'production': {
         'shortcut': 'p',
-        'domain': '{{ cookiecutter.domain }}',
+        'domain': '${DOMAIN}',
         'branch': 'master',
         'server': 'www-data@feinheit04.nine.ch',
         'remote': 'production',
+        'repository': '${DOMAIN_SLUG}',
+        'database': '${DOMAIN_SLUG}',
+        'server_name': '${SERVER_NAME}',
     },
     'staging': {
         'shortcut': 's',
-        'domain': 'stage.{{ cookiecutter.domain }}',
+        'domain': 'stage.${DOMAIN}',
         'branch': 'develop',
         'server': 'www-data@feinheit04.nine.ch',
         'remote': 'staging',
+        'repository': '${DOMAIN_SLUG}',
+        'database': '${DOMAIN_SLUG}',
+        'server_name': '${SERVER_NAME}',
     },
 }
-
-for e in env.box_environments.values():
-    e.update({
-        'repository': re.sub(r'[^\w]+', '_', e['domain']),
-        'database': re.sub(r'[^\w]+', '_', e['domain']),
-        'server_name': e['server'].split('@')[-1],
-    })
