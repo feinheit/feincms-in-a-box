@@ -1,8 +1,8 @@
 ================
-cookiecutter-box
+feincms-in-a-box
 ================
 
-Preparing your system for working with cookiecutter-box
+Preparing your system for working with feincms-in-a-box
 =======================================================
 
 .. toctree::
@@ -29,12 +29,12 @@ This section should describe the features of generated projects.
    :maxdepth: 2
 
 
-Contributing to cookiecutter-box
+Contributing to feincms-in-a-box
 ================================
 
 Issues and tasks are managed using `Pivotal Tracker`_. If you want to
 contribute code changes, fork the repository and submit a pull request
-against the `cookiecutter-box repository on Github`_.
+against the `feincms-in-a-box repository on Github`_.
 
 .. _`Pivotal Tracker`: https://www.pivotaltracker.com/n/projects/1156128
-.. _`cookiecutter-box repository on Github`: https://github.com/feinheit/cookiecutter-box
+.. _`feincms-in-a-box repository on Github`: https://github.com/feinheit/feincms-in-a-box

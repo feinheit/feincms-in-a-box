@@ -4,7 +4,7 @@
 Prerequisites
 =============
 
-The cookiecutter-box project template has a few prerequisites. This page
+The feincms-in-a-box project template has a few prerequisites. This page
 explains how to prepare your system for the initial setup and continued
 development.
 

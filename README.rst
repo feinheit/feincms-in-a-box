@@ -1,5 +1,5 @@
 ================
-cookiecutter-box
+feincms-in-a-box
 ================
 
 Quickly bootstrap projects using Django_, FeinCMS_, and Foundation_.
@@ -10,4 +10,4 @@ Documentation_
 .. _Django: https://www.djangoproject.com/
 .. _FeinCMS: https://feincms.org/
 .. _Foundation: https://foundation.zurb.com/
-.. _Documentation: https://cookiecutter-box.readthedocs.org/
+.. _Documentation: https://feincms-in-a-box.readthedocs.org/

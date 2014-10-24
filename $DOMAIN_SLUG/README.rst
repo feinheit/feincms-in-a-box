@@ -23,9 +23,9 @@ Team
 Description
 ===========
 
-`cookiecutter-box <https://github.com/feinheit/cookiecutter-box>`_ has been
+`feincms-in-a-box <https://github.com/feinheit/feincms-in-a-box>`_ has been
 used in the making of this project.
-`Documentation is available on Read the Docs <https://cookiecutter-box.readthedocs.org/>`_.
+`Documentation is available on Read the Docs <https://feincms-in-a-box.readthedocs.org/>`_.
 
 *The following should be a list of included Django apps with a short
 description what they are all about. Also mention management commands,

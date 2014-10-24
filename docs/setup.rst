@@ -13,8 +13,8 @@ have the domain name as folder name.
 
 Run the following commands inside a terminal of your choice::
 
-    git clone git://github.com/feinheit/cookiecutter-box
-    cd cookiecutter-box
+    git clone git://github.com/feinheit/feincms-in-a-box
+    cd feincms-in-a-box
     ./generate.py
 
 You'll be asked a few questions:
@@ -26,7 +26,7 @@ You'll be asked a few questions:
 - ``DOMAIN``: The final domain for this project. This value is also slugified
   and used as default database and repository name, so choose well.
 - ``SERVER``: The server this project will be deployed to. Currently
-  cookiecutter-box has many assumptions about server layout, deployment will
+  feincms-in-a-box has many assumptions about server layout, deployment will
   probably not work out-of-the-box if you have a different setup (which you
   will most probably have).
 

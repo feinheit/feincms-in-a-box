@@ -1,5 +1,5 @@
 ================================
-Contributing to Cookiecutter-box
+Contributing to feincms-in-a-box
 ================================
 
 Report an issue or create a task
