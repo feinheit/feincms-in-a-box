@@ -94,11 +94,12 @@ def frontend_tools():
     if os.path.exists('bower.json'):
         local('npm install')
         local('bower install')
-    elif os.path.exists('%(box_sass)s/bower.json' % env):
-        local('cd %(box_sass)s && npm install')
-        local('cd %(box_sass)s && bower install')
-    elif os.path.exists('%(box_sass)s/config.rb' % env):
+    elif os.path.exists('%(box_staticfiles)s/bower.json' % env):
+        local('cd %(box_staticfiles)s && npm install')
+        local('cd %(box_staticfiles)s && bower install')
+    elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         local('bundle install --path=.bundle/gems')
+    local('cp %(box_staticfiles)s/bower_components/foundation/scss/foundation/_settings.scss %(box_staticfiles)s/scss/')
 
 
 @task

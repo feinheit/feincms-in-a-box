@@ -6,7 +6,7 @@ from fabric.api import env
 env.box_project_name = '${PROJECT_NAME}'
 env.box_domain = '${DOMAIN}'
 env.box_database_local = '${DOMAIN_SLUG}'
-env.box_sass = '%(box_project_name)s/static/%(box_project_name)s' % env
+env.box_staticfiles = '%(box_project_name)s/static/%(box_project_name)s' % env
 env.forward_agent = True
 
 # Remove this for multi-env support

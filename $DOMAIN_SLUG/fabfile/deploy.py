@@ -24,26 +24,26 @@ def _deploy_styles_foundation5_gulp():
     local('./node_modules/.bin/gulp build')
     for part in ['bower_components', 'build']:
         rsync_project(
-            local_dir='%(box_sass)s/%(part)s' % dict(env, part=part),
-            remote_dir='%(box_domain)s/%(box_sass)s/' % env,
+            local_dir='%(box_staticfiles)s/%(part)s' % dict(env, part=part),
+            remote_dir='%(box_domain)s/%(box_staticfiles)s/' % env,
             delete=True,
         )
 
 
 def _deploy_styles_foundation5_grunt():
-    local('cd %(box_sass)s && grunt build')
+    local('cd %(box_staticfiles)s && grunt build')
     for part in ['bower_components', 'css']:
         local(
-            'rsync -avz %%(box_sass)s/%s'
-            ' %%(box_server)s:%%(box_domain)s/%%(box_sass)s/' % part)
+            'rsync -avz %%(box_staticfiles)s/%s'
+            ' %%(box_server)s:%%(box_domain)s/%%(box_staticfiles)s/' % part)
 
 
 def _deploy_styles_foundation4_bundler():
-    local('bundle exec compass clean %(box_sass)s')
-    local('bundle exec compass compile -s compressed %(box_sass)s')
+    local('bundle exec compass clean %(box_staticfiles)s')
+    local('bundle exec compass compile -s compressed %(box_staticfiles)s')
     local(
-        'rsync -avz %(box_sass)s/stylesheets'
-        ' %(box_server)s:%(box_domain)s/%(box_sass)s/')
+        'rsync -avz %(box_staticfiles)s/stylesheets'
+        ' %(box_server)s:%(box_domain)s/%(box_staticfiles)s/')
 
 
 @task
@@ -54,9 +54,9 @@ def styles():
 
     if os.path.exists('gulpfile.js'):
         _deploy_styles_foundation5_gulp()
-    elif os.path.exists('%(box_sass)s/Gulpfile.js' % env):
+    elif os.path.exists('%(box_staticfiles)s/Gulpfile.js' % env):
         _deploy_styles_foundation5_grunt()
-    elif os.path.exists('%(box_sass)s/config.rb' % env):
+    elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         _deploy_styles_foundation4_bundler()
     else:
         abort(red('I do not know how to deploy this frontend code.'))

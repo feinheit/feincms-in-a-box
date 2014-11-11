@@ -21,10 +21,10 @@ def dev():
 
     if os.path.exists('gulpfile.js'):
         jobs.append(lambda: local('./node_modules/.bin/gulp'))
-    elif os.path.exists('%(box_sass)s/Gruntfile.js' % env):
-        jobs.append(lambda: local('cd %(box_sass)s && grunt'))
-    elif os.path.exists('%(box_sass)s/config.rb' % env):
-        jobs.append(lambda: local('bundle exec compass watch %(box_sass)s'))
+    elif os.path.exists('%(box_staticfiles)s/Gruntfile.js' % env):
+        jobs.append(lambda: local('cd %(box_staticfiles)s && grunt'))
+    elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
+        jobs.append(lambda: local('bundle exec compass watch %(box_staticfiles)s'))
 
     jobs = [Process(target=j) for j in jobs]
     [j.start() for j in jobs]
