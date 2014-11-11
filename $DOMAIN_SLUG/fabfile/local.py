@@ -99,9 +99,18 @@ def frontend_tools():
         run_local('cd %(box_staticfiles)s && bower install')
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         run_local('bundle install --path=.bundle/gems')
-    run_local(
-        'cp %(box_staticfiles)s/bower_components/foundation/scss/foundation/'
-        '_settings.scss %(box_staticfiles)s/scss/')
+
+    if not os.path.exists('%(box_staticfiles)s/scss/_settings.scss' % env):
+        run_local(
+            'cp %(box_staticfiles)s/bower_components/foundation/scss/'
+            'foundation/_settings.scss %(box_staticfiles)s/scss/')
+        puts(red(
+            'Please commit %(box_staticfiles)s/scss/_settings.scss if you'
+            ' intend to modify this file!' % env))
+    else:
+        puts(red(
+            'Not replacing %(box_staticfiles)s/scss/_settings.scss with'
+            ' Foundation\'s version, file exists already.' % env))
 
 
 @task
