@@ -14,7 +14,7 @@
   </title>
   {% compress css %}
   {% block css %}
-    <link rel="stylesheet" href="{% static '${PROJECT_NAME}/css/app.css' %}">
+    <link rel="stylesheet" href="{% static '${PROJECT_NAME}/build/app.css' %}">
   {% endblock %}
   {% endcompress %}
   <link rel="shortcut icon" href="{% static '${PROJECT_NAME}/images/feincms.png' %}">
@@ -41,29 +41,14 @@
 
 <div class="row collapse wrapper">
   <div class="large-12 columns">
-
     <div class="row collapse header">
-      <div class="large-6 columns">
-        <h1>
-          <a id="logo" href="/">
-            ${NICE_NAME}
-          </a>
-        </h1>
-      </div>
-
-      <div class="large-6 columns push-for-medium">
-        <form method="get" action="/search/" class="search hide-for-small">
-          <input type="text" name="q" placeholder="Suche">
-          <i class="fi-magnifying-glass"></i>
-        </form>
-
-        <nav class="top-bar" data-topbar data-options="back_text:{% trans 'Back' %};">
+      <div class="large-12 columns">
+        <nav class="top-bar" data-topbar role="navigation" data-options="back_text:{% trans 'Back' %};">
           <ul class="title-area">
             <li class="name">
-              <form method="get" action="/search/" class="search show-for-small">
-                <input type="text" name="q" placeholder="Suche">
-                <i class="fi-magnifying-glass"></i>
-              </form>
+              <h1>
+                <a id="logo" href="/">${NICE_NAME}</a>
+              </h1>
             </li>
             <li class="toggle-topbar menu-icon">
               <a href="#"><span>Menu<!-- nothing --></span></a>
@@ -71,7 +56,7 @@
           </ul>
 
           <section class="top-bar-section">
-            <ul class="right">
+            <ul class="left">
               {% feincms_nav feincms_page level=2 depth=2 group='default' as toplevel %}
               {% for page, children in toplevel|group_by_tree %}
                 {% page_is_active page as is_active %}
@@ -99,20 +84,7 @@
       </div>
     </div>
 
-
     {% block main %}
-    {% block moodboard %}
-      {% if feincms_page.content.gallery %}
-      <div class="row hide-for-small gallery">
-        <div class="large-12 columns">
-          <ul data-orbit data-options="animation:fade; animation_speed:300; bullets:false; slide_number:false; timer_speed:5000; resume_on_mouseout:true;">
-            {% feincms_render_region feincms_page "gallery" request %}
-          </ul>
-        </div>
-      </div>
-      {% endif %}
-    {% endblock %}
-
     {% block content-before %}
       {% include "towel/_messages.html" %}
     {% endblock %}
@@ -155,10 +127,10 @@
 
       <div class="large-4 columns">
         <h3 class="subheader">
-            <a href="#">
-              Newsletter
-            </a>
-          </h3>
+          <a href="#">
+            Newsletter
+          </a>
+        </h3>
         <form method="post" action="#">
           {% csrf_token %}
           <input type="hidden" name="action" value="subscribe">
@@ -191,8 +163,7 @@
 {% block js %}
   <script src="{% static '${PROJECT_NAME}/bower_components/jquery/dist/jquery.min.js' %}"></script>
   <script src="{% static '${PROJECT_NAME}/bower_components/foundation/js/foundation.min.js' %}"></script>
-  <script src="{% static '${PROJECT_NAME}/js/lightbox.js' %}"></script>
-  <script src="{% static '${PROJECT_NAME}/js/app.js' %}"></script>
+  <script src="{% static '${PROJECT_NAME}/build/app.js' %}"></script>
 {% endblock %}
 {% endcompress %}
 {% block inline-js %}
@@ -203,28 +174,14 @@
   </script>
 {% endblock %}
 
-{% comment %}<!--
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-16250062-1']);
-    _gaq.push(['_trackPageview']);
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
--->{% endcomment %}
-<script>$(window).load(function() { $('.video-container').show(); });</script>
-
-  {% if request.user.is_staff and feincms_page %}
-    <div class="edit-tools">
-      {% block edit-tools %}
+{% if request.user.is_staff and feincms_page %}
+  <div class="edit-tools">
+    {% block edit-tools %}
       <a href="/admin/page/page/{{ feincms_page.id }}/"
         class="button tiny">Edit page</a>
-      {% endblock %}
-    </div>
-  {% endif %}
+    {% endblock %}
+  </div>
+{% endif %}
 
 </body>
 </html>
