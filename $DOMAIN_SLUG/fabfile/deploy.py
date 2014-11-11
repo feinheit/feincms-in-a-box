@@ -7,7 +7,7 @@ from fabric.colors import red
 from fabric.contrib.project import rsync_project
 from fabric.utils import abort
 
-from fabfile import local, cd, require_env, run, step
+from fabfile import run_local, cd, require_env, run, step
 
 
 @task(default=True)
@@ -21,7 +21,7 @@ def deploy():
 
 
 def _deploy_styles_foundation5_gulp():
-    local('./node_modules/.bin/gulp build')
+    run_local('./node_modules/.bin/gulp build')
     for part in ['bower_components', 'build']:
         rsync_project(
             local_dir='%(box_sass)s/%(part)s' % dict(env, part=part),
@@ -31,17 +31,17 @@ def _deploy_styles_foundation5_gulp():
 
 
 def _deploy_styles_foundation5_grunt():
-    local('cd %(box_sass)s && grunt build')
+    run_local('cd %(box_sass)s && grunt build')
     for part in ['bower_components', 'css']:
-        local(
+        run_local(
             'rsync -avz %%(box_sass)s/%s'
             ' %%(box_server)s:%%(box_domain)s/%%(box_sass)s/' % part)
 
 
 def _deploy_styles_foundation4_bundler():
-    local('bundle exec compass clean %(box_sass)s')
-    local('bundle exec compass compile -s compressed %(box_sass)s')
-    local(
+    run_local('bundle exec compass clean %(box_sass)s')
+    run_local('bundle exec compass compile -s compressed %(box_sass)s')
+    run_local(
         'rsync -avz %(box_sass)s/stylesheets'
         ' %(box_server)s:%(box_domain)s/%(box_sass)s/')
 
@@ -76,7 +76,7 @@ def code():
     # XXX Maybe abort deployment if branch-to-be-deployed is not checked out?
 
     step('\nPushing changes...')
-    local('git push origin %(box_branch)s')
+    run_local('git push origin %(box_branch)s')
 
     step('\nDeploying new code on server...')
     with cd('%(box_domain)s'):

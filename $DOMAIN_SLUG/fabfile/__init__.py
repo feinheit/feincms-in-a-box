@@ -7,7 +7,7 @@ import socket
 from subprocess import Popen, PIPE, call
 import time
 
-from fabric.api import env, cd, local, run, task
+from fabric.api import env, cd, run, local as run_local, task
 from fabric.colors import cyan, red
 from fabric.contrib.console import confirm
 from fabric.utils import abort, puts
@@ -18,11 +18,11 @@ from fabfile import config
 __all__ = (
     'check',
     'config',
-    'dev',
     'deploy',
-    'setup_local',
-    'setup_server',
-    'versioning',
+    'dev',
+    'git',
+    'local',
+    'server',
 )
 
 
@@ -108,9 +108,9 @@ def interpolate_with_env(fn):
     return _dec
 
 
-local = interpolate_with_env(local)
 cd = interpolate_with_env(cd)
 run = interpolate_with_env(run)
+run_local = interpolate_with_env(run_local)
 confirm = interpolate_with_env(confirm)
 
 
@@ -151,5 +151,4 @@ ensure_pre_commit_hook_installed()
 
 
 # Import other fabfile mods, now that interpolate_with_env has been run -----
-from fabfile import (
-    check, dev, deploy, setup_local, setup_server, versioning)
+from fabfile import check, deploy, dev, git, local, server

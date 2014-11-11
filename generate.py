@@ -139,7 +139,7 @@ def walker(base, context):
         'Successfully initialized the project in %s.' % project_dir,
         'cyan', True))
     print(color(
-        'Run "fab setup_local" inside the project folder to continue.',
+        'Run "fab local.setup" inside the project folder to continue.',
         'green', True))
 
 

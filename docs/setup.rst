@@ -31,7 +31,7 @@ You'll be asked a few questions:
   will most probably have).
 
 The project will be created inside the ``build/`` folder. ``cd`` into that
-directory and run ``fab setup_local`` to continue the setup. The setup step
+directory and run ``fab local.setup`` to continue the setup. The setup step
 should complete successfully, if it does not please report it as a bug_!
 
 .. _bug: https://www.pivotaltracker.com/projects/1156128
@@ -43,8 +43,8 @@ Further steps
 - ``fab dev``: Starts the development server and background services (if they
   are not running already).
 - ``fab versioning.init_bitbucket``: Uploads the project to bitbucket.
-- ``fab setup_server``: Installs the project on a server. The project has to be
-  cloneable from somewhere, Github or Bitbucket.
+- ``fab server.setup``: Installs the project on a server. The project has to
+  be cloneable from somewhere, Github or Bitbucket.
 
 
 Setting up a local development installation of an existing project
@@ -55,7 +55,7 @@ After that, clone the repository and run the setup command::
 
     git clone <repo-url>
     cd <project>
-    fab setup_local.setup_with_production_data
+    fab local.setup_with_production_data
 
 
 Installing the project on a server
@@ -63,7 +63,7 @@ Installing the project on a server
 
 That's all::
 
-    fab setup_server
+    fab server.setup
 
 
 Installing a staging copy of an existing project
@@ -77,8 +77,8 @@ base.
 Switch to the ``develop`` branch (creating it if it does not exist already),
 and run the following commands::
 
-    fab staging setup_server
-    fab staging setup_server.copy_data_from:production
+    fab staging server.setup
+    fab staging server.copy_data_from:production
 
 If the staging site is not required anymore, it can be removed using the
 following command::
