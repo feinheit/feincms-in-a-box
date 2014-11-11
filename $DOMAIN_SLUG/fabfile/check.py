@@ -127,19 +127,7 @@ def deploy():
 @task
 @hosts('')
 def test():
-    execute('check.test_backend')
-    execute('check.test_frontend')
-
-
-@task
-@hosts('')
-def test_backend():
     step('Running backend testsuite...')
     run_local('venv/bin/python manage.py test')
-
-
-@task
-@hosts('')
-def test_frontend():
-    step('Running frontend testsuite...')
+    step('We do not have a frontend testsuite yet...')
     # run_local('./node_modules/.bin/gulp test')
