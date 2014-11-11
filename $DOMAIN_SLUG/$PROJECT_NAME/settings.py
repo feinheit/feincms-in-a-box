@@ -139,10 +139,7 @@ MIGRATION_MODULES = dict((app, '${PROJECT_NAME}.migrate.%s' % app) for app in (
 
 FEINCMS_RICHTEXT_INIT_TEMPLATE = 'admin/content/richtext/init_ckeditor.html'
 FEINCMS_RICHTEXT_INIT_CONTEXT = {
-    'CKEDITOR_JS_URL': (
-        '%s${PROJECT_NAME}/'
-        'bower_components/ckeditor/ckeditor.js' % STATIC_URL
-    )
+    'CKEDITOR_JS_URL': '//cdn.ckeditor.com/4.4.5.1/standard/ckeditor.js',
 }
 
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID = env(
