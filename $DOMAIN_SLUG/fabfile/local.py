@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import os
 import platform
 
-from fabric.api import env, execute, hosts, settings, task
+from fabric.api import env, execute, hosts, task
 from fabric.colors import green, red
 from fabric.contrib.project import rsync_project
 from fabric.utils import puts
@@ -121,6 +121,14 @@ SENTRY_DSN=
 @require_services
 def create_and_migrate_database():
     """Creates and migrates a Postgres database"""
+
+    if not confirm(
+            'Completely replace the local database'
+            ' "%(box_database_local)s" (if it exists)?'):
+        return
+
+    run_local(
+        'dropdb --if-exists %(box_database_local)s')
     run_local(
         'createdb %(box_database_local)s'
         ' --encoding=UTF8 --template=template0')
@@ -139,9 +147,8 @@ def pull_database():
             ' "%(box_database_local)s" (if it exists)?'):
         return
 
-    with settings(warn_only=True):
-        run_local('dropdb %(box_database_local)s')
-
+    run_local(
+        'dropdb --if-exists %(box_database_local)s')
     run_local(
         'createdb %(box_database_local)s'
         ' --encoding=UTF8 --template=template0')
