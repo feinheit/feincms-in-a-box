@@ -46,48 +46,34 @@ Page.register_extensions(
 # --------------------
 
 Page.create_content_type(
-    RichTextContent, cleanse=cleanse_html,
-    optgroup='Content', regions=('main', 'col1', 'col2'))
+    RichTextContent, cleanse=cleanse_html)
 Page.create_content_type(
     MediaFileContent,
     TYPE_CHOICES=(
         ('default', _('default')),
-    ),
-    optgroup='Content',
-    regions=('main', 'col1', 'col2'))
+    ))
 Page.create_content_type(
     OembedContent,
-    optgroup='Content',
     TYPE_CHOICES=[
         ('default', _('Default presentation'), {
             'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
     ])
 
 # Page.create_content_type(
-#     FormContent,
-#     optgroup='Dynamic',
-#     regions=('main', 'col1', 'col2'))
+#     FormContent)
 # Page.create_content_type(
-#     SubpageContent,
-#     optgroup='Content',
-#     regions=('main', 'col1', 'col2'))
+#     SubpageContent)
 # Page.create_content_type(
-#     PageTeaserContent,
-#     optgroup='Content',
-#     regions=('col1', 'col2'))
+#     PageTeaserContent)
 # Page.create_content_type(
-#     BlogEntryListContent,
-#     optgroup='Dynamic',
-#     regions=('col1', 'col2'))
+#     BlogEntryListContent)
 # Page.create_content_type(
 #     ApplicationContent,
 #     APPLICATIONS=(
 #         ('elephantblog', _('Blog'), {
 #             'urls': 'elephantblog.urls',
 #         }),
-#     ),
-#     optgroup='Dynamic',
-#     regions=('main', 'col1', 'col2'))
+#     ))
 #
 
 # Elephantblog Contenttypes
