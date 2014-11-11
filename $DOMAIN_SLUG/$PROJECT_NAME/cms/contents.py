@@ -13,6 +13,9 @@ from feincms.module.page.models import Page
 
 
 class SubpageContent(models.Model):
+    """
+    TODO: Add description here
+    """
     style = models.CharField(
         _('style'),
         max_length=20,
@@ -39,6 +42,9 @@ class SubpageContent(models.Model):
 
 
 class SlideContent(ContentWithMediaFile):
+    """
+    TODO: Add description here
+    """
     title = models.CharField(_('title'), max_length=100, blank=True)
     subtitle = models.CharField(_('subtitle'), max_length=100, blank=True)
     area = models.CharField(
@@ -73,11 +79,17 @@ class PageTeaserInline(FeinCMSInline):
 
 
 class PageTeaserContent(models.Model):
+    """
+    Contenttype for teasering another page.
+    The user can specify the page, an image and a title.
+    The image and the title attribute are optional.
+    """
     feincms_item_editor_inline = PageTeaserInline
 
     page = models.ForeignKey(Page, verbose_name=_('page'), related_name='+')
     mediafile = MediaFileForeignKey(
-        MediaFile, verbose_name=_('mediafile'), related_name='+')
+        MediaFile, verbose_name=_('mediafile'), related_name='+',
+        limit_choices_to={'type': 'image'})
     title = models.CharField(_('title'), max_length=100, blank=True)
 
     class Meta:
