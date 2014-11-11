@@ -38,7 +38,7 @@ def clone_repository():
     env.box_repository_url = repo
 
     run('git clone -b %(box_branch)s %(box_repository_url)s %(box_domain)s')
-    execute('versioning.add_remote')
+    execute('git.add_remote')
 
 
 @task

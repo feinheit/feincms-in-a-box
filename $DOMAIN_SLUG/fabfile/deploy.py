@@ -89,4 +89,4 @@ def code():
         run('venv/bin/python manage.py collectstatic --noinput')
         run('sctl restart %(box_domain)s:*')
 
-    execute('versioning.fetch_remote')
+    execute('git.fetch_remote')

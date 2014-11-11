@@ -42,7 +42,7 @@ Further steps
 
 - ``fab dev``: Starts the development server and background services (if they
   are not running already).
-- ``fab versioning.init_bitbucket``: Uploads the project to bitbucket.
+- ``fab git.init_bitbucket``: Uploads the project to bitbucket.
 - ``fab server.setup``: Installs the project on a server. The project has to
   be cloneable from somewhere, Github or Bitbucket.
 
