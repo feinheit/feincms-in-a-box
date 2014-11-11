@@ -20,7 +20,7 @@ def dev():
     ]
 
     if os.path.exists('gulpfile.js'):
-        jobs.append(lambda: run_local('./node_modules/.bin/gulp'))
+        jobs.append(lambda: run_local('./node_modules/.bin/gulp build watch'))
     elif os.path.exists('%(box_staticfiles)s/Gruntfile.js' % env):
         jobs.append(lambda: run_local('cd %(box_sass)s && grunt'))
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
