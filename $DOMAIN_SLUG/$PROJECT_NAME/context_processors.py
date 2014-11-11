@@ -13,7 +13,7 @@ class Context(object):
     #     return ...
 
 
-def ${PROJECT_NAME}_context(request):
+def site_context(request):
     return {
         '${PROJECT_NAME}': Context(request),
     }

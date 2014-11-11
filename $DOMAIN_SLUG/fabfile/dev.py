@@ -24,7 +24,8 @@ def dev():
     elif os.path.exists('%(box_staticfiles)s/Gruntfile.js' % env):
         jobs.append(lambda: local('cd %(box_staticfiles)s && grunt'))
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
-        jobs.append(lambda: local('bundle exec compass watch %(box_staticfiles)s'))
+        jobs.append(
+            lambda: local('bundle exec compass watch %(box_staticfiles)s'))
 
     jobs = [Process(target=j) for j in jobs]
     [j.start() for j in jobs]

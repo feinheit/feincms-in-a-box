@@ -90,7 +90,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'feincms.context_processors.add_page_if_missing',
-    '${PROJECT_NAME}.context_processors.${PROJECT_NAME}_context',
+    '${PROJECT_NAME}.context_processors.site_context',
 )
 
 ROOT_URLCONF = '${PROJECT_NAME}.urls'

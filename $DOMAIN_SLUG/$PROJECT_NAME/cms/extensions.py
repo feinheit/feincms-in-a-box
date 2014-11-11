@@ -8,6 +8,7 @@ from feincms.extensions import Extension
 from feincms.module.medialibrary.fields import MediaFileForeignKey
 from feincms.module.medialibrary.models import MediaFile
 
+
 class ExcerptExtension(Extension):
     """
     TODO: A description describing what this extension is doing.
@@ -27,4 +28,3 @@ class ExcerptExtension(Extension):
         modeladmin.add_extension_options(_('Excerpt'), {
             'fields': ('excerpt_image', 'excerpt_text'),
         })
-

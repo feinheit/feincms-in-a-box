@@ -99,7 +99,9 @@ def frontend_tools():
         local('cd %(box_staticfiles)s && bower install')
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         local('bundle install --path=.bundle/gems')
-    local('cp %(box_staticfiles)s/bower_components/foundation/scss/foundation/_settings.scss %(box_staticfiles)s/scss/')
+    local(
+        'cp %(box_staticfiles)s/bower_components/foundation/scss/foundation/'
+        '_settings.scss %(box_staticfiles)s/scss/')
 
 
 @task
