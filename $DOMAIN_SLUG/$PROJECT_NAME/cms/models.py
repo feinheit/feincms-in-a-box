@@ -18,6 +18,7 @@ from feincms_oembed.contents import OembedContent
 #
 # from .contents import (
 #     SubpageContent, SlideContent, PageTeaserContent)
+from .extensions import ExcerptExtension
 
 
 Page.register_templates({
@@ -38,6 +39,7 @@ Page.register_extensions(
     'feincms.module.extensions.seo',
     'feincms.module.page.extensions.titles',
     'feincms.module.page.extensions.navigationgroups',
+    ExcerptExtension
 )
 
 # FeinCMS Contenttypes
