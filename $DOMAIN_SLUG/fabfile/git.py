@@ -8,7 +8,7 @@ from fabric.colors import red
 from fabric.contrib.console import confirm
 from fabric.utils import puts
 
-from fabfile import local, require_env, step
+from fabfile import run_local, require_env, step
 
 
 @task
@@ -33,7 +33,7 @@ def init_bitbucket():
         env.box_repo = '%s/%s' % (organization, repository)
 
         with hide('running'):
-            local(
+            run_local(
                 'curl'
                 ' -X POST -u %(box_auth)s -H "content-type: application/json"'
                 ' https://api.bitbucket.org/2.0/repositories/%(box_repo)s'
@@ -42,10 +42,10 @@ def init_bitbucket():
 
         with hide('everything'):
             with settings(warn_only=True):
-                local('git remote rm origin')
+                run_local('git remote rm origin')
 
-        local('git remote add origin git@bitbucket.org:%(box_repo)s.git')
-        local('git push -u origin master')
+        run_local('git remote add origin git@bitbucket.org:%(box_repo)s.git')
+        run_local('git push -u origin master')
 
 
 @task
@@ -53,7 +53,7 @@ def init_bitbucket():
 @require_env
 def add_remote():
     with settings(warn_only=True):
-        local(
+        run_local(
             'git remote add -f %(box_remote)s %(box_server)s:%(box_domain)s/')
 
 
@@ -63,4 +63,4 @@ def add_remote():
 def fetch_remote():
     step('Updating git remote...')
     with settings(warn_only=True):
-        local('git fetch %(box_remote)s')
+        run_local('git fetch %(box_remote)s')

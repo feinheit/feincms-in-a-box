@@ -5,7 +5,7 @@ import os
 import warnings
 
 
-def read_dotenv():
+def read_dotenv(filename='.env'):
     """
     Writes the values in ``.env`` in the same folder as this file into
     ``os.environ`` if the keys do not exist already.
@@ -18,7 +18,7 @@ def read_dotenv():
     """
     path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        '.env')
+        filename)
     if not os.path.isfile(path):
         warnings.warn('.env not a file, not reading anything')
         return

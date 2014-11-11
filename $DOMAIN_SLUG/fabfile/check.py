@@ -7,7 +7,7 @@ from fabric.api import (
 from fabric.colors import red
 from fabric.utils import abort, puts
 
-from fabfile import cd, local, require_env, step
+from fabfile import cd, run_local, require_env, step
 
 
 def complain_on_failure(task, complaint):
@@ -21,29 +21,29 @@ def complain_on_failure(task, complaint):
 def check():
     """Runs coding style checks, and Django's checking framework"""
     step('Searching for debugging statements...')
-    local("! git grep -n -C3 -E 'import i?pdb' -- '*.py'")
-    local("! git grep -n -C3 -E 'console\.log' -- '*.html' '*.js'")
-    local(
+    run_local("! git grep -n -C3 -E 'import i?pdb' -- '*.py'")
+    run_local("! git grep -n -C3 -E 'console\.log' -- '*.html' '*.js'")
+    run_local(
         "! git grep -n -C3 -E '(^| )print( |\(|$)'"
         " -- '%(box_project_name)s/*py'")
 
     step('Checking Python code with flake8...')
-    local('flake8 .')
+    run_local('flake8 .')
 
     step('Checking frontend code...')
-    local('./node_modules/.bin/gulp check')
+    run_local('./node_modules/.bin/gulp check')
 
     step('Invoking Django\'s systems check framework...')
-    local('venv/bin/python manage.py check')
+    run_local('venv/bin/python manage.py check')
 
     with settings(warn_only=True), hide('warnings'):
         # Remind the user about uglyness, but do not fail (there are good
         # reasons to use the patterns warned about here).
         step('Pointing to potential tasks...')
-        local("! git grep -n -E '#.*noqa' -- '%(box_project_name)s/*.py'")
-        local("! git grep -n -E '(XXX|FIXME|TODO)'")
+        run_local("! git grep -n -E '#.*noqa' -- '%(box_project_name)s/*.py'")
+        run_local("! git grep -n -E '(XXX|FIXME|TODO)'")
         complain_on_failure(
-            local("! git grep -n -E '^-e.+$' -- requirements/"),
+            run_local("! git grep -n -E '^-e.+$' -- requirements/"),
             'Warning: Editable requirements found. Releases are preferred!')
 
 
@@ -56,9 +56,9 @@ def primetime():
     execute('check.test')
 
     step('"noindex" should not hit production servers...')
-    local(
+    run_local(
         "! git grep -n -C3 -E '^Disallow: /$' -- 'robots.txt'")
-    local(
+    run_local(
         "! git grep -n -C3 -E 'meta.*robots.*noindex' -- %(box_project_name)s")
 
     step('Checking local settings on server...')
@@ -97,8 +97,8 @@ def primetime():
                 'Error: DEBUG = True!?', bold=True))
 
         with settings(warn_only=True), hide('everything'):
-            gitgrep = local("! git grep '%s'" % output['sk'], capture=True)
-            grep = local("! grep '%s' */*.py" % output['sk'], capture=True)
+            gitgrep = run_local("! git grep '%s'" % output['sk'], capture=True)
+            grep = run_local("! grep '%s' */*.py" % output['sk'], capture=True)
         if gitgrep or grep:
             puts(red(
                 'Error: The remote value of SECRET_KEY also exists in local'
@@ -127,19 +127,7 @@ def deploy():
 @task
 @hosts('')
 def test():
-    execute('check.test_backend')
-    execute('check.test_frontend')
-
-
-@task
-@hosts('')
-def test_backend():
     step('Running backend testsuite...')
-    local('venv/bin/python manage.py test')
-
-
-@task
-@hosts('')
-def test_frontend():
-    step('Running frontend testsuite...')
-    # local('./node_modules/.bin/gulp test')
+    run_local('venv/bin/python manage.py test')
+    step('We do not have a frontend testsuite yet...')
+    # run_local('./node_modules/.bin/gulp test')

@@ -6,20 +6,20 @@ from fabric.api import env, execute, hide, prompt, put, settings, task
 from fabric.colors import green, red
 from fabric.utils import abort, puts
 
-from fabfile import confirm, local, cd, require_env, run
+from fabfile import confirm, run_local, cd, require_env, run
 from fabfile.utils import get_random_string
 
 
-@task(default=True)
+@task
 @require_env
-def init():
+def setup():
     """Sets up the server from a git repository"""
-    execute('setup_server.clone_repository')
-    execute('setup_server.create_virtualenv')
-    execute('setup_server.create_database_and_dotenv')
-    execute('setup_server.nginx_vhost_and_supervisor')
+    execute('server.clone_repository')
+    execute('server.create_virtualenv')
+    execute('server.create_database_and_dotenv')
+    execute('server.nginx_vhost_and_supervisor')
     execute('deploy.styles')
-    execute('setup_server.create_sso_user')
+    execute('server.create_sso_user')
     puts(green('Visit http://%(box_domain)s.%(box_server_name)s now!' % env))
 
 
@@ -28,7 +28,7 @@ def init():
 def clone_repository():
     puts(green('We need the repository to initialize the server.'))
     with hide('running'):
-        output = local('git config remote.origin.url', capture=True)
+        output = run_local('git config remote.origin.url', capture=True)
     repo = prompt('Repository', default=output)
 
     if not repo:
@@ -38,7 +38,7 @@ def clone_repository():
     env.box_repository_url = repo
 
     run('git clone -b %(box_branch)s %(box_repository_url)s %(box_domain)s')
-    execute('versioning.add_remote')
+    execute('git.add_remote')
 
 
 @task

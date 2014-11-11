@@ -6,7 +6,7 @@ import subprocess
 
 from fabric.api import env, hosts, task
 
-from fabfile import local, require_services
+from fabfile import run_local, require_services
 
 
 @task(default=True)
@@ -16,16 +16,16 @@ def dev():
     """Runs the development server, SCSS watcher and backend services if they
     are not running already"""
     jobs = [
-        lambda: local('venv/bin/python -Wall manage.py runserver'),
+        lambda: run_local('venv/bin/python -Wall manage.py runserver'),
     ]
 
     if os.path.exists('gulpfile.js'):
-        jobs.append(lambda: local('./node_modules/.bin/gulp'))
+        jobs.append(lambda: run_local('./node_modules/.bin/gulp'))
     elif os.path.exists('%(box_staticfiles)s/Gruntfile.js' % env):
-        jobs.append(lambda: local('cd %(box_staticfiles)s && grunt'))
+        jobs.append(lambda: run_local('cd %(box_sass)s && grunt'))
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         jobs.append(
-            lambda: local('bundle exec compass watch %(box_staticfiles)s'))
+            lambda: run_local('bundle exec compass watch %(box_staticfiles)s'))
 
     jobs = [Process(target=j) for j in jobs]
     [j.start() for j in jobs]
@@ -37,11 +37,19 @@ def dev():
 def makemessages():
     """Wrapper around the ``makemessages`` management command which excludes
     dependencies (virtualenv, bower components, node modules)"""
-    local(
+    run_local(
         'venv/bin/python manage.py makemessages -a'
         ' -i bower_components'
         ' -i node_modules'
         ' -i venv')
+
+
+@task
+@hosts('')
+@require_services
+def services():
+    """Starts all required background services"""
+    pass
 
 
 @task
