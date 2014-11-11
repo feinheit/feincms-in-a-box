@@ -11,6 +11,8 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEBUG = any(r in sys.argv for r in ('runserver', 'shell', 'dbshell'))
+TESTING = any(r in sys.argv for r in ('test',))
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

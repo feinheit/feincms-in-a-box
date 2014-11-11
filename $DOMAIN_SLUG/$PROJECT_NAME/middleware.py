@@ -29,7 +29,7 @@ class ForceDomainMiddleware(object):
 
 class OnlyStaffMiddleware(object):
     def __init__(self):
-        if settings.DEBUG:
+        if settings.DEBUG or settings.TESTING:
             raise MiddlewareNotUsed
 
     def process_request(self, request):
