@@ -17,7 +17,7 @@ except NameError:
     raw_input = input
 
 
-def readline(prompt, default=None, required=True):
+def read_line(prompt, default=None, required=True):
     """
     Prompts the user for the value described in ``prompt``.
 
@@ -62,7 +62,7 @@ def ask_for_context():
 
     context = dict((
         key,
-        readline(key, default=default)) for key, default in default_context)
+        read_line(key, default=default)) for key, default in default_context)
 
     context.update({
         'NICE_NAME': context['NICE_NAME'].replace('\'', '\\\''),
