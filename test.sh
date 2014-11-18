@@ -1,9 +1,8 @@
 #!/bin/sh
 set -v
-ID=$RANDOM
-rm -rf build/test_`echo $ID`_ch
+rm -rf build/example_com
 # TODO "Nice!' name" fails in npm/bower
-./generate.py --charge test-`echo $ID`.ch "Nice name"
-cd build/test_`echo $ID`_ch
+./generate.py --charge example.com "Nice name"
+cd build/example_com
 yes | fab local.setup
 fab check.test
