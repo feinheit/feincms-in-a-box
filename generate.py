@@ -19,11 +19,17 @@ except NameError:
     raw_input = input
 
 
-def read_output(command):
+def read_output(command, fail_silently=False):
     """
     Runs the command and returns the output
     """
-    output = subprocess.check_output(command)
+    try:
+        output = subprocess.check_output(command)
+    except subprocess.CalledProcessError:
+        if fail_silently:
+            return ''
+        raise
+
     output = output.decode(sys.stdin.encoding)
     return output.strip()
 
@@ -165,8 +171,10 @@ if __name__ == '__main__':
         'PROJECT_NAME': args.project_name,
         'SERVER': args.server,
         'SERVER_NAME': args.server.split('@')[-1],
-        'USER_NAME': read_output(['git', 'config', 'user.name']),
-        'USER_EMAIL': read_output(['git', 'config', 'user.email']),
+        'USER_NAME': read_output(
+            ['git', 'config', 'user.name'], fail_silently=True),
+        'USER_EMAIL': read_output(
+            ['git', 'config', 'user.email'], fail_silently=True),
     }
 
     if not args.charge:
