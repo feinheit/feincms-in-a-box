@@ -9,6 +9,7 @@ import re
 import shutil
 from string import Template
 import subprocess
+import sys
 
 try:
     raw_input
@@ -29,7 +30,7 @@ def readline(prompt, default=None, required=True):
     prompt += ': '
 
     while True:
-        value = raw_input(prompt)
+        value = raw_input(prompt.encode(sys.stdout.encoding))
         if not required:
             return value or default
         elif value:
@@ -38,6 +39,11 @@ def readline(prompt, default=None, required=True):
             return default
 
         print(color('This value is required.', 'red'))
+
+
+def read_output(command):
+    output = subprocess.check_output(command)
+    return output.decode(sys.stdin.encoding).strip()
 
 
 def ask_for_context():
@@ -50,6 +56,8 @@ def ask_for_context():
         ('DOMAIN', ''),
         ('PROJECT_NAME', 'box'),
         ('SERVER', 'www-data@feinheit04.nine.ch'),
+        ('USER_NAME', read_output(['git', 'config', 'user.name'])),
+        ('USER_EMAIL', read_output(['git', 'config', 'user.email'])),
     ]
 
     context = dict((
