@@ -1,5 +1,4 @@
 language: python
-sudo: false
 python:
   - "2.7"
 services:
@@ -11,3 +10,6 @@ env:
     - PGUSER=postgres
 script:
   - ./test.sh
+before_install:
+  sudo apt-get update -qq
+  sudo apt-get install -y fabric
