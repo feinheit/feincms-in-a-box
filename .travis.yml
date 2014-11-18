@@ -1,0 +1,13 @@
+language: python
+sudo: false
+python:
+  - "2.7"
+services:
+  - redis-server
+addons:
+  postgresql: "9.3"
+env:
+  global:
+    - PGUSER=postgres
+script:
+  - ./test.sh
