@@ -64,4 +64,4 @@ gulp.task('watch', function(event) {
 // Build
 gulp.task('build', ['css', 'js']);
 gulp.task('check', ['jshint', 'scss-lint']);
-gulp.task('default', ['watch']);
+gulp.task('default', ['build', 'watch']);
