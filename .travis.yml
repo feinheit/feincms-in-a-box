@@ -12,7 +12,7 @@ script:
   - ./test.sh
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y -q fabric nodejs npm rubygems
+  - sudo apt-get install -y -q fabric nodejs npm ruby1.9.1
   - sudo pip install flake8
   - npm install -g bower jshint
-  - sudo gem install scss-lint
+  - sudo gem1.9.1 install scss-lint
