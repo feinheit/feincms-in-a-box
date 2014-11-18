@@ -2,6 +2,8 @@
 
 from __future__ import absolute_import, print_function, unicode_literals
 
+import argparse
+import env
 from fnmatch import fnmatch
 import io
 import os
@@ -17,59 +19,13 @@ except NameError:
     raw_input = input
 
 
-def read_line(prompt, default=None, required=True):
-    """
-    Prompts the user for the value described in ``prompt``.
-
-    If ``required`` is set to ``True`` ensures that a non-empty value is
-    returned (which might also be the default value if the default was
-    non-empty).
-    """
-    if default:
-        prompt += ' [%s]' % default
-    prompt += ': '
-
-    while True:
-        value = raw_input(prompt.encode(sys.stdout.encoding))
-        if not required:
-            return value or default
-        elif value:
-            return value
-        elif default:
-            return default
-
-        print(color('This value is required.', 'red'))
-
-
 def read_output(command):
+    """
+    Runs the command and returns the output
+    """
     output = subprocess.check_output(command)
-    return output.decode(sys.stdin.encoding).strip()
-
-
-def ask_for_context():
-    """
-    Ask nicely for a few details regarding the project we are about to
-    generate.
-    """
-    default_context = [
-        ('NICE_NAME', ''),
-        ('DOMAIN', ''),
-        ('PROJECT_NAME', 'box'),
-        ('SERVER', 'www-data@feinheit04.nine.ch'),
-        ('USER_NAME', read_output(['git', 'config', 'user.name'])),
-        ('USER_EMAIL', read_output(['git', 'config', 'user.email'])),
-    ]
-
-    context = dict((
-        key,
-        read_line(key, default=default)) for key, default in default_context)
-
-    context.update({
-        'NICE_NAME': context['NICE_NAME'].replace('\'', '\\\''),
-        'DOMAIN_SLUG': re.sub(r'[^\w]+', '_', context['DOMAIN']),
-        'SERVER_NAME': context['SERVER'].split('@')[-1],
-    })
-    return context
+    output = output.decode(sys.stdin.encoding)
+    return output.strip()
 
 
 def copy_file_to(from_, to_, context):
@@ -92,7 +48,7 @@ def copy_file_to(from_, to_, context):
             handle.write(contents)
 
 
-def walker(base, context):
+def walker(base, base_dir, context):
     """
     Walks over all files in ``base`` while substituting the contents of
     ``context`` inside paths and file contents. Skips over anything which
@@ -102,10 +58,6 @@ def walker(base, context):
         gitignore_patterns = [
             line for line in gitignore.read().splitlines() if line]
 
-    base_dir = os.path.join(
-        os.path.dirname(__file__),
-        'build',
-    )
     project_dir = os.path.join(
         base_dir,
         context['DOMAIN_SLUG'],
@@ -165,5 +117,64 @@ if __name__ == '__main__':
     print(color('Welcome to FeinCMS-in-a-Box', 'cyan', True))
     print(color('===========================', 'cyan', True))
 
-    context = ask_for_context()
-    walker('$DOMAIN_SLUG', context)
+    default_env = os.path.join(
+        os.path.expanduser('~'),
+        '.box.env',
+    )
+    if os.path.isfile(default_env):
+        env.read_dotenv(default_env)
+    else:
+        print(
+            'Consider creating a ~/.box.env file containing values for'
+            ' SERVER if you want different defaults.')
+
+    server = env.env('SERVER', default='www-data@feinheit04.nine.ch')
+    destination = os.path.join(
+        os.path.dirname(__file__),
+        'build',
+        '',
+    )
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'domain', type=str, help='Domain name')
+    parser.add_argument(
+        'nice_name', type=str, help='Nice name')
+    parser.add_argument(
+        '-p', '--project-name', type=str,
+        help='Python module for the project [box]',
+        default='box')
+    parser.add_argument(
+        '-s', '--server', type=str,
+        help='Server [%s]' % server,
+        default=server)
+    parser.add_argument(
+        '-d', '--destination', type=str,
+        help='The destination path for the project [%s]' % destination,
+        default=destination)
+    parser.add_argument(
+        '--charge', action='store_true',
+        help='Charge ahead, do not ask for confirmation')
+    args = parser.parse_args()
+
+    # TODO Add some validation
+    context = {
+        'DOMAIN': args.domain,
+        'DOMAIN_SLUG': re.sub(r'[^\w]+', '_', args.domain),
+        'NICE_NAME': args.nice_name.replace('\'', r'\''),
+        'PROJECT_NAME': args.project_name,
+        'SERVER': args.server,
+        'SERVER_NAME': args.server.split('@')[-1],
+        'USER_NAME': read_output(['git', 'config', 'user.name']),
+        'USER_EMAIL': read_output(['git', 'config', 'user.email']),
+    }
+
+    if not args.charge:
+        print(color('Do those settings look correct?', 'cyan', True))
+        print('\n'.join(
+            '%s: %s' % row for row in sorted(context.items())
+        ).encode(sys.stdout.encoding))
+        print(color('If not, abort using Ctrl-C now.', 'cyan', True))
+        raw_input()
+
+    walker('$DOMAIN_SLUG', args.destination, context)

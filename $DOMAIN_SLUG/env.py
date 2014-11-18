@@ -20,7 +20,7 @@ def read_dotenv(filename='.env'):
         os.path.dirname(os.path.abspath(__file__)),
         filename)
     if not os.path.isfile(path):
-        warnings.warn('.env not a file, not reading anything')
+        warnings.warn('%s not a file, not reading anything' % filename)
         return
     # Not sure whether we should try handling other encodings than ASCII
     # at all...
