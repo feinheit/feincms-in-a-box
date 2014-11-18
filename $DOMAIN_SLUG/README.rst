@@ -6,7 +6,7 @@ Overview
 ========
 
 - Title: ...
-- Repository: https://bitbucket.org/feinheit/${DOMAIN}
+- Repository: https://bitbucket.org/feinheit/${DOMAIN_SLUG}
 - URL: http://www.${DOMAIN}/
 - Production server: ${SERVER}:${DOMAIN}/
 
