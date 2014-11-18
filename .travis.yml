@@ -11,5 +11,7 @@ env:
 script:
   - ./test.sh
 before_install:
-  sudo apt-get update -qq
-  sudo apt-get install -y fabric
+  - sudo apt-get update -qq
+  - sudo apt-get install -y -q fabric nodejs npm
+  - sudo pip install flake8
+  - npm install -g bower jshint
