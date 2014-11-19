@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import os
 import re
 
 from fabric.api import (
@@ -30,8 +31,9 @@ def check():
     step('Checking Python code with flake8...')
     run_local('flake8 .')
 
-    step('Checking frontend code...')
-    run_local('./node_modules/.bin/gulp check')
+    if os.path.exists('gulpfile.js'):
+        step('Checking frontend code...')
+        run_local('./node_modules/.bin/gulp check')
 
     step('Invoking Django\'s systems check framework...')
     run_local('venv/bin/python manage.py check')
