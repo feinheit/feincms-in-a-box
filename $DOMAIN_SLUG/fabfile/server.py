@@ -82,7 +82,6 @@ DATABASE_URL=postgres://%(box_database)s:%(box_database_pw)s@localhost:5432/%(bo
 CACHE_URL=hiredis://localhost:6379/1/%(box_database)s
 SECRET_KEY=%(box_secret_key)s
 SENTRY_DSN=%(box_sentry_dsn)s
-# ALLOWED_HOSTS = ['.%(box_domain)s', '.feinheit04.nine.ch']  FIXME
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID=%(box_oauth2_client_id)s
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET=%(box_oauth2_client_secret)s
 
