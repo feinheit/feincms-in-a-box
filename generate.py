@@ -52,6 +52,7 @@ def copy_file_to(from_, to_, context):
         contents = Template(contents).safe_substitute(context)
         with io.open(to_, 'w+', encoding='utf-8') as handle:
             handle.write(contents)
+        shutil.copymode(from_, to_)
 
 
 def walker(base, base_dir, context):
