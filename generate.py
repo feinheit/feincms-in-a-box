@@ -145,25 +145,31 @@ if __name__ == '__main__':
         @staticmethod
         def domain(string):
             if not re.match(r'^([-\w]+\.)+\w{2,}$', string):
-                raise argparse.ArgumentError()
+                raise argparse.ArgumentTypeError(
+                    '\'%s\' is not a valid domain' % string)
             return string
 
         @staticmethod
         def nice_name(string):
             if not re.match(r'^[-\.\w\s]+$', string):
-                raise argparse.ArgumentError()
+                raise argparse.ArgumentTypeError(
+                    'Please do not use any special chars for nice_name')
             return string
 
         @staticmethod
         def project_name(string):
             if not re.match(r'^\w{3,}$', string):
-                raise argparse.ArgumentError()
+                raise argparse.ArgumentTypeError(
+                    '\'%s\' does not look like a valid Python module name'
+                    % string)
             return string
 
         @staticmethod
         def server(string):
             if not re.match(r'^[-\w]+@([-\w]+\.)+\w{2,}$', string):
-                raise argparse.ArgumentError()
+                raise argparse.ArgumentTypeError(
+                    'Please provide a server login of the form'
+                    ' \'user@server.example.tld\'')
             return string
 
     parser = argparse.ArgumentParser()
