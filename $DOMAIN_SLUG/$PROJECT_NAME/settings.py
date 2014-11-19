@@ -32,6 +32,8 @@ CACHES = {
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 SECRET_KEY = env('SECRET_KEY', required=True)
+FORCE_DOMAIN = env('FORCE_DOMAIN')
+
 ALLOWED_HOSTS = [
     '${DOMAIN}',
     '.${DOMAIN}',
