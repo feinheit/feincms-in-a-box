@@ -100,6 +100,9 @@ def frontend_tools():
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         run_local('bundle install --path=.bundle/gems')
 
+    if not os.path.exists('%(box_staticfiles)s/scss' % env):
+        return
+
     if not os.path.exists('%(box_staticfiles)s/scss/_settings.scss' % env):
         run_local(
             'cp %(box_staticfiles)s/bower_components/foundation/scss/'
