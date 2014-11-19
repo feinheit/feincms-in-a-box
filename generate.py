@@ -141,40 +141,74 @@ if __name__ == '__main__':
         '',
     )
 
+    class validate(object):
+        @staticmethod
+        def domain(string):
+            if not re.match(r'^([-\w]+\.)+\w{2,}$', string):
+                raise argparse.ArgumentError()
+            return string
+
+        @staticmethod
+        def nice_name(string):
+            if not re.match(r'^[-\.\w\s]+$', string):
+                raise argparse.ArgumentError()
+            return string
+
+        @staticmethod
+        def project_name(string):
+            if not re.match(r'^\w{3,}$', string):
+                raise argparse.ArgumentError()
+            return string
+
+        @staticmethod
+        def server(string):
+            if not re.match(r'^[-\w]+@([-\w]+\.)+\w{2,}$', string):
+                raise argparse.ArgumentError()
+            return string
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        'domain', type=str, help='Domain name')
+        'domain',
+        type=validate.domain,
+        help='Domain name')
     parser.add_argument(
-        'nice_name', type=str, help='Nice name')
+        'nice_name',
+        type=validate.nice_name,
+        help='Nice name')
     parser.add_argument(
-        '-p', '--project-name', type=str,
+        '-p', '--project-name',
+        type=validate.project_name,
         help='Python module for the project [%(default)s]',
         default='box')
     parser.add_argument(
-        '-s', '--server', type=str,
+        '-s', '--server',
+        type=validate.server,
         help='Server [%(default)s]',
         default=server)
     parser.add_argument(
-        '-d', '--destination', type=str,
+        '-d', '--destination',
+        type=str,
         help='The destination path for the project [%(default)s]',
         default=destination)
     parser.add_argument(
-        '--charge', action='store_true',
+        '--charge',
+        action='store_true',
         help='Charge ahead, do not ask for confirmation')
     args = parser.parse_args()
 
-    # TODO Add some validation
     context = {
         'DOMAIN': args.domain,
         'DOMAIN_SLUG': re.sub(r'[^\w]+', '_', args.domain),
-        'NICE_NAME': args.nice_name.replace('\'', r'\''),
+        'NICE_NAME': args.nice_name,
         'PROJECT_NAME': args.project_name,
         'SERVER': args.server,
         'SERVER_NAME': args.server.split('@')[-1],
         'USER_NAME': read_output(
-            ['git', 'config', 'user.name'], fail_silently=True),
+            ['git', 'config', 'user.name'],
+            fail_silently=True),
         'USER_EMAIL': read_output(
-            ['git', 'config', 'user.email'], fail_silently=True),
+            ['git', 'config', 'user.email'],
+            fail_silently=True),
     }
 
     if not args.charge:
