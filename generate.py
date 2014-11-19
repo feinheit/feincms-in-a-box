@@ -130,12 +130,7 @@ if __name__ == '__main__':
     )
     if os.path.isfile(default_env):
         env.read_dotenv(default_env)
-    else:
-        print(
-            'Consider creating a ~/.box.env file containing values for'
-            ' SERVER if you want different defaults.')
 
-    server = env.env('SERVER', default='www-data@feinheit04.nine.ch')
     destination = os.path.join(
         os.path.dirname(__file__),
         'build',
@@ -191,7 +186,7 @@ if __name__ == '__main__':
         '-s', '--server',
         type=validate.server,
         help='Server [%(default)s]',
-        default=server)
+        default=env.env('SERVER'))
     parser.add_argument(
         '-d', '--destination',
         type=str,
@@ -202,6 +197,12 @@ if __name__ == '__main__':
         action='store_true',
         help='Charge ahead, do not ask for confirmation')
     args = parser.parse_args()
+
+    if not args.server:
+        print(color(
+            'Either specify a server using --server or add a default value'
+            ' for SERVER in ~/.box.env', 'red'))
+        sys.exit(1)
 
     context = {
         'DOMAIN': args.domain,
