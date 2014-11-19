@@ -148,15 +148,15 @@ if __name__ == '__main__':
         'nice_name', type=str, help='Nice name')
     parser.add_argument(
         '-p', '--project-name', type=str,
-        help='Python module for the project [box]',
+        help='Python module for the project [%(default)s]',
         default='box')
     parser.add_argument(
         '-s', '--server', type=str,
-        help='Server [%s]' % server,
+        help='Server [%(default)s]',
         default=server)
     parser.add_argument(
         '-d', '--destination', type=str,
-        help='The destination path for the project [%s]' % destination,
+        help='The destination path for the project [%(default)s]',
         default=destination)
     parser.add_argument(
         '--charge', action='store_true',
