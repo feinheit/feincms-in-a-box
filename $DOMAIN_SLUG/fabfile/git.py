@@ -24,6 +24,7 @@ def init_bitbucket():
         dotenv.read_dotenv(default_env)
 
     username = dotenv.env('BITBUCKET_USERNAME')
+    password = dotenv.env('BITBUCKET_PASSWORD')  # Should probably not be used.
     organization = dotenv.env('BITBUCKET_ORGANIZATION')
 
     if not username or not organization:
@@ -34,7 +35,8 @@ def init_bitbucket():
     username = prompt(
         'Username',
         default=username)
-    password = getpass.getpass('Password ')
+    if not password:
+        password = getpass.getpass('Password ')
     organization = prompt(
         'Organization',
         default=organization)
