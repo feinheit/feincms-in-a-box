@@ -37,7 +37,7 @@ FORCE_DOMAIN = env('FORCE_DOMAIN')
 ALLOWED_HOSTS = [
     '${DOMAIN}',
     '.${DOMAIN}',
-    '.feinheit04.nine.ch',
+    '.${SERVER_NAME}',
 ]
 TIME_ZONE = 'Europe/Zurich'
 LANGUAGE_CODE = 'de-ch'
