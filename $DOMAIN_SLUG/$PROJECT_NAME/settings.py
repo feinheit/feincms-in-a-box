@@ -200,7 +200,7 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse',
         },
         'skip_unreadable_post_error': {
-            '()': '${PROJECT_NAME}.utils.SkipUnreadablePostError',
+            '()': '${PROJECT_NAME}.tools.logging.SkipUnreadablePostError',
         },
     },
     'formatters': {
