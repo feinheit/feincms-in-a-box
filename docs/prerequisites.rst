@@ -31,8 +31,11 @@ Install the following libraries, tools and services::
 OS X
 ----
 
-An installation of Xcode is required. It is recommended to use Homebrew_ for
-all additional dependencies::
+An installation of Xcode including command line tools is required::
+
+    xcode-select --install
+
+It is recommended to use Homebrew_ for all additional dependencies::
 
     brew install gettext
     brew install libxslt
