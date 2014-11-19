@@ -10,13 +10,31 @@ from fabric.utils import puts
 
 from fabfile import run_local, require_env, step
 
+import env as dotenv
+
 
 @task
 @hosts('')
 def init_bitbucket():
-    username = prompt('Username', default=os.environ.get('USER', ''))
+    default_env = os.path.join(
+        os.path.expanduser('~'),
+        '.box.env',
+    )
+    if os.path.isfile(default_env):
+        dotenv.read_dotenv(default_env)
+    else:
+        print(
+            'Consider creating a ~/.box.env file containing values for'
+            ' BITBUCKET_USERNAME and BITBUCKET_ORGANIZATION if you want'
+            ' different defaults.')
+
+    username = prompt(
+        'Username',
+        default=dotenv.env('BITBUCKET_USERNAME'))
     password = getpass.getpass('Password ')
-    organization = prompt('Organization', default='feinheit')
+    organization = prompt(
+        'Organization',
+        default=dotenv.env('BITBUCKET_ORGANIZATION'))
     repository = prompt(
         'Repository',
         default=env.box_repository)
@@ -35,7 +53,8 @@ def init_bitbucket():
         with hide('running'):
             run_local(
                 'curl'
-                ' -X POST -u %(box_auth)s -H "content-type: application/json"'
+                ' -X POST -v -u %(box_auth)s'
+                ' -H "content-type: application/json"'
                 ' https://api.bitbucket.org/2.0/repositories/%(box_repo)s'
                 ' -d \'{"scm": "git", "is_private": true,'
                 ' "forking_policy": "no_public_forks"}\'')
