@@ -22,19 +22,22 @@ def init_bitbucket():
     )
     if os.path.isfile(default_env):
         dotenv.read_dotenv(default_env)
-    else:
+
+    username = dotenv.env('BITBUCKET_USERNAME')
+    organization = dotenv.env('BITBUCKET_ORGANIZATION')
+
+    if not username or not organization:
         print(
-            'Consider creating a ~/.box.env file containing values for'
-            ' BITBUCKET_USERNAME and BITBUCKET_ORGANIZATION if you want'
-            ' different defaults.')
+            'Consider adding default values for BITBUCKET_USERNAME'
+            ' and BITBUCKET_ORGANIZATION to ~/.box.env')
 
     username = prompt(
         'Username',
-        default=dotenv.env('BITBUCKET_USERNAME'))
+        default=username)
     password = getpass.getpass('Password ')
     organization = prompt(
         'Organization',
-        default=dotenv.env('BITBUCKET_ORGANIZATION'))
+        default=organization)
     repository = prompt(
         'Repository',
         default=env.box_repository)
