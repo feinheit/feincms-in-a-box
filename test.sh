@@ -6,4 +6,4 @@ rm -rf build/example_com
 ls . *
 cd build/example_com
 yes | fab local.setup
-fab check.test
+exec fab check.test
