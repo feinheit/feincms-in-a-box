@@ -9,30 +9,31 @@ Setting up a new project
 
 After following all the steps outlined in :ref:`prerequisites`, you're now
 ready to generate the first project. A folder is automatically created. It will
-have the domain name as folder name.
+have the slugified domain name as folder name.
 
 Run the following commands inside a terminal of your choice::
 
     git clone git://github.com/feinheit/feincms-in-a-box
     cd feincms-in-a-box
-    ./generate.py
+    ./generate.py --help
 
-You'll be asked a few questions:
+A command line to create a site for ``http://some.example.tld`` named
+``A nice example`` would be::
 
-- ``NICE_NAME``: Some nice, descriptive name. This variable will be used to
-  fill in the initial ``<title>``, among other things.
-- ``PROJECT_NAME`` (Defaults to ``box``): The name of the main Python module.
-  If you have no differing preferences, just keep ``box``.
-- ``DOMAIN``: The final domain for this project. This value is also slugified
-  and used as default database and repository name, so choose well.
-- ``SERVER``: The server this project will be deployed to. Currently
-  feincms-in-a-box has many assumptions about server layout, deployment will
-  probably not work out-of-the-box if you have a different setup (which you
-  will most probably have).
+    ./generate.py some.example.tld "A nice example"
 
-The project will be created inside the ``build/`` folder. ``cd`` into that
-directory and run ``fab local.setup`` to continue the setup. The setup step
-should complete successfully, if it does not please report it as a bug_!
+A full list of all supported options is available with
+``./generate.py --help``. It is also recommended to create a file named
+``.box.env`` in your home folder containing the following values::
+
+    BITBUCKET_USERNAME=<Your bitbucket username>
+    BITBUCKET_ORGANIZATION=<The bitbucket organization for all repositories>
+    SERVER=<username@server.tld where your sites will be hosted>
+
+The project will be created inside the ``build/`` folder by default. ``cd``
+into that directory and run ``fab local.setup`` to continue the setup. The
+setup step should complete successfully, if it does not please report it as
+a bug_!
 
 .. _bug: https://www.pivotaltracker.com/projects/1156128
 
@@ -44,7 +45,9 @@ Further steps
   are not running already).
 - ``fab git.init_bitbucket``: Uploads the project to bitbucket.
 - ``fab server.setup``: Installs the project on a server. The project has to
-  be cloneable from somewhere, Github or Bitbucket.
+  be cloneable from somewhere, Github or Bitbucket. Please note that the
+  server setup scripts are heavily tailored for our setup and probably will
+  not work without modifications for other hosters.
 
 
 Setting up a local development installation of an existing project
@@ -83,4 +86,4 @@ and run the following commands::
 If the staging site is not required anymore, it can be removed using the
 following command::
 
-    fab staging remove_host
+    fab staging server.remove_host
