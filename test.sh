@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 set -v
 rm -rf build/example_com
 # TODO "Nice!' name" fails in npm/bower
@@ -6,4 +7,4 @@ rm -rf build/example_com
 ls . *
 cd build/example_com
 yes | fab local.setup
-exec fab check.test
+fab check.test
