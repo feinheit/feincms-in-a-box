@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
+import os
 import random
+
+import env as dotenv
 
 
 def get_random_string(length, chars=None):
@@ -10,3 +13,17 @@ def get_random_string(length, chars=None):
     if chars is None:
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     return ''.join(rand.choice(chars) for i in range(length))
+
+
+def default_env(*args, **kwargs):
+    if not getattr(default_env, '_loaded', False):
+        path = os.path.join(
+            os.path.expanduser('~'),
+            '.box.env',
+        )
+        if os.path.isfile(path):
+            dotenv.read_dotenv(path)
+
+        default_env._loaded = True
+
+    return dotenv.env(*args, **kwargs)

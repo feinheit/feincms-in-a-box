@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 import getpass
-import os
 
 from fabric.api import env, hide, hosts, prompt, settings, task
 from fabric.colors import red
@@ -9,23 +8,15 @@ from fabric.contrib.console import confirm
 from fabric.utils import puts
 
 from fabfile import run_local, require_env, step
-
-import env as dotenv
+from fabfile.utils import default_env
 
 
 @task
 @hosts('')
 def init_bitbucket():
-    default_env = os.path.join(
-        os.path.expanduser('~'),
-        '.box.env',
-    )
-    if os.path.isfile(default_env):
-        dotenv.read_dotenv(default_env)
-
-    username = dotenv.env('BITBUCKET_USERNAME')
-    password = dotenv.env('BITBUCKET_PASSWORD')  # Should probably not be used.
-    organization = dotenv.env('BITBUCKET_ORGANIZATION')
+    username = default_env('BITBUCKET_USERNAME')
+    password = default_env('BITBUCKET_PASSWORD')  # Should probably not be used
+    organization = default_env('BITBUCKET_ORGANIZATION')
 
     if not username or not organization:
         print(

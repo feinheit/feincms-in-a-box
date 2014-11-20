@@ -7,7 +7,7 @@ from fabric.colors import green, red
 from fabric.utils import abort, puts
 
 from fabfile import confirm, run_local, cd, require_env, run
-from fabfile.utils import get_random_string
+from fabfile.utils import default_env, get_random_string
 
 
 @task
@@ -111,7 +111,9 @@ def nginx_vhost_and_supervisor():
 @task
 @require_env
 def create_sso_user():
-    env.box_sso_domain = prompt('SSO Domain (leave empty to skip)', default='')
+    env.box_sso_domain = prompt(
+        'SSO Domain (leave empty to skip)',
+        default=default_env('SSO_DOMAIN') or '')
     if not env.box_sso_domain:
         puts(red('Cannot continue without a SSO Domain.'))
         return 1

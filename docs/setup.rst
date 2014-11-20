@@ -29,6 +29,7 @@ A full list of all supported options is available with
     BITBUCKET_USERNAME=<Your bitbucket username>
     BITBUCKET_ORGANIZATION=<The bitbucket organization for all repositories>
     SERVER=<username@server.tld where your sites will be hosted>
+    SSO_DOMAIN=<domain.tld for django-admin-sso>
 
 The project will be created inside the ``build/`` folder by default. ``cd``
 into that directory and run ``fab local.setup`` to continue the setup. The
