@@ -68,9 +68,6 @@ def require_env(fn):
 
 def require_services(fn):
     def _service(port, executable, delay):
-        if not exists('tmp'):
-            mkdir('tmp')
-
         try:
             socket.create_connection(
                 ('localhost', port),
@@ -148,6 +145,9 @@ fab check
 
 # Run this each time the fabfile is loaded
 ensure_pre_commit_hook_installed()
+
+if not exists('tmp'):
+    mkdir('tmp')
 
 
 # Import other fabfile mods, now that interpolate_with_env has been run -----
