@@ -100,7 +100,10 @@ def walker(base, base_dir, context):
     os.chdir(project_dir)
     subprocess.call(['git', 'init'])
     subprocess.call(['git', 'add', '-A'])
-    subprocess.call(['git', 'commit', '-q', '-m', 'Initial commit'])
+    subprocess.call([
+        'git', 'commit', '-q',
+        '--author', 'FeinCMS-in-a-Box <box@feincms.org>',
+        '-m', 'Initial commit'])
 
     print(color(
         'Successfully initialized the project in %s.' % project_dir,
