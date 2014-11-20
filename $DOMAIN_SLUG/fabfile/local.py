@@ -1,12 +1,13 @@
 from __future__ import unicode_literals
 
+from datetime import datetime
 import os
 import platform
 
 from fabric.api import env, execute, hosts, task
 from fabric.colors import green, red
 from fabric.contrib.project import rsync_project
-from fabric.utils import puts
+from fabric.utils import abort, puts
 
 from fabfile import confirm, run_local, require_env, require_services
 from fabfile.utils import get_random_string
@@ -195,3 +196,40 @@ def pull_mediafiles():
         delete=False,  # Devs can take care of their media folders.
         upload=False,
     )
+
+
+@task
+@require_env
+@require_services
+def dump_db():
+    """Dumps the database into the given filename"""
+    env.box_datetime = datetime.now().strftime('%Y-%m-%d-%s')
+    env.box_dump_filename = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        'tmp',
+        '%(box_database)s-local-%(box_datetime)s.dump' % env,
+    )
+
+    run_local(
+        'pg_dump %(box_database_local)s --no-privileges --no-owner'
+        ' --no-reconnect > %(box_dump_filename)s')
+    puts(green('\nWrote a dump to %(box_dump_filename)s' % env))
+
+
+@task
+@require_env
+@require_services
+def load_db(filename=None):
+    env.box_dump_filename = filename
+
+    if not filename:
+        abort(red('Dump missing. "fab local.load_db:filename"', bold=True))
+
+    if not os.path.exists(filename):
+        abort(red('"%(box_dump_filename)s" does not exist.' % env, bold=True))
+
+    run_local('dropdb --if-exists %(box_database_local)s')
+    run_local(
+        'createdb %(box_database_local)s'
+        ' --encoding=UTF8 --template=template0')
+    run_local('psql %(box_database_local)s < %(box_dump_filename)s')

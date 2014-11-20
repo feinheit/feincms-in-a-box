@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
+from datetime import datetime
 from io import StringIO
+import os
 
 from fabric.api import env, execute, hide, prompt, put, settings, task
 from fabric.colors import green, red
@@ -190,3 +192,51 @@ def remove_host():
     puts(red(
         'The folder ~/%(box_domain)s on the server has not been removed. The'
         ' "tmp" subfolder also contains a fresh database dump.' % env))
+
+
+@task
+@require_env
+def dump_db():
+    """Dumps the database into the given filename"""
+    env.box_datetime = datetime.now().strftime('%Y-%m-%d-%s')
+    env.box_dump_filename = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        'tmp',
+        '%(box_database)s-%(box_environment)s-%(box_datetime)s.dump' % env,
+    )
+
+    run_local(
+        'ssh %(box_server)s "source .profile &&'
+        ' pg_dump %(box_database)s'
+        ' --no-privileges --no-owner --no-reconnect"'
+        ' > %(box_dump_filename)s')
+    puts(green('\nWrote a dump to %(box_dump_filename)s' % env))
+
+
+@task
+@require_env
+def load_db(filename=None):
+    env.box_dump_filename = filename
+
+    if not filename:
+        abort(red('Dump missing. "fab server.load_db:filename"', bold=True))
+
+    if not os.path.exists(filename):
+        abort(red('"%(box_dump_filename)s" does not exist.' % env, bold=True))
+
+    if not confirm(
+            'Completely replace the remote database'
+            ' "%(box_database)s" (if it exists)?', default=False):
+        return
+
+    run(
+        'psql -c "DROP DATABASE IF EXISTS %(box_database)s"')
+    run(
+        'createdb %(box_database)s --encoding=UTF8 --template=template0'
+        ' --owner=%(box_database)s')
+    run_local(
+        'cat %(box_dump_filename)s |'
+        'ssh %(box_server)s "source .profile && psql %(box_database)s"')
+    run(
+        'psql %(box_database)s -c "REASSIGN OWNED BY admin '
+        ' TO %(box_database)s"')
