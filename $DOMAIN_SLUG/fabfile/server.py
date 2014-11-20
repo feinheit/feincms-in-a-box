@@ -197,7 +197,7 @@ def remove_host():
 @task
 @require_env
 def dump_db():
-    """Dumps the database into the given filename"""
+    """Dumps the database into the tmp/ folder"""
     env.box_datetime = datetime.now().strftime('%Y-%m-%d-%s')
     env.box_dump_filename = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -216,6 +216,7 @@ def dump_db():
 @task
 @require_env
 def load_db(filename=None):
+    """Loads a dump into the database"""
     env.box_dump_filename = filename
 
     if not filename:
