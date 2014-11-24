@@ -65,26 +65,15 @@ def walker(base, base_dir, context):
         gitignore_patterns = [
             line for line in gitignore.read().splitlines() if line]
 
-    project_dir = os.path.join(
-        base_dir,
-        context['DOMAIN_SLUG'],
-    )
-
-    if os.path.exists(project_dir):
-        print(color(
-            'Project directory %s exists already, cannot continue.'
-            % project_dir,
-            'red', True))
-        return
-
     print(color(
-        'Generating the project inside %s.' % project_dir,
+        'Generating the project inside %s.' % base_dir,
         'cyan', True))
 
     for dirpath, dirnames, filenames in os.walk(base):
         dir = os.path.join(
             base_dir,
-            Template(dirpath).safe_substitute(context),
+            # Cut away "fbox/" when generating the target path.
+            Template(dirpath[5:]).safe_substitute(context),
         )
         os.makedirs(dir)
         for fn in filenames:
@@ -97,7 +86,7 @@ def walker(base, base_dir, context):
                 context,
             )
 
-    os.chdir(project_dir)
+    os.chdir(base_dir)
     subprocess.call(['git', 'init'])
     subprocess.call(['git', 'add', '-A'])
     subprocess.call([
@@ -106,7 +95,7 @@ def walker(base, base_dir, context):
         '-m', 'Initial commit'])
 
     print(color(
-        'Successfully initialized the project in %s.' % project_dir,
+        'Successfully initialized the project in %s.' % base_dir,
         'cyan', True))
     print(color(
         'Run "fab local.setup" inside the project folder to continue.',
@@ -133,12 +122,6 @@ if __name__ == '__main__':
     )
     if os.path.isfile(default_env):
         env.read_dotenv(default_env)
-
-    destination = os.path.join(
-        os.path.dirname(__file__),
-        'build',
-        '',
-    )
 
     class validate(object):
         @staticmethod
@@ -193,8 +176,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-d', '--destination',
         type=str,
-        help='The destination path for the project [%(default)s]',
-        default=destination)
+        help='The destination path for the project [./build/$DOMAIN_SLUG]')
     parser.add_argument(
         '--charge',
         action='store_true',
@@ -204,10 +186,26 @@ if __name__ == '__main__':
     if not args.server:
         print(color(
             'Either specify a server using --server or add a default value'
-            ' for SERVER in ~/.box.env', 'red'))
+            ' for SERVER in ~/.box.env', 'red', True))
+        sys.exit(1)
+
+    if not args.destination:
+        args.destination = os.path.join(
+            os.path.dirname(__file__),
+            'build',
+            re.sub(r'[^\w]+', '_', args.domain),
+        )
+    args.destination = os.path.abspath(args.destination)
+
+    if os.path.exists(args.destination):
+        print(color(
+            'Destination \'%s\' already exists, cannot continue.'
+            % args.destination,
+            'red', True))
         sys.exit(1)
 
     context = {
+        'DESTINATION': args.destination,
         'DOMAIN': args.domain,
         'DOMAIN_SLUG': re.sub(r'[^\w]+', '_', args.domain),
         'NICE_NAME': args.nice_name,
@@ -230,4 +228,4 @@ if __name__ == '__main__':
         print(color('If not, abort using Ctrl-C now.', 'cyan', True))
         raw_input()
 
-    walker('$DOMAIN_SLUG', args.destination, context)
+    walker('fbox', args.destination, context)
