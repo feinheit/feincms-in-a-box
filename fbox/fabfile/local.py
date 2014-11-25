@@ -59,6 +59,7 @@ def setup_with_production_data():
     execute('local.frontend_tools')
     execute('local.create_dotenv')
     execute('local.pull_database')
+    execute('local.empty_to_password')
     execute('local.pull_mediafiles')
 
     puts(green(
@@ -173,6 +174,12 @@ def pull_database():
         ' pg_dump %(box_database)s'
         ' --no-privileges --no-owner --no-reconnect"'
         ' | psql %(box_database_local)s')
+
+
+@task
+@require_env
+@require_services
+def empty_to_password():
     run_local(
         'psql %(box_database_local)s -c "UPDATE auth_user'
         ' SET password=\'pbkdf2_sha256\$12000\$owbr7vjRCspg\$PAo53Cbqvek3nMqS'
