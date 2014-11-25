@@ -242,3 +242,9 @@ def load_db(filename=None):
     run(
         'psql %(box_database)s -c "REASSIGN OWNED BY admin '
         ' TO %(box_database)s"')
+
+
+@task
+@require_env
+def dbshell():
+    run('psql %(box_database)s')
