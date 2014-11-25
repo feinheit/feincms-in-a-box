@@ -207,7 +207,7 @@ def dump_db():
     env.box_dump_filename = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
         'tmp',
-        '%(box_database)s-local-%(box_datetime)s.dump' % env,
+        '%(box_database)s-local-%(box_datetime)s.sql' % env,
     )
 
     run_local(

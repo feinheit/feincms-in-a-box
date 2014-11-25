@@ -182,10 +182,11 @@ def remove_host():
     run('rm supervisor/conf.d/%(box_domain)s.conf')
     run('sctl reload')
     with cd(env.box_domain):
+        env.box_datetime = datetime.now().strftime('%Y-%m-%d-%s')
         run(
             'pg_dump %(box_database)s'
             ' --no-privileges --no-owner --no-reconnect'
-            ' > tmp/pg-$(date --rfc-3339=date).dump')
+            ' > %(box_database)s-%(box_environment)s-%(box_datetime)s.sql')
     run('dropdb %(box_database)s')
     run('dropuser %(box_database)s')
 
@@ -202,7 +203,7 @@ def dump_db():
     env.box_dump_filename = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
         'tmp',
-        '%(box_database)s-%(box_environment)s-%(box_datetime)s.dump' % env,
+        '%(box_database)s-%(box_environment)s-%(box_datetime)s.sql' % env,
     )
 
     run_local(
