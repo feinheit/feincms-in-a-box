@@ -87,6 +87,7 @@ SECRET_KEY=%(box_secret_key)s
 SENTRY_DSN=%(box_sentry_dsn)s
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID=%(box_oauth2_client_id)s
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET=%(box_oauth2_client_secret)s
+ALLOWED_HOSTS=['%(box_domain)s', '.%(box_domain)s', '.%(box_server_name)s']
 
 # Do not forget to allow robots to index the site when going live!
 # - %(box_project_name)s/templates/base.html: Change "noindex" to "index"
