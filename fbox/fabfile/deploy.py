@@ -50,6 +50,8 @@ def _deploy_styles_foundation4_bundler():
 @require_env
 def styles():
     """Compiles and compresses the CSS and deploys it to the server"""
+    execute('check.deploy')
+
     step('\nBuilding and deploying assets...')
 
     if os.path.exists('gulpfile.js'):
