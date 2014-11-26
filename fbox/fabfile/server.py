@@ -80,7 +80,8 @@ def create_database_and_dotenv():
     with cd('%(box_domain)s'):
 
         put(StringIO('''\
-DATABASE_URL=postgres://%(box_database)s:%(box_database_pw)s@localhost:5432/%(box_database)s
+DATABASE_URL=postgres://%(box_database)s:%(box_database_pw)s\
+@localhost:5432/%(box_database)s
 CACHE_URL=hiredis://localhost:6379/1/%(box_database)s
 SECRET_KEY=%(box_secret_key)s
 SENTRY_DSN=%(box_sentry_dsn)s

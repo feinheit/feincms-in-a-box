@@ -12,7 +12,7 @@ from fabric.colors import cyan, red
 from fabric.contrib.console import confirm
 from fabric.utils import abort, puts
 
-from fabfile import config
+from fabfile import config  # noqa
 
 
 __all__ = (
@@ -151,4 +151,4 @@ if not exists('tmp'):
 
 
 # Import other fabfile mods, now that interpolate_with_env has been run -----
-from fabfile import check, deploy, dev, git, local, server
+from fabfile import check, deploy, dev, git, local, server  # noqa
