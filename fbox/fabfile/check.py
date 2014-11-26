@@ -8,7 +8,7 @@ from fabric.api import (
 from fabric.colors import red
 from fabric.utils import abort, puts
 
-from fabfile import cd, run_local, require_env, step
+from fabfile import cd, confirm, run_local, require_env, step
 
 
 def complain_on_failure(task, complaint):
@@ -114,6 +114,22 @@ def primetime():
 @require_env
 def deploy():
     """Checks whether everything is ready for deployment"""
+
+    step('Checking whether we are on the expected branch...')
+    with settings(warn_only=True), hide('everything'):
+        branch = run_local('git symbolic-ref -q --short HEAD', capture=True)
+
+    if not branch:
+        abort(red('No branch checked out, cannot continue.', bold=True))
+
+    if branch != env.box_branch:
+        puts(red(
+            'Warning: The currently checked out branch is \'%s\', but'
+            ' the environment \'%s\' runs on \'%s\'.' % (
+                branch, env.box_environment, env.box_branch)))
+
+        if not confirm('Continue deployment?', default=False):
+            abort('Aborting.')
 
     execute('check.check')
     execute('check.test')
