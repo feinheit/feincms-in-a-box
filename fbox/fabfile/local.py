@@ -96,10 +96,10 @@ def frontend_tools():
     if os.path.exists('bower.json'):
         run_local('npm install')
         run_local('bower install')
-    elif os.path.exists('%(box_staticfiles)s/bower.json' % env):
+    if os.path.exists('%(box_staticfiles)s/bower.json' % env):
         run_local('cd %(box_staticfiles)s && npm install')
         run_local('cd %(box_staticfiles)s && bower install')
-    elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
+    if os.path.exists('Gemfile'):
         run_local('bundle install --path=.bundle/gems')
 
     if not os.path.exists('%(box_staticfiles)s/scss' % env):
