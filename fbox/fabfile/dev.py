@@ -18,7 +18,6 @@ def dev():
     jobs = [
         lambda: run_local('venv/bin/python -Wall manage.py runserver'),
     ]
-
     if os.path.exists('gulpfile.js'):
         jobs.append(lambda: run_local('./node_modules/.bin/gulp'))
     elif os.path.exists('%(box_staticfiles)s/Gruntfile.js' % env):
@@ -26,6 +25,11 @@ def dev():
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         jobs.append(
             lambda: run_local('bundle exec compass watch %(box_staticfiles)s'))
+    elif os.path.exists('%(box_staticfiles)s/webpack.config.js' % env):
+        jobs.append(
+            lambda: run_local(
+                './node_modules/.bin/webpack -d --watch'
+                ' --config %(box_staticfiles)s/webpack.config.js'))
 
     jobs = [Process(target=j) for j in jobs]
     [j.start() for j in jobs]
