@@ -19,7 +19,7 @@ def init_bitbucket():
     organization = default_env('BITBUCKET_ORGANIZATION')
 
     if not username or not organization:
-        print(
+        puts(
             'Consider adding default values for BITBUCKET_USERNAME'
             ' and BITBUCKET_ORGANIZATION to ~/.box.env')
 
