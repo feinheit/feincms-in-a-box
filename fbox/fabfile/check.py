@@ -21,11 +21,12 @@ def complain_on_failure(task, complaint):
 def check():
     """Runs coding style checks, and Django's checking framework"""
     step('Searching for debugging statements...')
-    run_local("! git grep -n -C3 -E 'import i?pdb' -- '*.py'")
-    run_local("! git grep -n -C3 -E 'console\.log' -- '*.html' '*.js'")
     run_local(
-        "! git grep -n -C3 -E '(^| )print( |\(|$)'"
-        " -- '%(box_project_name)s/*py'")
+        "! git --no-pager grep -n -C3 -E 'import i?pdb' -- '*.py'")
+    run_local(
+        "! git --no-pager grep -n -C3 -E 'console\.log' -- '*.html' '*.js'")
+    run_local(
+        "! git --no-pager grep -n -C3 -E '(^| )print( |\(|$)' -- '*.py'")
 
     step('Checking Python code with flake8...')
     run_local('flake8 .')
@@ -46,10 +47,12 @@ def check():
         # Remind the user about uglyness, but do not fail (there are good
         # reasons to use the patterns warned about here).
         step('Pointing to potential tasks...')
-        run_local("! git grep -n -E '#.*noqa' -- '%(box_project_name)s/*.py'")
-        run_local("! git grep -n -E '(XXX|FIXME|TODO)'")
+        run_local(
+            "! git --no-pager grep -n -E '#.*noqa'"
+            " -- '%(box_project_name)s/*.py'")
+        run_local("! git --no-pager grep -n -E '(XXX|FIXME|TODO)'")
         complain_on_failure(
-            run_local("! git grep -n -E '^-e.+$' -- requirements/"),
+            run_local("! git --no-pager grep -n -E '^-e.+$' -- requirements/"),
             'Warning: Editable requirements found. Releases are preferred!')
 
 
@@ -63,9 +66,10 @@ def primetime():
 
     step('"noindex" should not hit production servers...')
     run_local(
-        "! git grep -n -C3 -E '^Disallow: /$' -- 'robots.txt'")
+        "! git --no-pager grep -n -C3 -E '^Disallow: /$' -- 'robots.txt'")
     run_local(
-        "! git grep -n -C3 -E 'meta.*robots.*noindex' -- %(box_project_name)s")
+        "! git --no-pager grep -n -C3 -E 'meta.*robots.*noindex'"
+        " -- %(box_project_name)s")
 
     step('Checking local settings on server...')
     with cd('%(box_domain)s'):
@@ -103,7 +107,8 @@ def primetime():
                 'Error: DEBUG = True!?', bold=True))
 
         with settings(warn_only=True), hide('everything'):
-            gitgrep = run_local("! git grep '%s'" % output['sk'], capture=True)
+            gitgrep = run_local(
+                "! git --no-pager grep '%s'" % output['sk'], capture=True)
             grep = run_local("! grep '%s' */*.py" % output['sk'], capture=True)
         if gitgrep or grep:
             puts(red(
