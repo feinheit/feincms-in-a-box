@@ -32,13 +32,10 @@ def check():
     run_local('flake8 .')
 
     step('Checking SCSS code...')
-    run_local(
-        'bundle exec scss-lint %(box_staticfiles)s/scss/'
-        ' -e "*/_settings.scss"')
+    run_local('bundle exec scss-lint %(box_staticfiles)s/scss/')
 
     step('Checking Javascript code...')
-    run_local(
-        './node_modules/.bin/jshint %(box_staticfiles)s/')
+    run_local('./node_modules/.bin/jshint %(box_staticfiles)s/')
 
     step('Invoking Django\'s systems check framework...')
     run_local('venv/bin/python manage.py check')
