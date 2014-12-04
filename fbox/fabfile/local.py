@@ -74,6 +74,14 @@ def setup_with_production_data():
 
 @task
 @hosts('')
+def update():
+    run_local('venv/bin/pip install -r requirements/dev.txt')
+    execute('local.frontend_tools')
+    run_local('venv/bin/python manage.py migrate')
+
+
+@task
+@hosts('')
 def create_virtualenv():
     """Creates the virtualenv and installs all Python requirements"""
     run_local(
