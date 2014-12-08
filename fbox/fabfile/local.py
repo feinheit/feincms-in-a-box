@@ -190,10 +190,7 @@ def pull_database():
 @require_services
 def empty_to_password():
     run_local(
-        'psql %(box_database_local)s -c "UPDATE auth_user'
-        ' SET password=\'pbkdf2_sha256\$12000\$owbr7vjRCspg\$PAo53Cbqvek3nMqS'
-        'l+V+ubIlnZQ2Vj7ZVKcPhcXqWlY=\''
-        ' WHERE password=\'\'"')
+        'venv/bin/python manage.py update_empty_passwords password')
     puts(green(
         'Users with empty passwords (for example SSO users) now have a'
         ' password of "password" (without quotes).'))
