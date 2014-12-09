@@ -122,10 +122,15 @@ def create_sso_user():
         puts(red('Cannot continue without a SSO Domain.'))
         return 1
 
-    run('psql %(box_database)s -c "INSERT INTO auth_user VALUES'
-        " (1, '', NOW(), TRUE, 'admin', '', '', '', TRUE, TRUE, NOW())\"")
-    run('psql %(box_database)s -c "INSERT INTO admin_sso_assignment'
-        " VALUES (1, 0, '', '%(box_sso_domain)s', FALSE, 10, 1)\"")
+    run("psql %(box_database)s -c \"INSERT INTO auth_user"
+        " (username, email, password, is_active, is_staff, is_superuser,"
+        " first_name, last_name, date_joined, last_login) VALUES"
+        " ('admin', '', '', TRUE, TRUE, TRUE, '', '', NOW(), NOW())\"")
+    run("psql %(box_database)s -c \""
+        "INSERT INTO admin_sso_assignment"
+        " (username_mode, username, domain, copy, weight, user_id)"
+        " SELECT 0, '', '%(box_sso_domain)s', FALSE, 10, id"
+        " FROM auth_user WHERE username='admin'\"")
 
 
 @task
