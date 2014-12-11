@@ -64,18 +64,23 @@ def init_bitbucket():
 
 
 @task
-@hosts('')
 @require_env
 def add_remote():
+    env.box_idx = '' if len(env.hosts) < 2 else '-%d' % (
+        env.hosts.index(env.host_string) + 1)
+
     with settings(warn_only=True):
         run_local(
-            'git remote add -f %(box_remote)s %(box_server)s:%(box_domain)s/')
+            'git remote add -f %(box_remote)s%(box_idx)s'
+            ' %(host_string)s:%(box_domain)s/')
 
 
 @task
-@hosts('')
 @require_env
 def fetch_remote():
     step('Updating git remote...')
+    env.box_idx = '' if len(env.hosts) < 2 else '-%d' % (
+        env.hosts.index(env.host_string) + 1)
+
     with settings(warn_only=True):
-        run_local('git fetch %(box_remote)s')
+        run_local('git fetch %(box_remote)s%(box_idx)s')
