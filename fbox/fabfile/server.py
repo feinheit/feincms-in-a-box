@@ -22,7 +22,6 @@ def setup():
     execute('server.nginx_vhost_and_supervisor')
     execute('deploy.styles')
     execute('server.create_sso_user')
-    puts(green('Visit http://%(box_domain)s.%(box_server_name)s now!' % env))
 
 
 @task
@@ -87,13 +86,13 @@ SECRET_KEY=%(box_secret_key)s
 SENTRY_DSN=%(box_sentry_dsn)s
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID=%(box_oauth2_client_id)s
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET=%(box_oauth2_client_secret)s
-ALLOWED_HOSTS=['%(box_domain)s', '.%(box_domain)s', '.%(box_server_name)s']
+ALLOWED_HOSTS=['%(box_domain)s', '.%(box_domain)s', '.%(host_string_host)s']
 
 # Do not forget to allow robots to index the site when going live!
 # - %(box_project_name)s/templates/base.html: Change "noindex" to "index"
 # - htdocs/robots.txt: Remove the "Disallow: /" line
 # FORCE_DOMAIN = www.%(box_domain)s
-''' % env), '.env')
+''' % dict(env, host_string_host=env.host_string.split('@')[-1])), '.env')
 
         run('venv/bin/python manage.py migrate --noinput')
 
@@ -214,7 +213,7 @@ def dump_db():
     )
 
     run_local(
-        'ssh %(box_server)s "source .profile &&'
+        'ssh %(host_string)s "source .profile &&'
         ' pg_dump %(box_database)s'
         ' --no-privileges --no-owner --no-reconnect"'
         ' > %(box_dump_filename)s')
@@ -245,7 +244,7 @@ def load_db(filename=None):
         ' --owner=%(box_database)s')
     run_local(
         'cat %(box_dump_filename)s |'
-        'ssh %(box_server)s "source .profile && psql %(box_database)s"')
+        'ssh %(host_string)s "source .profile && psql %(box_database)s"')
     run(
         'psql %(box_database)s -c "REASSIGN OWNED BY admin '
         ' TO %(box_database)s"')

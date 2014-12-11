@@ -33,7 +33,7 @@ def _create_setup_task_for_env(environment):
         env['box_environment'] = environment
         for key, value in env.box_environments[environment].items():
             env['box_%s' % key] = value
-        env.hosts = [env.box_server]
+        env.hosts = env.box_servers
     _setup.__name__ = str(environment)
     _setup.__doc__ = 'Set environment to %s' % environment
     return _setup

@@ -41,7 +41,7 @@ def setup():
     puts(green(
         '- Create a Bitbucket repository: fab git.init_bitbucket'))
     puts(green(
-        '- Configure %(box_server_name)s for this project: fab server.setup'
+        '- Configure a server for this project: fab server.setup'
         % env))
 
 
@@ -179,7 +179,7 @@ def pull_database():
         'createdb %(box_database_local)s'
         ' --encoding=UTF8 --template=template0')
     run_local(
-        'ssh %(box_server)s "source .profile &&'
+        'ssh %(host_string)s "source .profile &&'
         ' pg_dump %(box_database)s'
         ' --no-privileges --no-owner --no-reconnect"'
         ' | psql %(box_database_local)s')

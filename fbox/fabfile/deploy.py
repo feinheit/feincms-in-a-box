@@ -33,17 +33,21 @@ def _deploy_styles_foundation5_gulp():
 def _deploy_styles_foundation5_grunt():
     run_local('cd %(box_staticfiles)s && grunt build')
     for part in ['bower_components', 'css']:
-        run_local(
-            'rsync -avz %%(box_staticfiles)s/%s'
-            ' %%(box_server)s:%%(box_domain)s/%%(box_staticfiles)s/' % part)
+        rsync_project(
+            local_dir='%(box_staticfiles)s/%(part)s' % dict(env, part=part),
+            remote_dir='%(box_domain)s/%(box_staticfiles)s/' % env,
+            delete=True,
+        )
 
 
 def _deploy_styles_foundation4_bundler():
     run_local('bundle exec compass clean %(box_staticfiles)s')
     run_local('bundle exec compass compile -s compressed %(box_staticfiles)s')
-    run_local(
-        'rsync -avz %(box_staticfiles)s/stylesheets'
-        ' %(box_server)s:%(box_domain)s/%(box_staticfiles)s/')
+    rsync_project(
+        local_dir='%(box_staticfiles)s/stylesheets' % env,
+        remote_dir='%(box_domain)s/%(box_staticfiles)s/' % env,
+        delete=True,
+    )
 
 
 @task

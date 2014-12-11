@@ -211,7 +211,6 @@ if __name__ == '__main__':
         'NICE_NAME': args.nice_name,
         'PROJECT_NAME': args.project_name,
         'SERVER': args.server,
-        'SERVER_NAME': args.server.split('@')[-1],
         'USER_NAME': read_output(
             ['git', 'config', 'user.name'],
             fail_silently=True),

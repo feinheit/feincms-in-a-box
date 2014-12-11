@@ -17,20 +17,22 @@ env.box_environments = {
         'shortcut': 'p',
         'domain': '${DOMAIN}',
         'branch': 'master',
-        'server': '${SERVER}',
+        'servers': [
+            '${SERVER}',
+        ],
         'remote': 'production',
         'repository': '${DOMAIN_SLUG}',
         'database': '${DOMAIN_SLUG}',
-        'server_name': '${SERVER_NAME}',
     },
     'staging': {
         'shortcut': 's',
         'domain': 'stage.${DOMAIN}',
         'branch': 'develop',
-        'server': '${SERVER}',
+        'servers': [
+            '${SERVER}',
+        ],
         'remote': 'staging',
         'repository': '${DOMAIN_SLUG}',
         'database': '${DOMAIN_SLUG}',
-        'server_name': '${SERVER_NAME}',
     },
 }
