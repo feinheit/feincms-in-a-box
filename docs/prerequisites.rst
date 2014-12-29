@@ -54,10 +54,15 @@ It will also help to add a clean installation of Python_::
     brew install python
 
 It is not required to set up an installation of PostgreSQL_ which runs in the
-background. Adding the following lines to your ``~/.profile`` and starting
-``postres`` in the shell is good enough for local development::
+background. Adding the following lines to your ``~/.bash_profile`` and starting
+``postgres`` in the shell is good enough for local development::
 
-    echo "export PGDATA=/usr/local/var/postgres" >> .profile
+    echo "export PGDATA=/usr/local/var/postgres" >> ~/.bash_profile
+
+You can also just install the `Postgres App <http://postgresapp.com/>`_.
+You then need to add the app to the PATH variable::
+
+    PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
 
 .. note::
 
