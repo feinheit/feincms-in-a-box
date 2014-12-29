@@ -60,9 +60,9 @@ background. Adding the following lines to your ``~/.bash_profile`` and starting
     echo "export PGDATA=/usr/local/var/postgres" >> ~/.bash_profile
 
 You can also just install the `Postgres App <http://postgresapp.com/>`_.
-You then need to add the app to the PATH variable::
+You then need to add the app to the PATH variable (depending on the version)::
 
-    PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"
+    PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
 
 .. note::
 
