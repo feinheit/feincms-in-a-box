@@ -7,7 +7,7 @@ from fabric.api import (
 from fabric.colors import red
 from fabric.utils import abort, puts
 
-from fabfile import cd, confirm, run_local, require_env, step
+from fabfile import cd, confirm, run_local, require_env, require_services, step
 
 
 def complain_on_failure(task, complaint):
@@ -149,7 +149,9 @@ def deploy():
 
 
 @task
+@runs_once
 @hosts('')
+@require_services
 def test():
     step('Running backend testsuite...')
     run_local('venv/bin/python manage.py test')
