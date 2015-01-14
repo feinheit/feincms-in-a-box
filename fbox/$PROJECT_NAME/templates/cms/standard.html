@@ -1,6 +1,57 @@
 {% extends "base.html" %}
 
-{% load feincms_tags i18n mptt_tags navigation_tags %}
+{% load feincms_tags feincms_page_tags i18n mptt_tags navigation_tags %}
+
+
+{% block header %}
+<div class="row">
+  <div class="large-12 columns">
+    <div class="row collapse header">
+      <div class="large-12 columns">
+        <nav class="top-bar" data-topbar role="navigation" data-options="back_text:{% trans 'Back' %};">
+          <ul class="title-area">
+            <li class="name">
+              <h1>  {# Remove the h1 if this is not the main title. #}
+                <a id="logo" href="/">${NICE_NAME}</a>
+              </h1>
+            </li>
+            <li class="toggle-topbar menu-icon">
+              <a href="#"><span>Menu<!-- nothing --></span></a>
+            </li>
+          </ul>
+
+          <section class="top-bar-section">
+            <ul class="left">
+              {% feincms_nav feincms_page level=2 depth=2 group='default' as toplevel %}
+              {% for page, children in toplevel|group_by_tree %}
+                {% page_is_active page as is_active %}
+                <li class="{% if is_active %}active{% endif %} {% if children %}has-dropdown{% endif %}">
+                  <a href="{{ page.get_navigation_url }}">{{ page.title }}</a>
+                  {% if children %}
+                  <ul class="dropdown">
+                    <li class="show-for-small">
+                      {# The top-bar code does not allow navigating to top-level entries #}
+                      <a href="{{ page.get_navigation_url }}">{{ page.title }}</a>
+                    </li>
+                    {% for child in children %}
+                      {% page_is_active child as is_active %}
+                      <li class="{% if is_active %}active{% endif %}">
+                        <a href="{{ child.get_navigation_url }}">{{ child.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </section>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock header %}
+
 
 {% block content %}
 
@@ -20,4 +71,68 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block footer %}
+<div class="row footer">
+  <div class="large-4 columns">
+    <h3 class="subheader">Kontakt</h3>
+    <ul class="vcard">
+      <li class="fn">FEINHEIT GmbH</li>
+      <li class="street-address">
+        <a href="http://maps.google.com/?q=Molkenstrasse+21+8004+Zürich" target="_blank">
+          Molkenstrasse 21
+        </a>
+      </li>
+      <li>
+        <a href="http://maps.google.com/?q=Molkenstrasse+21+8004+Zürich" target="_blank">
+          <span class="zip">8004</span>
+          <span class="locality">Zürich</span>
+        </a>
+      </li>
+      <li class="phone"><a href="tel:+41555111141">Tel. +41 555 11 11 41</a></li>
+      <li class="email"><a href="mailto:kontakt@feinheit.ch">kontakt@feinheit.ch</a></li>
+    </ul>
+  </div>
+
+  <div class="large-4 columns">
+    <h3 class="subheader">Direkteinstieg</h3>
+    <ul class="side-nav">
+      {% feincms_nav feincms_page level=2 depth=1 group='footer' as footer_nav %}
+      {% for page in footer_nav %}
+        {% page_is_active page as is_active %}
+        <li {% if is_active %}class="current"{% endif %}>
+          <a href="{{ page.get_navigation_url }}">{{ page.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="large-4 columns">
+    <h3 class="subheader">
+      <a href="#">
+        Newsletter
+      </a>
+    </h3>
+    <form method="post" action="#">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="subscribe">
+      <div class="row collapse">
+        <div class="small-9 columns">
+          <input type="email" value="{{ request.user.email|default:'' }}"
+            placeholder="Emailadresse" name="email">
+        </div>
+        <div class="small-3 columns">
+          <button type="submit" class="button secondary postfix">
+            <i class="fi-mail"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block edit-tools %}
+  <a href="/admin/page/page/{{ feincms_page.id }}/"
+    class="button tiny">Edit page</a>
 {% endblock %}
