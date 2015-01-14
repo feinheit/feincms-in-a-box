@@ -34,3 +34,8 @@ cronjobs and other non-obvious dependencies.*
 **${PROJECT_NAME}.cms**
 
 Django app containing FeinCMS configuration.
+
+
+**${PROJECT_NAME}.conf**
+
+Contains the translation files.

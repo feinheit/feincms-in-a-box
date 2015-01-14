@@ -49,6 +49,7 @@ Further steps
   be cloneable from somewhere, Github or Bitbucket. Please note that the
   server setup scripts are heavily tailored for our setup and probably will
   not work without modifications for other hosters.
+- Configure `Admin SSO`_
 
 
 Setting up a local development installation of an existing project
@@ -88,3 +89,6 @@ If the staging site is not required anymore, it can be removed using the
 following command::
 
     fab staging server.remove_host
+
+
+.. _`Admin SSO`: https://github.com/frog32/django-admin-sso/blob/develop/README.rst
