@@ -247,7 +247,7 @@ if DEBUG:
             'propagate': False,
         },
         'django.request': {
-            'level': DEBUG,
+            'level': 'DEBUG',
             'handlers': ['console'],  # Dump exceptions to the console.
             'propagate': False,
         },
