@@ -43,7 +43,7 @@ def init_bitbucket():
         return 1
 
     if username and password and organization and repository:
-        env.box_auth = '%s:%s' % (username, password)
+        env.box_auth = '%s:"%s"' % (username, password)
         env.box_repo = '%s/%s' % (organization, repository)
 
         with hide('running'):
