@@ -12,11 +12,10 @@
       ${NICE_NAME}
     {% endblock %}
   </title>
-  {% compress css %}
   {% block css %}
     <link rel="stylesheet" href="{% static '${PROJECT_NAME}/build/app.css' %}">
   {% endblock %}
-  {% endcompress %}
+
   <link rel="shortcut icon" href="{% static '${PROJECT_NAME}/images/feincms.png' %}">
   <script src="{% static '${PROJECT_NAME}/bower_components/modernizr/modernizr.js' %}"></script>
   <script>onReady = [];</script>
@@ -159,13 +158,14 @@
   </div>
 </div><!-- row wrapper -->
 
-{% compress js %}
 {% block js %}
+{% compress js %}
   <script src="{% static '${PROJECT_NAME}/bower_components/jquery/dist/jquery.min.js' %}"></script>
   <script src="{% static '${PROJECT_NAME}/bower_components/foundation/js/foundation.min.js' %}"></script>
   <script src="{% static '${PROJECT_NAME}/build/app.js' %}"></script>
-{% endblock %}
 {% endcompress %}
+{% endblock %}
+
 {% block inline-js %}
   <script>
     for (var i=0, l=onReady.length; i<l; ++i) {
