@@ -241,14 +241,19 @@ RAVEN_CONFIG = {
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     LOGGING['loggers'].update({
-        'django.db.backends': {
-            'level': 'DEBUG',
-            # 'handlers': ['console'],  # Uncomment to dump SQL statements.
-            'propagate': False,
-        },
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],  # Uncomment to dump SQL statements.
+        #     'propagate': False,
+        # },
         'django.request': {
             'level': 'DEBUG',
             'handlers': ['console'],  # Dump exceptions to the console.
+            'propagate': False,
+        },
+        '${PROJECT_NAME}': {
+            'level': 'DEBUG',
+            'handlers': ['console'],  # Dump app logs to the console.
             'propagate': False,
         },
     })
@@ -265,3 +270,5 @@ if DEBUG:
             'debug_toolbar.middleware.DebugToolbarMiddleware',
         ) + MIDDLEWARE_CLASSES
         DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+    THUMBNAIL_DEBUG = True
