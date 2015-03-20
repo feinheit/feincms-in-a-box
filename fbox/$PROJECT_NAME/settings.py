@@ -126,6 +126,7 @@ INSTALLED_APPS = (
 
     'compressor',
 
+    'flat',
     'django.contrib.admin',
     'admin_sso',
 )
