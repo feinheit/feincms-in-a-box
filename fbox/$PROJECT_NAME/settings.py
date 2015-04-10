@@ -242,9 +242,10 @@ RAVEN_CONFIG = {
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     LOGGING['loggers'].update({
+        # Uncomment to dump SQL statements.
         # 'django.db.backends': {
         #     'level': 'DEBUG',
-        #     'handlers': ['console'],  # Uncomment to dump SQL statements.
+        #     'handlers': ['console'],
         #     'propagate': False,
         # },
         'django.request': {
