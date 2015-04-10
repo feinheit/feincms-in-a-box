@@ -7,6 +7,6 @@
   ],
   "private": true,
   "dependencies": {
-    "foundation": "5.4.7"
+    "foundation": "~5.5.1"
   }
 }
