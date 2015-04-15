@@ -35,8 +35,10 @@ def read_dotenv(filename='.env'):
 
 def env(key, default=None, required=False):
     """
-    An easier way to read values from the environment. Knows how to convert
-    Pythonic values such as ``42``, ``None`` into the correct type.
+    An easier way to read values from the environment.
+    The value is converted to one of the following
+    Python literal structures: strings, numbers, tuples, lists, dicts, booleans,
+    and None.
     """
     try:
         value = os.environ[key]
