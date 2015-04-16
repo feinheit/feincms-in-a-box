@@ -5,18 +5,25 @@ from django.conf.urls import url, include, patterns
 from django.contrib import admin
 from django.views import generic
 
-from elephantblog.feeds import EntryFeed
+from .cms import PageSitemap
+
+# from elephantblog.feeds import EntryFeed
 
 
 admin.autodiscover()
 
+sitemaps = {
+    'pages': PageSitemap,
+}
 
 urlpatterns = patterns(
     '',
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^404/$', generic.TemplateView.as_view(template_name='404.html')),
-    url(r'^feeds/news/$', EntryFeed()),
+    # url(r'^feeds/news/$', EntryFeed()),  # Elephantblog feed
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
+        {'sitemaps': sitemaps}),
 )
 
 if settings.DEBUG:
