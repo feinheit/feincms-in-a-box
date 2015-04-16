@@ -1,11 +1,12 @@
 from __future__ import unicode_literals
 
 from functools import wraps
-from os import chmod, mkdir, getlogin
+from os import chmod, mkdir, getuid
 from os.path import dirname, exists, join
 import socket
 from subprocess import Popen, PIPE, call
 import time
+import pwd
 
 from fabric.api import env, cd, run, local as run_local, task
 from fabric.colors import cyan, red
@@ -26,7 +27,7 @@ __all__ = (
 )
 
 
-if getlogin() == 'www-data':
+if pwd.getpwuid(getuid())[0] == 'www-data':
     abort(red('Stop fab-ing on the server.', bold=True))
 
 
