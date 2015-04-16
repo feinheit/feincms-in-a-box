@@ -1,27 +1,14 @@
-<!DOCTYPE html>
-<html class="no-js" lang="{{ LANGUAGE_CODE }}" >
+{% extends "site_base.html" %}
 {% load compress i18n staticfiles %}
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>
-    {% block title %}
-      {% if feincms_page %}{{ feincms_page.page_title }} | {% endif %}
-      ${NICE_NAME}
-    {% endblock %}
-  </title>
-  {% block css %}
-    <link rel="stylesheet" href="{% static '${PROJECT_NAME}/build/app.css' %}">
-  {% endblock %}
+{% load feincms_tags feincms_page_tags mptt_tags navigation_tags %}
 
-  <link rel="shortcut icon" href="{% static '${PROJECT_NAME}/images/feincms.png' %}">
-  <script src="{% static '${PROJECT_NAME}/bower_components/modernizr/modernizr.js' %}"></script>
-  <script>onReady = [];</script>
+
+{% block meta %}
+
+  <title>{% block title %}{{ feincms_page.page_title }}{% endblock %}</title>
 
   <meta name="keywords" content="{{ feincms_page.meta_keywords|default:'' }}">
   <meta name="description" content="{{ feincms_page.meta_description|default:'' }}">
-  <meta name="robots" content="noindex,follow,noodp">  {# TODO Remove "noindex" when going live! #}
   <meta property="og:title" content="{{ og_title|default:feincms_page.page_title }} - ${NICE_NAME}">
   <meta property="og:image" content="http://www.${DOMAIN}{{ og_image|default:'/static/${PROJECT_NAME}/images/NN4.png' }}">
   <meta property="og:type" content="website">
@@ -36,12 +23,60 @@
     title="RSS Feed" href="http://www.${DOMAIN}/feeds/news/">
   {% endcomment %}
   {% block extra-head %}{% endblock %}
-</head>
-<body>
+
+{% endblock meta %}
+
+
+{% block body %}
 
 <div class="wrapper">
 
-  {% block header %}{% endblock header %}
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="row collapse header">
+        <div class="large-12 columns">
+          <nav class="top-bar" data-topbar role="navigation" data-options="back_text:{% trans 'Back' %};">
+            <ul class="title-area">
+              <li class="name">
+                <h1>  {# Remove the h1 if this is not the main title. #}
+                  <a id="logo" href="/">${NICE_NAME}</a>
+                </h1>
+              </li>
+              <li class="toggle-topbar menu-icon">
+                <a href="#"><span>Menu<!-- nothing --></span></a>
+              </li>
+            </ul>
+
+            <section class="top-bar-section">
+              <ul class="left">
+                {% feincms_nav feincms_page level=2 depth=2 group='default' as toplevel %}
+                {% for page, children in toplevel|group_by_tree %}
+                  {% page_is_active page as is_active %}
+                  <li class="{% if is_active %}active{% endif %} {% if children %}has-dropdown{% endif %}">
+                    <a href="{{ page.get_navigation_url }}">{{ page.title }}</a>
+                    {% if children %}
+                    <ul class="dropdown">
+                      <li class="show-for-small">
+                        {# The top-bar code does not allow navigating to top-level entries #}
+                        <a href="{{ page.get_navigation_url }}">{{ page.title }}</a>
+                      </li>
+                      {% for child in children %}
+                        {% page_is_active child as is_active %}
+                        <li class="{% if is_active %}active{% endif %}">
+                          <a href="{{ child.get_navigation_url }}">{{ child.title }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </section>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
 
   {% for message in messages %}
     <div data-alert class="alert-box {{ message.tags }}">
@@ -50,7 +85,25 @@
     </div>
   {% endfor %}
 
-  {% block content %}{% endblock content %}
+  {% block content %}
+
+  <div class="row">
+    <div class="large-12 columns">
+      <h1>{{ feincms_page.content_title }}</h1>
+      {% breadcrumbs feincms_page %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-9 columns">
+      {% feincms_render_region feincms_page "main" request %}
+    </div>
+    <div class="large-3 columns">
+      {% feincms_render_region feincms_page "sidebar" request %}
+    </div>
+  </div>
+
+  {% endblock %}
 
   {% block footer %}{% endblock footer %}
 
@@ -63,29 +116,22 @@
   </div>
 </div><!-- row wrapper -->
 
+{% endblock body %}
 
-{% compress js %}
+{% block extra-body %}
+
+  {% compress js %}
   <script src="{% static '${PROJECT_NAME}/bower_components/jquery/dist/jquery.min.js' %}"></script>
   <script src="{% static '${PROJECT_NAME}/bower_components/foundation/js/foundation/foundation.js' %}"></script>
   <script src="{% static '${PROJECT_NAME}/build/app.js' %}"></script>
-{% endcompress %}
-{% endblock %}
+  {% endcompress %}
 
-{% block inline-js %}
-  <script>
-    for (var i=0, l=onReady.length; i<l; ++i) {
-      onReady[i].call(null, $);
-    }
-  </script>
-{% endblock %}
+  {% block inline-js %}
+    <script>
+      for (var i=0, l=onReady.length; i<l; ++i) {
+        onReady[i].call(null, $);
+      }
+    </script>
+  {% endblock inline-js %}
 
-{% if request.user.is_staff %}
-  <div class="edit-tools">
-    {% block edit-tools %}
-      <a href="/admin/" class="button tiny">Edit</a>
-    {% endblock %}
-  </div>
-{% endif %}
-
-</body>
-</html>
+{% endblock extra-body %}
