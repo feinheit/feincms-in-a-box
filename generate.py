@@ -87,8 +87,11 @@ def walker(base, base_dir, context):
             )
 
     os.chdir(base_dir)
+    os.makedirs('log')
+    subprocess.call(['touch', 'log/.gitkeep'])
     subprocess.call(['git', 'init'])
     subprocess.call(['git', 'add', '-A'])
+    subprocess.call(['git', 'add', '-f', 'log/.gitkeep'])
     subprocess.call([
         'git', 'commit', '-q',
         '--author', 'FeinCMS-in-a-Box <box@feincms.org>',

@@ -214,14 +214,21 @@ LOGGING = {
             'class': 'raven.contrib.django.handlers.SentryHandler',
             'filters': [
                 'require_debug_false',
-                # XXX You might want to skip unreadable post error reports.
-                # 'skip_unreadable_post_error',
+                'skip_unreadable_post_error',
             ],
         },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'log', 'info.log'),
+            'formatter': 'verbose',
+            'maxBytes': 500000,  # 500 kB
+            'backupCount': 4
         },
     },
     'loggers': {
