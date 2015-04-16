@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from functools import wraps
-from os import chmod, mkdir
+from os import chmod, mkdir, getlogin
 from os.path import dirname, exists, join
 import socket
 from subprocess import Popen, PIPE, call
@@ -24,6 +24,10 @@ __all__ = (
     'local',
     'server',
 )
+
+
+if getlogin() == 'www-data':
+    abort(red('Stop fab-ing on the server.', bold=True))
 
 
 # Multi-env support ---------------------------------------------------------
