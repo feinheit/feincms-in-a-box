@@ -224,7 +224,7 @@ LOGGING = {
         },
         'file': {
             'level': 'INFO',
-            'class': 'logging.RotatingFileHandler',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(BASE_DIR, 'log', 'info.log'),
             'formatter': 'verbose',
             'maxBytes': 500000,  # 500 kB
