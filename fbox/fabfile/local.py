@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 import platform
 
-from fabric.api import env, execute, hosts, task
+from fabric.api import env, execute, hosts, task, prefix
 from fabric.colors import green, red
 from fabric.contrib.project import rsync_project
 from fabric.utils import abort, puts
@@ -24,6 +24,7 @@ def setup():
         return 1
 
     execute('local.create_virtualenv')
+    execute('local.update_requirement_files')
     execute('local.frontend_tools')
     execute('local.create_dotenv')
     execute('local.create_and_migrate_database')
@@ -95,6 +96,20 @@ def create_virtualenv():
             ' && venv/bin/pip install -r requirements/dev.txt')
     else:
         run_local('venv/bin/pip install -r requirements/dev.txt')
+
+
+@task
+@hosts('')
+def update_requirement_files():
+    """ Updates requirement files with specific version numbers """
+    with prefix('source venv/bin/activate'):
+        # We need to pass the files manually to ensure common.txt comes
+        # first (It's extended with  all packages not defined in any other
+        # requirement file). We also have to exclude production.txt
+        # because every package not installed will get lost (and the
+        # production packages are of course not installed).
+        run_local(
+            'venv/bin/pip-dump requirements/common.txt requirements/dev.txt')
 
 
 @task
