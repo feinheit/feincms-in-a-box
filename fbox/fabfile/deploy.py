@@ -16,8 +16,9 @@ def deploy():
     """Deploys frontend and backend code to the server if the checking step
     did not report any problems"""
     execute('check.deploy')
-    execute('deploy.styles')
-    execute('deploy.code')
+    execute('deploy.code', reload=False)
+    execute('deploy.styles', reload=False)
+    execute('deploy.restart_server')
 
 
 def _deploy_styles_foundation5_gulp():
@@ -52,7 +53,7 @@ def _deploy_styles_foundation4_bundler():
 
 @task
 @require_env
-def styles():
+def styles(reload=True):
     """Compiles and compresses the CSS and deploys it to the server"""
     execute('check.deploy')
 
@@ -70,10 +71,13 @@ def styles():
     with cd('%(box_domain)s'):
         run('venv/bin/python manage.py collectstatic --noinput')
 
+    if reload:
+        execute('deploy.restart_server')
+
 
 @task
 @require_env
-def code():
+def code(reload=True):
     """Deploys the currently committed project state to the server, if there
     are no uncommitted changes on the server and the checking step did not
     report any problems"""
@@ -92,7 +96,14 @@ def code():
         run('venv/bin/pip install -r requirements/production.txt'
             ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
         run('venv/bin/python manage.py migrate --noinput')
-        run('venv/bin/python manage.py collectstatic --noinput')
-        run('sctl restart %(box_domain)s:*')
 
+    if reload:
+        execute('deploy.restart_server')
     execute('git.fetch_remote')
+
+
+@task
+@require_env
+def restart_server():
+    with cd('%(box_domain)s'):
+        run('sctl restart %(box_domain)s:*')
