@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ LANGUAGE_CODE }}" >
+{% load i18n staticfiles %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="robots" content="index,follow,noodp">
+
+  <link rel="shortcut icon" href="{% static '${PROJECT_NAME}/images/feincms.png' %}">
+
+
+  {% block css %}
+    <link rel="stylesheet" href="{% static '${PROJECT_NAME}/build/app.css' %}">
+  {% endblock %}
+
+  {% block meta %}
+  <title>${NICE_NAME}</title>
+  {% endblock meta %}
+
+  <script>onReady = [];</script>
+  <script src="{% static '${PROJECT_NAME}/bower_components/modernizr/modernizr.js' %}"></script>
+
+  {% block extra-head %}{% endblock %}
+
+</head>
+<body>
+{% block body %}
+{% endblock body %}
+
+{% block extra-body %}
+{% endblock extra-body %}
+
+{% if request.user.is_staff %}
+  <div class="edit-tools">
+    {% block edit-tools %}
+      <a href="/admin/" class="button tiny">Edit</a>
+    {% endblock %}
+  </div>
+{% endif %}
+</body>
+</html>
