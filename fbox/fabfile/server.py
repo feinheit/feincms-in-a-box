@@ -135,11 +135,15 @@ def create_sso_user():
 @task
 @require_env
 def copy_data_from(environment=None):
+    """
+    Copy the database from one environment to another. Usually from production to stage.
+    Usage: ``fab s server.copy_data_from:production``.
+    :param environment: the source environment
+    """
     if env.get('box_hardwired_environment'):
         abort(red('Cannot continue with a hardwired environment.'))
     if environment not in env.box_environments:
         abort(red('Invalid environment %s.' % environment))
-
     source = env.box_environments[environment]
     target = env.box_environments[env.get('box_environment')]
     if source == target:
@@ -147,9 +151,10 @@ def copy_data_from(environment=None):
             'Source environment %s must not equal target environment %s.'
             % (environment, env.get('box_environment'))))
 
-    if source['server'] != target['server']:
+    if source['servers'][0] != target['servers'][0]:
         abort(red('The environments have to be on the same server, sorry!'))
 
+    puts('Copying data from {0} to {1}'.format(source['remote'], target['remote']))
     if not confirm(
             'Completely replace the remote database'
             ' "%(box_database)s" (if it exists)?', default=False):
