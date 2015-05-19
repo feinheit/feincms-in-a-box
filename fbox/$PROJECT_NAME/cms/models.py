@@ -14,8 +14,8 @@ from feincms.content.medialibrary.models import MediaFileContent
 
 from feincms_cleanse import cleanse_html
 from feincms_oembed.contents import OembedContent
-# from form_designer.models import FormContent
-#
+from form_designer.models import FormContent
+
 # from .contents import (
 #     SubpageContent, SlideContent, PageTeaserContent)
 from .extensions import ExcerptExtension
@@ -59,8 +59,8 @@ Page.create_content_type(
             'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
     ])
 
-# Page.create_content_type(
-#     FormContent)
+Page.create_content_type(
+    FormContent)
 # Page.create_content_type(
 #     SubpageContent)
 # Page.create_content_type(
