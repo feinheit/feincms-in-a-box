@@ -102,7 +102,7 @@ def create_virtualenv():
 @hosts('')
 def update_requirement_files():
     """ Updates requirement files with specific version numbers """
-    with prefix('source venv/bin/activate'):
+    with prefix('. venv/bin/activate'):
         # We need to pass the files manually to ensure common.txt comes
         # first (It's extended with  all packages not defined in any other
         # requirement file). We also have to exclude production.txt
