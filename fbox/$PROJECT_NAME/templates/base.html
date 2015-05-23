@@ -135,3 +135,7 @@
   {% endblock inline-js %}
 
 {% endblock extra-body %}
+
+{% block edit-tools %}
+  <a href="{% url 'admin:page_page_change' feincms_page.id %}" class="button tiny">Edit</a>
+{% endblock %}
