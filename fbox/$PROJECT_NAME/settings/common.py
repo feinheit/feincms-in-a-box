@@ -6,13 +6,11 @@ from env import env
 import dj_database_url
 import django_cache_url
 import os
-import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = any(r in sys.argv for r in ('runserver', 'shell', 'dbshell'))
-TESTING = any(r in sys.argv for r in ('test',))
-
+DEBUG = False
+TESTING = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -53,13 +51,10 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
-if not DEBUG:
-    TEMPLATE_LOADERS = (
-        ('django.template.loaders.cached.Loader', (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-        )),
-    )
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -245,39 +240,3 @@ LOGGING = {
 RAVEN_CONFIG = {
     'dsn': env('SENTRY_DSN'),
 }
-
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    LOGGING['loggers'].update({
-        # Uncomment to dump SQL statements.
-        # 'django.db.backends': {
-        #     'level': 'DEBUG',
-        #     'handlers': ['console'],
-        #     'propagate': False,
-        # },
-        'django.request': {
-            'level': 'DEBUG',
-            'handlers': ['console'],  # Dump exceptions to the console.
-            'propagate': False,
-        },
-        '${PROJECT_NAME}': {
-            'level': 'DEBUG',
-            'handlers': ['console'],  # Dump app logs to the console.
-            'propagate': False,
-        },
-    })
-    try:
-        __import__('debug_toolbar')
-    except ImportError:
-        pass
-    else:
-        INSTALLED_APPS += (
-            'debug_toolbar.apps.DebugToolbarConfig',
-        )
-        INTERNAL_IPS = ('127.0.0.1',)
-        MIDDLEWARE_CLASSES = (
-            'debug_toolbar.middleware.DebugToolbarMiddleware',
-        ) + MIDDLEWARE_CLASSES
-        DEBUG_TOOLBAR_PATCH_SETTINGS = False
-
-    THUMBNAIL_DEBUG = True

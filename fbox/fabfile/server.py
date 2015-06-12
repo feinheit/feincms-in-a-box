@@ -79,6 +79,7 @@ def create_database_and_dotenv():
     with cd('%(box_domain)s'):
 
         put(StringIO('''\
+DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings.%(box_remote)s
 DATABASE_URL=postgres://%(box_database)s:%(box_database_pw)s\
 @localhost:5432/%(box_database)s
 CACHE_URL=hiredis://localhost:6379/1/%(box_database)s

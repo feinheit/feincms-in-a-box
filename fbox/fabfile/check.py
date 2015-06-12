@@ -71,7 +71,7 @@ def primetime():
     step('Checking local settings on server...')
     with cd('%(box_domain)s'):
         output = run(
-            "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings"
+            "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings.production"
             " venv/bin/python -c \""
             "from django.conf import settings as s;"
             "print('fd:%%s\\ndsn:%%s\\nsso:%%s\\ndebug:%%s\\nsk:%%s' %% ("
