@@ -5,7 +5,7 @@ from django.conf.urls import url, include, patterns
 from django.contrib import admin
 from django.views import generic
 
-from .cms import PageSitemap
+from feincms.module.page.sitemap import PageSitemap
 
 # from elephantblog.feeds import EntryFeed
 
