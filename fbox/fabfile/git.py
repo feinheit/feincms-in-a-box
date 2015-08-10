@@ -66,6 +66,7 @@ def init_bitbucket():
 @task
 @require_env
 def add_remote():
+    """ Add a server repository as git remote  """
     env.box_idx = '' if len(env.hosts) < 2 else '-%d' % (
         env.hosts.index(env.host_string) + 1)
 

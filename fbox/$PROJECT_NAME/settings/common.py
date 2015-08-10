@@ -7,8 +7,9 @@ import dj_database_url
 import django_cache_url
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname
-                           (os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))
+)
 
 DEBUG = False
 TESTING = False

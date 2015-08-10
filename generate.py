@@ -211,8 +211,8 @@ if __name__ == '__main__':
         'DESTINATION': args.destination,
         'DOMAIN': args.domain,
         'DOMAIN_SLUG': re.sub(r'[^\w]+', '_', args.domain),
-        'NICE_NAME': args.nice_name,
-        'PROJECT_NAME': args.project_name,
+        'NICE_NAME': args.nice_name,  # used for the title
+        'PROJECT_NAME': args.project_name,  # the Django project name
         'SERVER': args.server,
         'USER_NAME': read_output(
             ['git', 'config', 'user.name'],

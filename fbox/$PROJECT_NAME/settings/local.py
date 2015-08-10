@@ -21,7 +21,7 @@ LOGGING['loggers'].update({
         'handlers': ['console'],  # Dump exceptions to the console.
         'propagate': False,
     },
-    'app': {
+    '${PROJECT_NAME}': {
         'level': 'DEBUG',
         'handlers': ['console'],  # Dump app logs to the console.
         'propagate': False,
@@ -38,3 +38,5 @@ MIDDLEWARE_CLASSES = (
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 THUMBNAIL_DEBUG = True
+
+RAVEN_CONFIG = {'dsn': ''}
