@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 from env import env
 import dj_database_url
 import django_cache_url
+from django.utils.translation import ugettext_lazy as _
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
@@ -37,10 +38,10 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS', required=True)
 TIME_ZONE = 'Europe/Zurich'
 LANGUAGE_CODE = 'de-ch'
 LANGUAGES = (
-    # ('en', 'English'),
-    ('de', 'German'),
-    # ('fr', 'French'),
-    # ('it', 'Italian'),
+    # ('en', _('English')),
+    ('de', _('German')),
+    # ('fr', _('French')),
+    # ('it', _('Italian')),
 )
 
 USE_I18N = True
