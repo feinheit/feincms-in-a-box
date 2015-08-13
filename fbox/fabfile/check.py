@@ -31,9 +31,6 @@ def check():
     step('Checking Python code with flake8...')
     run_local('flake8 .')
 
-    step('Checking SCSS code...')
-    run_local('bundle exec scss-lint %(box_staticfiles)s/scss/')
-
     step('Checking Javascript code...')
     run_local('./node_modules/.bin/jshint %(box_staticfiles)s/')
 
