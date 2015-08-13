@@ -29,7 +29,7 @@ def check():
         "! git --no-pager grep -n -C3 -E '(^| )print( |\(|$)' -- '*.py'")
 
     step('Checking Python code with flake8...')
-    run_local('flake8 .')
+    run_local('venv/bin/flake8 .')
 
     step('Checking Javascript code...')
     run_local('./node_modules/.bin/jshint %(box_staticfiles)s/')
