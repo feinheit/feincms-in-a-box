@@ -5,8 +5,9 @@ from .common import *  # noqa
 
 # IN-MEMORY TEST DATABASE
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3"
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '${DOMAIN_SLUG}'
     },
 }
 
@@ -15,12 +16,6 @@ PASSWORD_HASHERS = (
 )
 TESTING = True
 LOGGING['loggers'].update({
-    # Uncomment to dump SQL statements.
-    # 'django.db.backends': {
-    #     'level': 'DEBUG',
-    #     'handlers': ['console'],
-    #     'propagate': False,
-    # },
     '': {
         'level': 'WARNING',
         'handlers': ['console'],
