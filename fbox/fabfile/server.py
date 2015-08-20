@@ -89,9 +89,6 @@ DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID=%(box_oauth2_client_id)s
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_SECRET=%(box_oauth2_client_secret)s
 ALLOWED_HOSTS=['%(box_domain)s', '.%(box_domain)s', '.%(host_string_host)s']
 
-# Do not forget to allow robots to index the site when going live!
-# - %(box_project_name)s/templates/base.html: Change "noindex" to "index"
-# - htdocs/robots.txt: Remove the "Disallow: /" line
 # FORCE_DOMAIN = www.%(box_domain)s
 ''' % dict(env, host_string_host=env.host_string.split('@')[-1])), '.env')
 

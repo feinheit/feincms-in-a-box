@@ -66,6 +66,7 @@ def primetime():
         " -- %(box_project_name)s")
 
     step('Checking local settings on server...')
+    # TODO:  check if OnlyStaffMiddleware is disabled
     with cd('%(box_domain)s'):
         output = run(
             "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings.production"

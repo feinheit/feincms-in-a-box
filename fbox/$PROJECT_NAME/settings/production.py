@@ -8,3 +8,8 @@ from .common import *  # noqa
 TEMPLATE_LOADERS = (
     ('django.template.loaders.cached.Loader', TEMPLATE_LOADERS),
 )
+
+# TODO: Remove before flight
+MIDDLEWARE_CLASSES += (
+    '${PROJECT_NAME}.middleware.OnlyStaffMiddleware',
+)

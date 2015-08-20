@@ -11,5 +11,5 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES += (
-    'app.middleware.OnlyStaffMiddleware',
+    '${PROJECT_NAME}.middleware.OnlyStaffMiddleware',
 )
