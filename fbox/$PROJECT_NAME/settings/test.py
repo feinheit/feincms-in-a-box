@@ -7,7 +7,7 @@ from .common import *  # noqa
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '${DOMAIN_SLUG}'
+        'NAME': ':memory:'
     },
 }
 
