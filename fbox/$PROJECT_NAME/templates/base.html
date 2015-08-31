@@ -9,6 +9,7 @@
 
   <meta name="keywords" content="{{ feincms_page.meta_keywords|default:'' }}">
   <meta name="description" content="{{ feincms_page.meta_description|default:'' }}">
+  <meta name="robots" content="noindex,follow,noodp">  {# TODO Remove "noindex" when going live! #}
   <meta property="og:title" content="{{ og_title|default:feincms_page.page_title }} - ${NICE_NAME}">
   <meta property="og:image" content="http://www.${DOMAIN}{{ og_image|default:'/static/${PROJECT_NAME}/images/NN4.png' }}">
   <meta property="og:type" content="website">
