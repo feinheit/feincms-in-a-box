@@ -66,15 +66,21 @@ def primetime():
         " -- %(box_project_name)s")
 
     step('Checking local settings on server...')
+
+    # Shell magic:
+    # Import production settings and print out some variables.
+    # Parse the output and compare it.
+
     with cd('%(box_domain)s'):
         output = run(
-            "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings"
+            "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings.production"
             " venv/bin/python -c \""
             "from django.conf import settings as s;"
-            "print('fd:%%s\\ndsn:%%s\\nsso:%%s\\ndebug:%%s\\nsk:%%s' %% ("
+            "print('fd:%%s\\ndsn:%%s\\nsso:%%s\\nstaff:%%s\\ndebug:%%s\\nsk:%%s' %% ("
             "getattr(s, 'FORCE_DOMAIN', '-'),"
             "getattr(s, 'RAVEN_CONFIG', {}).get('dsn', ''),"
             "bool(getattr(s, 'DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON', False)),"
+            "bool('${PROJECT_NAME}.middleware.OnlyStaffMiddleware' in s.MIDDLEWARE_CLASSES),"
             "bool(s.DEBUG),"
             "s.SECRET_KEY,"
             "))\"" % env, quiet=True).strip()
@@ -95,6 +101,10 @@ def primetime():
             puts(red(
                 'Warning: SSO authentication for the administration is not'
                 ' configured.'))
+
+        if output['staff'] == 'True':
+            puts(red(
+                'OnlyStaffMiddleware is still activated.'))
 
         if output['debug'] == 'True':
             puts(red(

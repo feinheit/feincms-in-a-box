@@ -13,4 +13,6 @@ Submission guidelines
 =====================
 
 If you are creating a pull request, fork the repository and make any changes
-on the ``develop`` branch.
+in your own feature branch.
+
+Write and run tests.

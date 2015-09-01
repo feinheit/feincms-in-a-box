@@ -37,14 +37,13 @@ An installation of Xcode including command line tools is required::
 
 It is recommended to use Homebrew_ for all additional dependencies::
 
-    brew install gettext
     brew install libxslt
     brew install libxml2
     brew install jpeg
     brew install freetype
     brew install libpng
     brew install libtiff
-    brew install node
+    brew install iojs
     brew install postgresql
     brew install redis
     brew install sqlite
@@ -78,6 +77,7 @@ is very much recommended to use pipsi_ for their installation.  Instructions
 for installing pipsi_ can be found on
 `Github <https://github.com/mitsuhiko/pipsi>`_::
 
+    pip install virtualenv
     pipsi install fabric
     pipsi install flake8
 
