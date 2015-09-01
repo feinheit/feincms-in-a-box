@@ -37,16 +37,9 @@ An installation of Xcode including command line tools is required::
 
 It is recommended to use Homebrew_ for all additional dependencies::
 
-    brew install libxslt
-    brew install libxml2
-    brew install jpeg
-    brew install freetype
-    brew install libpng
-    brew install libtiff
-    brew install iojs
-    brew install postgresql
-    brew install redis
-    brew install sqlite
+    brew install gettext libxslt libxml2 jpeg freetype libpng
+    brew install libtiff iojs postgresql redis sqlite
+    brew link --force gettext
 
 It will also help to add a clean installation of Python_::
 
