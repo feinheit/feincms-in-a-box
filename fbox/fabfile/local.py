@@ -75,6 +75,7 @@ def setup_with_production_data():
 
 @task
 @hosts('')
+@require_services
 def update():
     run_local('venv/bin/pip install -r requirements/dev.txt')
     execute('local.frontend_tools')
