@@ -3,11 +3,13 @@ from __future__ import absolute_import, unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
 
+# from feincms.apps import ApplicationContent
+from feincms.contents import (
+    RichTextContent,
+    MediaFileContent,
+    # RawContent,
+)
 from feincms.module.page.models import Page
-# from feincms.content.application.models import ApplicationContent
-# from feincms.content.raw.models import RawContent
-from feincms.content.richtext.models import RichTextContent
-from feincms.content.medialibrary.models import MediaFileContent
 
 # from elephantblog.contents import BlogEntryListContent
 # from elephantblog.models import Entry

@@ -160,7 +160,7 @@ SESSION_COOKIE_HTTPONLY = True
 
 
 def elephantblog_entry_url_app(self):
-    from feincms.content.application.models import app_reverse
+    from feincms.apps import app_reverse
     return app_reverse('elephantblog_entry_detail', 'elephantblog', kwargs={
         'year': self.published_on.strftime('%Y'),
         'month': self.published_on.strftime('%m'),
@@ -170,7 +170,7 @@ def elephantblog_entry_url_app(self):
 
 
 def elephantblog_category_url_app(self):
-    from feincms.content.application.models import app_reverse
+    from feincms.apps import app_reverse
     return app_reverse('elephantblog_category_detail', 'elephantblog', kwargs={
         'slug': self.translation.slug,
     })

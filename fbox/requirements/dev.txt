@@ -1,5 +1,5 @@
 -r common.txt
-coverage==3.7.1
-factory-boy==2.5.1
+coverage==4.0
+factory-boy==2.5.2
 pip-tools==0.3.6
 flake8==2.4.1

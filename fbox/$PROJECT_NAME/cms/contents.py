@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from feincms.admin.item_editor import FeinCMSInline
-from feincms.content.medialibrary.models import MediaFileContent
+from feincms.contents import MediaFileContent
 from feincms.module.medialibrary.fields import (
     ContentWithMediaFile, MediaFileForeignKey)
 from feincms.module.medialibrary.models import MediaFile
