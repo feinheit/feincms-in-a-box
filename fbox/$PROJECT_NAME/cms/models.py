@@ -6,8 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 # from feincms.apps import ApplicationContent
 from feincms.contents import (
     RichTextContent,
-    MediaFileContent,
-    # RawContent,
+    FilerImageContent,
+    FilerFileContent,
 )
 from feincms.module.page.models import Page
 
@@ -17,10 +17,6 @@ from feincms.module.page.models import Page
 from feincms_cleanse import cleanse_html
 from feincms_oembed.contents import OembedContent
 from form_designer.models import FormContent
-
-# from .contents import (
-#     SubpageContent, SlideContent, PageTeaserContent)
-from .extensions import ExcerptExtension
 
 
 Page.register_templates({
@@ -37,32 +33,38 @@ Page.register_templates({
 
 Page.register_extensions(
     'feincms.extensions.ct_tracker',
-    'feincms.module.page.extensions.navigation',
     'feincms.extensions.seo',
     'feincms.module.page.extensions.titles',
     'feincms.module.page.extensions.navigationgroups',
-    ExcerptExtension
+    'feincms.extensions.translations',
 )
 
 # FeinCMS Contenttypes
 # --------------------
 
 Page.create_content_type(
-    RichTextContent, cleanse=cleanse_html)
+    RichTextContent, cleanse=cleanse_html,
+)
 Page.create_content_type(
-    MediaFileContent,
+    FilerImageContent,
     TYPE_CHOICES=(
-        ('default', _('default')),
-    ))
+        ('block', _('Full width')),
+    ),
+)
+Page.create_content_type(
+    FilerFileContent,
+)
 Page.create_content_type(
     OembedContent,
     TYPE_CHOICES=[
         ('default', _('Default presentation'), {
             'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
-    ])
+    ],
+)
 
 Page.create_content_type(
     FormContent)
+
 # Page.create_content_type(
 #     SubpageContent)
 # Page.create_content_type(
