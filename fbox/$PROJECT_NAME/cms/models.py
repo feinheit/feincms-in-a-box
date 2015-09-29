@@ -36,9 +36,9 @@ Page.register_templates({
 
 
 Page.register_extensions(
-    'feincms.module.extensions.ct_tracker',
+    'feincms.extensions.ct_tracker',
     'feincms.module.page.extensions.navigation',
-    'feincms.module.extensions.seo',
+    'feincms.extensions.seo',
     'feincms.module.page.extensions.titles',
     'feincms.module.page.extensions.navigationgroups',
     ExcerptExtension
