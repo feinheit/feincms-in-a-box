@@ -121,6 +121,9 @@ INSTALLED_APPS = (
     'elephantblog',
     'feincms_oembed',
 
+    'filer',
+    'easy_thumbnails',
+
     'compressor',
 
     'flat',

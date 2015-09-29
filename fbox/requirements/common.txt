@@ -5,6 +5,7 @@ django-admin-sso2==2.0.2
 django-cache-url==1.0.0
 django-compressor==1.5
 django_debug_toolbar==1.3.2
+django-filer==0.9.12
 django-flat-theme==1.1.1
 django-mptt==0.7.4
 django-redis==3.8.4,<4.0
