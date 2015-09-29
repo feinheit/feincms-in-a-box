@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 import platform
 
-from fabric.api import env, execute, hosts, task, prefix
+from fabric.api import env, execute, hosts, settings, task, prefix
 from fabric.colors import green, red
 from fabric.contrib.project import rsync_project
 from fabric.utils import abort, puts
@@ -175,6 +175,10 @@ def create_and_migrate_database():
     run_local(
         'createdb %(box_database_local)s'
         ' --encoding=UTF8 --template=template0')
+    with settings(warn_only=True):
+        run_local('venv/bin/python manage.py makemigrations elephantblog')
+        run_local('venv/bin/python manage.py makemigrations medialibrary')
+        run_local('venv/bin/python manage.py makemigrations page')
     run_local('venv/bin/python manage.py migrate')
 
 
