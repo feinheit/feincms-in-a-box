@@ -76,11 +76,11 @@ def primetime():
             "DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings.production"
             " venv/bin/python -c \""
             "from django.conf import settings as s;"
-            "print('fd:%%s\\ndsn:%%s\\nsso:%%s\\nstaff:%%s\\ndebug:%%s\\nsk:%%s' %% ("
+            "print('fd:%%s\\ndsn:%%s\\nsso:%%s\\nstaff:%%s\\ndebug:%%s\\nsk:%%s' %% ("  # noqa
             "getattr(s, 'FORCE_DOMAIN', '-'),"
             "getattr(s, 'RAVEN_CONFIG', {}).get('dsn', ''),"
             "bool(getattr(s, 'DJANGO_ADMIN_SSO_ADD_LOGIN_BUTTON', False)),"
-            "bool('${PROJECT_NAME}.middleware.OnlyStaffMiddleware' in s.MIDDLEWARE_CLASSES),"
+            "bool('${PROJECT_NAME}.middleware.OnlyStaffMiddleware' in s.MIDDLEWARE_CLASSES),"  # noqa
             "bool(s.DEBUG),"
             "s.SECRET_KEY,"
             "))\"" % env, quiet=True).strip()
