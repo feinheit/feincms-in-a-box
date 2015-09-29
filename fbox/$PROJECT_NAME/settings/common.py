@@ -114,7 +114,6 @@ INSTALLED_APPS = (
     'towel',
 
     'feincms',
-    'feincms.module.medialibrary',
     'feincms.module.page',
     'mptt',
     'form_designer',
@@ -133,7 +132,6 @@ INSTALLED_APPS = (
 
 MIGRATION_MODULES = dict((app, '${PROJECT_NAME}.migrate.%s' % app) for app in (
     'page',
-    'medialibrary',
     'elephantblog',
 ))
 

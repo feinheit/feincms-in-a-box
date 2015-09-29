@@ -177,7 +177,6 @@ def create_and_migrate_database():
         ' --encoding=UTF8 --template=template0')
     with settings(warn_only=True):
         run_local('venv/bin/python manage.py makemigrations elephantblog')
-        run_local('venv/bin/python manage.py makemigrations medialibrary')
         run_local('venv/bin/python manage.py makemigrations page')
     run_local('venv/bin/python manage.py migrate')
 
