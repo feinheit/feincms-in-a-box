@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.conf import settings
-from django.conf.urls import url, include, patterns
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.views import generic
 
@@ -16,35 +16,32 @@ sitemaps = {
     'pages': PageSitemap,
 }
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^404/$', generic.TemplateView.as_view(template_name='404.html')),
     # url(r'^feeds/news/$', EntryFeed()),  # Elephantblog feed
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps}),
-)
+]
 
 if settings.DEBUG:
     try:
-        urlpatterns += patterns(
+        urlpatterns += [
             '',
             url(r'^__debug__/', include(__import__('debug_toolbar').urls)),
-        )
+        ]
     except ImportError:
         pass
-    urlpatterns += patterns(
-        '',
+    urlpatterns += [
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
             {'document_root': settings.MEDIA_ROOT}),
-    )
+    ]
 
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
     urlpatterns += staticfiles_urlpatterns()
 
-urlpatterns += patterns(
-    '',
+urlpatterns += [
     url(r'', include('feincms.contrib.preview.urls')),
     url(r'', include('feincms.urls')),
-)
+]
