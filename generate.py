@@ -86,6 +86,13 @@ def walker(base, base_dir, context):
                 context,
             )
 
+    ver = subprocess.check_output(
+        'git describe --always --tags',
+        shell=True)
+    head = subprocess.check_output(
+        'git rev-parse HEAD',
+        shell=True)
+
     os.chdir(base_dir)
     os.makedirs('log')
     subprocess.call(['touch', 'log/.gitkeep'])
@@ -95,7 +102,9 @@ def walker(base, base_dir, context):
     subprocess.call([
         'git', 'commit', '-q',
         '--author', 'FeinCMS-in-a-Box <box@feincms.org>',
-        '-m', 'Initial commit'])
+        '-m', 'FeinCMS-in-a-Box %s' % ver,
+        '-m', 'https://github.com/feinheit/feincms-in-a-box/commit/%s' % head
+    ])
 
     print(color(
         'Successfully initialized the project in %s.' % base_dir,
