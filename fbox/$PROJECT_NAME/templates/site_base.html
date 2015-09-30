@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ LANGUAGE_CODE }}" >
 {% load i18n staticfiles %}
+{% load render_bundle from webpack_loader %}
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,15 +11,12 @@
 
 
   {% block css %}
-    <link rel="stylesheet" href="{% static '${PROJECT_NAME}/build/app.css' %}">
+    {% render_bundle 'styles' 'css' %}
   {% endblock %}
 
   {% block meta %}
   <title>${NICE_NAME}</title>
   {% endblock meta %}
-
-  <script>onReady = [];</script>
-  <script src="{% static '${PROJECT_NAME}/libs/modernizr.custom.js' %}"></script>
 
   {% block extra-head %}{% endblock %}
 

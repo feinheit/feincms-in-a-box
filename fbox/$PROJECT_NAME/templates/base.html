@@ -1,6 +1,7 @@
 {% extends "site_base.html" %}
-{% load compress i18n staticfiles %}
+{% load i18n staticfiles %}
 {% load feincms_tags feincms_page_tags mptt_tags navigation_tags %}
+{% load render_bundle from webpack_loader %}
 
 
 {% block meta %}
@@ -121,19 +122,7 @@
 
 {% block extra-body %}
 
-  {% compress js %}
-  <script src="{% static '${PROJECT_NAME}/bower_components/jquery/dist/jquery.min.js' %}"></script>
-  <script src="{% static '${PROJECT_NAME}/bower_components/foundation/js/foundation/foundation.js' %}"></script>
-  <script src="{% static '${PROJECT_NAME}/build/app.js' %}"></script>
-  {% endcompress %}
-
-  {% block inline-js %}
-    <script>
-      for (var i=0, l=onReady.length; i<l; ++i) {
-        onReady[i].call(null, $);
-      }
-    </script>
-  {% endblock inline-js %}
+  {% render_bundle 'styles' 'css' %}
 
 {% endblock extra-body %}
 

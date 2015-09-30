@@ -117,8 +117,9 @@ def update_requirement_files():
 @hosts('')
 def frontend_tools():
     """Installs frontend tools. Knows how to handle npm/bower and bundler"""
-    if os.path.exists('bower.json'):
+    if os.path.exists('package.json'):
         run_local('npm install')
+    if os.path.exists('bower.json'):
         run_local('bower install')
     if os.path.exists('%(box_staticfiles)s/bower.json' % env):
         run_local('cd %(box_staticfiles)s && npm install')
@@ -126,7 +127,7 @@ def frontend_tools():
     if os.path.exists('Gemfile'):
         run_local('bundle install --path=.bundle/gems')
 
-    if not os.path.exists('%(box_staticfiles)s/scss' % env):
+    if not os.path.exists('%(box_staticfiles)s/bower_components' % env):
         return
 
     if not os.path.exists('%(box_staticfiles)s/scss/_settings.scss' % env):
