@@ -13,7 +13,7 @@ django-webpack-loader==0.2.2
 FeinCMS==2.0a10
 feincms-cleanse==6
 # feincms-elephantblog==1.0.2
--e git+git@github.com:feincms/feincms-elephantblog.git@79566bcab2f2a83ce784e7b15665ba8cbf43c163#egg=elephantblog
+-e git+https://github.com/feincms/feincms-elephantblog.git@79566bcab2f2a83ce784e7b15665ba8cbf43c163#egg=elephantblog
 feincms-oembed==1.3.2
 form_designer==0.6.2
 hiredis==0.2.0
