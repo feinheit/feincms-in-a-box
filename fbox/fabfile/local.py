@@ -234,6 +234,16 @@ def pull_mediafiles():
 @task
 @require_env
 @require_services
+def pull():
+    execute('local.pull_database')
+    execute('local.pull_mediafiles')
+    execute('local.empty_to_password')
+    execute('local.update')
+
+
+@task
+@require_env
+@require_services
 def dump_db():
     """Dumps the database into the tmp/ folder"""
     env.box_datetime = datetime.now().strftime('%Y-%m-%d-%s')
