@@ -68,7 +68,7 @@ def primetime():
     step('Checking local settings on server...')
 
     # Shell magic:
-    # Import production settings and print out some variables.
+    # Import production settings and output some variables.
     # Parse the output and compare it.
 
     with cd('%(box_domain)s'):

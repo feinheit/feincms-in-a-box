@@ -28,7 +28,6 @@ urlpatterns = [
 if settings.DEBUG:
     try:
         urlpatterns += [
-            '',
             url(r'^__debug__/', include(__import__('debug_toolbar').urls)),
         ]
     except ImportError:
