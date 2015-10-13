@@ -2,13 +2,6 @@
 Contributing to feincms-in-a-box
 ================================
 
-Report an issue or create a task
-================================
-
-Issues and tasks are managed using
-`Pivotal Tracker <https://www.pivotaltracker.com/n/projects/1156128>`_.
-
-
 Submission guidelines
 =====================
 
@@ -16,3 +9,10 @@ If you are creating a pull request, fork the repository and make any changes
 in your own feature branch.
 
 Write and run tests.
+
+
+Code of Conduct
+===============
+
+This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
+[code-of-conduct]: http://todogroup.org/opencodeofconduct/#FeinCMS/dev@feinheit.ch
