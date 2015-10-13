@@ -14,5 +14,4 @@ Write and run tests.
 Code of Conduct
 ===============
 
-This project adheres to the [Open Code of Conduct][code-of-conduct]. By participating, you are expected to honor this code.
-[code-of-conduct]: http://todogroup.org/opencodeofconduct/#FeinCMS/dev@feinheit.ch
+This project adheres to the `Open Code of Conduct <http://todogroup.org/opencodeofconduct/#FeinCMS/dev@feinheit.ch>`_. By participating, you are expected to honor this code.
