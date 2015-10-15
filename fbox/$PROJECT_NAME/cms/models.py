@@ -14,10 +14,10 @@ from feincms.module.page.models import Page
 # from elephantblog.contents import BlogEntryListContent
 # from elephantblog.models import Entry
 
-from feincms_cleanse import cleanse_html
 from feincms_oembed.contents import OembedContent
 from form_designer.models import FormContent
 
+from .cleanse import cleanse_html
 
 Page.register_templates({
     'key': 'base',
