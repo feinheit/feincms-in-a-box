@@ -1,4 +1,4 @@
 ${PROJECT_NAME}/static/${PROJECT_NAME}/bower_components/
 ${PROJECT_NAME}/static/${PROJECT_NAME}/build/
 ${PROJECT_NAME}/static/${PROJECT_NAME}/vendor/
-app/static/app/js/modernizr.custom.js
+${PROJECT_NAME}/static/${PROJECT_NAME}/libs/modernizr.custom.js
