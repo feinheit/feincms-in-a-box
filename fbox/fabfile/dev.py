@@ -47,6 +47,16 @@ def makemessages():
         ' -i node_modules'
         ' -i venv')
 
+    # uncomment this for Javascript i18n (requires django-statici18n)
+    # run_local('venv/bin/python manage.py makemessages -d djangojs -a '
+    #       '-e js -v 2 '
+    #       '-i venv '
+    #       ' -i bower_components'
+    #       '-i node_modules'
+    #       ' -i app/static/jsi18n')
+    # run_local('venv/bin/python manage.py compilemessages')
+    # run_local('venv/bin/python manage.py compilejsi18n')
+
 
 @task
 @hosts('')
