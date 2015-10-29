@@ -23,6 +23,7 @@ urlpatterns = [
     # url(r'^feeds/news/$', EntryFeed()),  # Elephantblog feed
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps}),
+    url(r'^rosetta/', include('rosetta.urls')),
 ]
 
 if settings.DEBUG:

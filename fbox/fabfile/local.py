@@ -277,3 +277,18 @@ def load_db(filename=None):
         'createdb %(box_database_local)s'
         ' --encoding=UTF8 --template=template0')
     run_local('psql %(box_database_local)s < %(box_dump_filename)s')
+
+
+@task
+@hosts('')
+def messages():
+    """ Creates all message files. Uses production js files.
+    """
+    run_local('./manage.py makemessages -a -i venv -i node_modules')
+    # uncomment this for Javascript i18n (requires django-statici18n)
+    # run_local('./manage.py makemessages -d djangojs -a '
+    #       '-e js -v 2 '
+    #       '-i venv -i node_modules -i app/static/jsi18n')
+
+    run_local('./manage.py compilemessages')
+    #run_local('./manage.py compilejsi18n')

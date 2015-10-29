@@ -9,6 +9,7 @@ django-filer==0.9.12
 django-flat-theme==1.1.1
 django-mptt==0.7.4
 django-redis==3.8.4,<4.0
+django-rosetta==0.7.6
 FeinCMS==2.0a8
 feincms-cleanse==6
 feincms-elephantblog==1.0.2

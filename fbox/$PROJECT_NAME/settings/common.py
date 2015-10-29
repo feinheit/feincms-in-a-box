@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'easy_thumbnails',
 
     'compressor',
+    'rosetta',
 
     'flat',
     'django.contrib.admin',
