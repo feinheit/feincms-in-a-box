@@ -16,7 +16,9 @@ def dev():
     """Runs the development server, SCSS watcher and backend services if they
     are not running already"""
     jobs = [
-        lambda: run_local('venv/bin/python -Wall manage.py runserver'),
+        lambda: run_local(
+            'venv/bin/python -Wall manage.py runserver 0.0.0.0:8000'),
+        lambda: run_local('node server'),
     ]
     if os.path.exists('gulpfile.js'):
         jobs.append(lambda: run_local('./node_modules/.bin/gulp'))

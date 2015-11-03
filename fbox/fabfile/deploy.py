@@ -51,6 +51,24 @@ def _deploy_styles_foundation4_bundler():
     )
 
 
+def _deploy_styles_foundation5_webpack():
+    step('\n Compiling static sources...')
+    run_local('rm -rf %(box_static_src)s/dist' % env)
+    run_local('npm run prod')
+
+    step('\nUploading static files...')
+    rsync_project(
+        local_dir='%(box_static_src)s/dist' % env,
+        remote_dir='%(box_domain)s/%(box_staticfiles)s/' % env,
+        delete=True,
+    )
+    rsync_project(
+        local_dir='server',
+        remote_dir='%(box_domain)s/' % env,
+        delete=True,
+    )
+
+
 @task
 @require_env
 def styles(reload=True):
@@ -65,6 +83,8 @@ def styles(reload=True):
         _deploy_styles_foundation5_grunt()
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         _deploy_styles_foundation4_bundler()
+    elif os.path.exists('webpack.config.js'):
+        _deploy_styles_foundation5_webpack()
     else:
         abort(red('I do not know how to deploy this frontend code.'))
 

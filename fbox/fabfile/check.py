@@ -24,15 +24,13 @@ def check():
     run_local(
         "! git --no-pager grep -n -C3 -E 'import i?pdb' -- '*.py'")
     run_local(
-        "! git --no-pager grep -n -C3 -E 'console\.log' -- '*.html' '*.js'")
-    run_local(
         "! git --no-pager grep -n -C3 -E '(^| )print( |\(|$)' -- '*.py'")
 
     step('Checking Python code with flake8...')
     run_local('venv/bin/flake8 .')
 
     step('Checking Javascript code...')
-    run_local('./node_modules/.bin/jshint %(box_staticfiles)s/')
+    run_local('./node_modules/.bin/eslint %(box_static_src)s/js/ webpack*js')
 
     step('Invoking Django\'s systems check framework...')
     run_local('venv/bin/python manage.py check')
@@ -41,6 +39,9 @@ def check():
         # Remind the user about uglyness, but do not fail (there are good
         # reasons to use the patterns warned about here).
         step('Pointing to potential tasks...')
+        run_local(
+            "! git --no-pager grep -n -C3 -E 'console\.log' -- '*.html' '*.js'"
+        )
         run_local(
             "! git --no-pager grep -n -E '#.*noqa'"
             " -- '%(box_project_name)s/*.py'")
