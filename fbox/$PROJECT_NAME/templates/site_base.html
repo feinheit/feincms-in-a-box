@@ -9,10 +9,8 @@
 
   <link rel="shortcut icon" href="{% static '${PROJECT_NAME}/images/feincms.png' %}">
 
-
-  {% block css %}
-    {% if not debug %}{% render_bundle 'styles' 'css' %}{% endif %}
-  {% endblock %}
+  {% if debug %}{% render_bundle 'main' %}
+  {% else %}{% render_bundle 'styles' 'css' %}{% endif %}
 
   {% block meta %}
   <title>${NICE_NAME}</title>
@@ -26,6 +24,7 @@
 {% endblock body %}
 
 {% block extra-body %}
+  {% if not debug %}{% render_bundle 'main' %}{% endif %}
 {% endblock extra-body %}
 
 {% if request.user.is_staff %}
