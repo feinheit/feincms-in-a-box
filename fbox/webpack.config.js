@@ -1,7 +1,6 @@
 /* global __dirname */
 var path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var BundleTracker = require('webpack-bundle-tracker');
 var autoprefixer = require('autoprefixer');
 var nodeModulesDir = path.join(__dirname, 'node_modules');
@@ -10,13 +9,12 @@ var host = 'localhost';
 
 var config = {
   context: path.join(__dirname, 'assets'),
+  debug: true,
   entry: {
     main: [
       'webpack-dev-server/client?http://' + host + ':3000',
-      'webpack/hot/only-dev-server',
+      'webpack/hot/dev-server',
       './js/main',
-    ],
-    styles: [
       './scss/main.scss',
     ],
   },
@@ -25,7 +23,6 @@ var config = {
     publicPath: 'http://' + host + ':3000/assets/build/',
     filename: '[name]-[hash].js',
   },
-  devtool: 'source-map',
   module: {
     loaders: [
       {
@@ -38,21 +35,17 @@ var config = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
+        loader: 'style!css',
       },
       // Optionally extract less files
       // or any other compile-to-css language
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract(
-          'css?sourceMap!postcss-loader!sass?outputStyle=expanded&sourceMap=true&includePaths[]='
-          + encodeURIComponent(path.resolve(nodeModulesDir))),
+        loader: 'style!css!postcss!sass',
       },
       {
         test: /\.less/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader!less-loader?relative-urls'),
+        loader: 'style-loader!css-loader!less-loader?relative-urls',
       },
       {
         test: /\.(png|woff|svg|eot|ttf)$/,
@@ -66,6 +59,11 @@ var config = {
       browsers: ['last 2 versions'],
     }),
   ],
+  sassLoader: {
+    includePaths: [path.resolve(nodeModulesDir)],
+    outputStyle: 'expanded',
+    sourceMap: true,
+  },
   resolve: {
     // Allow require('./blah') to require blah.jsx
     extensions: ['', '.js', '.jsx'],
@@ -82,9 +80,7 @@ var config = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(), // don't reload if there is an error
     new BundleTracker({filename: './webpack-stats.json'}),
-    new ExtractTextPlugin('[name].css', {allChunks: true}),
   ],
-  debug: true,
   // dev server not working yet. Have to not extract css during development.
   devServer: {
     contentBase: path.join(__dirname, 'app', 'static', 'app', 'build'),

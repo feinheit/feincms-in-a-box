@@ -11,7 +11,7 @@
 
 
   {% block css %}
-    {% render_bundle 'styles' 'css' %}
+    {% if not debug %}{% render_bundle 'styles' 'css' %}{% endif %}
   {% endblock %}
 
   {% block meta %}
