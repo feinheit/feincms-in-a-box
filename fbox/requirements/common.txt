@@ -1,8 +1,6 @@
-crispy-forms-foundation==0.5.3
 dj-database-url==0.3.0
 django-admin-sso2==2.0.2
 django-cache-url==1.0.0
-django-crispy-forms==1.5.2
 django-debug-toolbar==1.4
 django-filer==0.9.12
 django-flat-theme==1.1.1
