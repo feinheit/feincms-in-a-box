@@ -1,11 +1,11 @@
-/* global __dirname */
+/* global __dirname, process */
 var path = require('path');
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 var autoprefixer = require('autoprefixer');
 var nodeModulesDir = path.join(__dirname, 'node_modules');
 
-var host = 'localhost';
+var host = process.env.HOST || '127.0.0.1';
 
 var config = {
   context: path.join(__dirname, 'assets'),
