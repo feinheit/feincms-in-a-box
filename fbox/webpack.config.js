@@ -79,7 +79,7 @@ var config = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(), // don't reload if there is an error
-    new BundleTracker({filename: './webpack-stats.json'}),
+    new BundleTracker({filename: './tmp/webpack-stats.json'}),
   ],
   // dev server not working yet. Have to not extract css during development.
   devServer: {

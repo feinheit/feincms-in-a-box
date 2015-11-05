@@ -21,4 +21,3 @@ ${PROJECT_NAME}/static/${PROJECT_NAME}/build
 /.idea
 /assets/build
 /assets/dist
-webpack-stats*.json

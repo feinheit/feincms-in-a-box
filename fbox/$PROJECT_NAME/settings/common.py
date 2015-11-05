@@ -133,7 +133,7 @@ WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'dist/',  # production
         'STATS_FILE': os.path.join(
-            BASE_DIR, 'server', 'webpack-stats-prod.json'),
+            BASE_DIR, 'tmp', 'webpack-stats-prod.json'),
         'POLL_DELAY': 0.2,
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }

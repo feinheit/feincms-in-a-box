@@ -46,7 +46,7 @@ config.output = {
 };
 
 config.plugins = [
-  new BundleTracker({filename: './server/webpack-stats-prod.json'}),
+  new BundleTracker({filename: './tmp/webpack-stats-prod.json'}),
   new ExtractTextPlugin('[name]-[hash].css', {allChunks: true}),
   // removes a lot of debugging code in React
   new webpack.DefinePlugin({

@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import os
 
-from fabric.api import env, execute, task
+from fabric.api import env, execute, put, task
 from fabric.colors import red
 from fabric.contrib.project import rsync_project
 from fabric.utils import abort
@@ -62,11 +62,10 @@ def _deploy_styles_foundation5_webpack():
         remote_dir='%(box_domain)s/%(box_staticfiles)s/' % env,
         delete=True,
     )
-    rsync_project(
-        local_dir='server',
-        remote_dir='%(box_domain)s/' % env,
-        delete=True,
-    )
+    put(
+        'tmp/webpack*json',
+        '%(box_domain)s/tmp/' % env,
+     )
 
 
 @task

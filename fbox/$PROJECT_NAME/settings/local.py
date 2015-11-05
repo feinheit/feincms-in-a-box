@@ -43,5 +43,5 @@ RAVEN_CONFIG = {'dsn': ''}
 
 WEBPACK_LOADER['DEFAULT'].update({
     'BUNDLE_DIR_NAME': 'build/',
-    'STATS_FILE': 'webpack-stats.json',
+    'STATS_FILE': os.path.join(BASE_DIR, 'tmp', 'webpack-stats.json'),
 })
