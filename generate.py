@@ -179,7 +179,7 @@ if __name__ == '__main__':
         '-p', '--project-name',
         type=validate.project_name,
         help='Python module for the project [%(default)s]',
-        default='box')
+        default='app')
     parser.add_argument(
         '-s', '--server',
         type=validate.server,
@@ -192,7 +192,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--python',
         type=str,
-        help='The Python interpreter to use [python2, python3]')
+        help='The Python interpreter to use (python2, python3)')
     parser.add_argument(
         '--charge',
         action='store_true',
