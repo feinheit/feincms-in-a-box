@@ -87,7 +87,7 @@ def update():
 def create_virtualenv():
     """Creates the virtualenv and installs all Python requirements"""
     run_local(
-        'virtualenv --python python2.7'
+        'virtualenv --python %(box_python)s'
         ' --prompt "(venv:%(box_domain)s)" venv')
     run_local('venv/bin/pip install -U wheel setuptools pip')
     if platform.system() == 'Darwin' and platform.mac_ver()[0] >= '10.9':

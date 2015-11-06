@@ -190,6 +190,10 @@ if __name__ == '__main__':
         type=str,
         help='The destination path for the project [./build/$DOMAIN_SLUG]')
     parser.add_argument(
+        '--python',
+        type=str,
+        help='The Python interpreter to use [python2, python3]')
+    parser.add_argument(
         '--charge',
         action='store_true',
         help='Charge ahead, do not ask for confirmation')
@@ -223,6 +227,7 @@ if __name__ == '__main__':
         'NICE_NAME': args.nice_name,  # used for the title
         'PROJECT_NAME': args.project_name,  # the Django project name
         'SERVER': args.server,
+        'PYTHON': args.python,
         'USER_NAME': read_output(
             ['git', 'config', 'user.name'],
             fail_silently=True),
