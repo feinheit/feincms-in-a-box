@@ -9,9 +9,9 @@ addons:
   postgresql: "9.3"
   apt:
     packages:
-      - fabric
-      - nodejs
-      - npm
+    - fabric
+    - nodejs
+    - npm
 env:
   global:
     - PGUSER=postgres
