@@ -88,10 +88,10 @@ def walker(base, base_dir, context):
 
     ver = subprocess.check_output(
         'git describe --always --tags',
-        shell=True)
+        shell=True).decode('utf-8')
     head = subprocess.check_output(
         'git rev-parse HEAD',
-        shell=True)
+        shell=True).decode('utf-8')
 
     os.chdir(base_dir)
     os.makedirs('log')
@@ -192,7 +192,8 @@ if __name__ == '__main__':
     parser.add_argument(
         '--python',
         type=str,
-        help='The Python interpreter to use (python2, python3)')
+        help='The Python interpreter to use (python2, python3)',
+        default='python2')
     parser.add_argument(
         '--charge',
         action='store_true',
@@ -240,7 +241,7 @@ if __name__ == '__main__':
         print(color('Do those settings look correct?', 'cyan', True))
         print('\n'.join(
             '%s: %s' % row for row in sorted(context.items())
-        ).encode(sys.stdout.encoding))
+        ))
         print(color('If not, abort using Ctrl-C now.', 'cyan', True))
         raw_input()
 
