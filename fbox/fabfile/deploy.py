@@ -65,7 +65,7 @@ def _deploy_styles_foundation5_webpack():
     put(
         'tmp/webpack*json',
         '%(box_domain)s/tmp/' % env,
-     )
+    )
 
 
 @task
