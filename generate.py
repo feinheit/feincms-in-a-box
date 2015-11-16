@@ -88,10 +88,10 @@ def walker(base, base_dir, context):
 
     ver = subprocess.check_output(
         'git describe --always --tags',
-        shell=True)
+        shell=True).decode('utf-8')
     head = subprocess.check_output(
         'git rev-parse HEAD',
-        shell=True)
+        shell=True).decode('utf-8')
 
     os.chdir(base_dir)
     os.makedirs('log')
@@ -179,7 +179,7 @@ if __name__ == '__main__':
         '-p', '--project-name',
         type=validate.project_name,
         help='Python module for the project [%(default)s]',
-        default='box')
+        default='app')
     parser.add_argument(
         '-s', '--server',
         type=validate.server,
@@ -189,6 +189,11 @@ if __name__ == '__main__':
         '-d', '--destination',
         type=str,
         help='The destination path for the project [./build/$DOMAIN_SLUG]')
+    parser.add_argument(
+        '--python',
+        type=str,
+        help='The Python interpreter to use (python2, python3)',
+        default='python2')
     parser.add_argument(
         '--charge',
         action='store_true',
@@ -223,6 +228,7 @@ if __name__ == '__main__':
         'NICE_NAME': args.nice_name,  # used for the title
         'PROJECT_NAME': args.project_name,  # the Django project name
         'SERVER': args.server,
+        'PYTHON': args.python,
         'USER_NAME': read_output(
             ['git', 'config', 'user.name'],
             fail_silently=True),
@@ -235,7 +241,7 @@ if __name__ == '__main__':
         print(color('Do those settings look correct?', 'cyan', True))
         print('\n'.join(
             '%s: %s' % row for row in sorted(context.items())
-        ).encode(sys.stdout.encoding))
+        ))
         print(color('If not, abort using Ctrl-C now.', 'cyan', True))
         raw_input()
 

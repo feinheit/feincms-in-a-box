@@ -62,7 +62,6 @@ TEMPLATE_LOADERS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -123,12 +122,22 @@ INSTALLED_APPS = (
     'filer',
     'easy_thumbnails',
 
-    'compressor',
+    'webpack_loader',
 
     'flat',
     'django.contrib.admin',
     'admin_sso',
 )
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',  # production
+        'STATS_FILE': os.path.join(
+            BASE_DIR, 'tmp', 'webpack-stats-prod.json'),
+        'POLL_DELAY': 0.2,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}
 
 MIGRATION_MODULES = dict((app, '${PROJECT_NAME}.migrate.%s' % app) for app in (
     'page',

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ LANGUAGE_CODE }}" >
 {% load i18n staticfiles %}
+{% load render_bundle from webpack_loader %}
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,17 +9,12 @@
 
   <link rel="shortcut icon" href="{% static '${PROJECT_NAME}/images/feincms.png' %}">
 
-
-  {% block css %}
-    <link rel="stylesheet" href="{% static '${PROJECT_NAME}/build/app.css' %}">
-  {% endblock %}
+  {% if debug %}{% render_bundle 'main' %}
+  {% else %}{% render_bundle 'styles' 'css' %}{% endif %}
 
   {% block meta %}
   <title>${NICE_NAME}</title>
   {% endblock meta %}
-
-  <script>onReady = [];</script>
-  <script src="{% static '${PROJECT_NAME}/libs/modernizr.custom.js' %}"></script>
 
   {% block extra-head %}{% endblock %}
 
@@ -28,6 +24,7 @@
 {% endblock body %}
 
 {% block extra-body %}
+  {% if not debug %}{% render_bundle 'main' %}{% endif %}
 {% endblock extra-body %}
 
 {% if request.user.is_staff %}

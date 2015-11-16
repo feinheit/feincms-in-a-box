@@ -19,3 +19,5 @@ bower_components
 ${PROJECT_NAME}/static/${PROJECT_NAME}/build
 /.bundle
 /.idea
+/assets/build
+/assets/dist

@@ -1,10 +1,8 @@
 {% extends "site_base.html" %}
-{% load compress i18n staticfiles %}
+{% load i18n staticfiles %}
 {% load feincms_tags feincms_page_tags mptt_tags navigation_tags %}
 
-
 {% block meta %}
-
   <title>{% block title %}{{ feincms_page.page_title }}{% endblock %}</title>
 
   <meta name="keywords" content="{{ feincms_page.meta_keywords|default:'' }}">
@@ -24,12 +22,9 @@
     title="RSS Feed" href="http://www.${DOMAIN}/feeds/news/">
   {% endcomment %}
   {% block extra-head %}{% endblock %}
-
 {% endblock meta %}
 
-
 {% block body %}
-
 <div class="wrapper">
 
   <div class="row">
@@ -116,26 +111,7 @@
     </div>
   </div>
 </div><!-- row wrapper -->
-
 {% endblock body %}
-
-{% block extra-body %}
-
-  {% compress js %}
-  <script src="{% static '${PROJECT_NAME}/bower_components/jquery/dist/jquery.min.js' %}"></script>
-  <script src="{% static '${PROJECT_NAME}/bower_components/foundation/js/foundation/foundation.js' %}"></script>
-  <script src="{% static '${PROJECT_NAME}/build/app.js' %}"></script>
-  {% endcompress %}
-
-  {% block inline-js %}
-    <script>
-      for (var i=0, l=onReady.length; i<l; ++i) {
-        onReady[i].call(null, $);
-      }
-    </script>
-  {% endblock inline-js %}
-
-{% endblock extra-body %}
 
 {% block edit-tools %}
   {% if feincms_page %}

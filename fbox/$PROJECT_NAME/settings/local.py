@@ -40,3 +40,8 @@ DEBUG_TOOLBAR_PATCH_SETTINGS = False
 THUMBNAIL_DEBUG = True
 
 RAVEN_CONFIG = {'dsn': ''}
+
+WEBPACK_LOADER['DEFAULT'].update({
+    'BUNDLE_DIR_NAME': 'build/',
+    'STATS_FILE': os.path.join(BASE_DIR, 'tmp', 'webpack-stats.json'),
+})

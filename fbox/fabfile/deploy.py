@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import os
 
-from fabric.api import env, execute, task
+from fabric.api import env, execute, put, task
 from fabric.colors import red
 from fabric.contrib.project import rsync_project
 from fabric.utils import abort
@@ -51,6 +51,23 @@ def _deploy_styles_foundation4_bundler():
     )
 
 
+def _deploy_styles_foundation5_webpack():
+    step('\n Compiling static sources...')
+    run_local('rm -rf %(box_static_src)s/dist' % env)
+    run_local('npm run prod')
+
+    step('\nUploading static files...')
+    rsync_project(
+        local_dir='%(box_static_src)s/dist' % env,
+        remote_dir='%(box_domain)s/%(box_staticfiles)s/' % env,
+        delete=True,
+    )
+    put(
+        'tmp/webpack*json',
+        '%(box_domain)s/tmp/' % env,
+     )
+
+
 @task
 @require_env
 def styles(reload=True):
@@ -65,6 +82,8 @@ def styles(reload=True):
         _deploy_styles_foundation5_grunt()
     elif os.path.exists('%(box_staticfiles)s/config.rb' % env):
         _deploy_styles_foundation4_bundler()
+    elif os.path.exists('webpack.config.js'):
+        _deploy_styles_foundation5_webpack()
     else:
         abort(red('I do not know how to deploy this frontend code.'))
 

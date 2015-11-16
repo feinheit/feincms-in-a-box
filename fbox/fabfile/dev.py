@@ -12,11 +12,17 @@ from fabfile import run_local, require_services
 @task(default=True)
 @hosts('')
 @require_services
-def dev():
+def dev(host='127.0.0.1', port=8000):
     """Runs the development server, SCSS watcher and backend services if they
     are not running already"""
     jobs = [
-        lambda: run_local('venv/bin/python -Wall manage.py runserver'),
+        lambda: run_local(
+            'venv/bin/python -Wall manage.py runserver %s:%s' % (
+                host,
+                port,
+            ),
+        ),
+        lambda: run_local('HOST=%s node server' % host),
     ]
     if os.path.exists('gulpfile.js'):
         jobs.append(lambda: run_local('./node_modules/.bin/gulp'))

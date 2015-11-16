@@ -1,0 +1,46 @@
+{
+    "rules": {
+        "indent": [
+            2,
+            2
+        ],
+        "quotes": [
+            2,
+            "single"
+        ],
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "semi": [
+            2,
+            "always"
+        ],
+        "comma-dangle": [
+            2,
+            "always-multiline"
+        ]
+    },
+    "env": {
+        "amd": true,
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "jest": true,
+        "jquery": true
+    },
+    "extends": "eslint:recommended",
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true,
+        "experimentalObjectRestSpread": true
+    },
+    "globals": {
+      "gettext": false,
+      "JSON": false
+    },
+    "parser": "babel-eslint",
+    "plugins": [
+        "react"
+    ]
+}

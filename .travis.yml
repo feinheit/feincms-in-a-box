@@ -1,6 +1,7 @@
 language: python
 python:
   - "2.7"
+  - "3.4"
 services:
   - redis-server
 addons:
@@ -12,6 +13,6 @@ script:
   - ./test.sh
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y -q fabric nodejs npm ruby1.9.1
+  - sudo apt-get install -y -q fabric nodejs npm
   - sudo pip install flake8
   - npm install -g bower jshint

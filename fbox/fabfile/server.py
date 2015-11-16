@@ -46,7 +46,7 @@ def clone_repository():
 @require_env
 def create_virtualenv():
     with cd('%(box_domain)s'):
-        run('virtualenv --python python2.7'
+        run('virtualenv --python %(box_python)s'
             ' --prompt "(venv:%(box_domain)s)" venv')
         run('venv/bin/pip install -U virtualenv pip wheel'
             ' --find-links file:///home/www-data/tmp/wheel/wheelhouse/')
