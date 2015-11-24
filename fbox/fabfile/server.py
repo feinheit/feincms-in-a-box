@@ -99,7 +99,7 @@ ALLOWED_HOSTS=['%(box_domain)s', '.%(box_domain)s', '.%(host_string_host)s']
 @require_env
 def nginx_vhost_and_supervisor():
     run('sudo nine-manage-vhosts virtual-host create %(box_domain)s'
-        ' --template=feinheit --relative-path=htdocs')
+        ' --template=feinheit --webroot=/home/www-data/%(box_domain)s/htdocs')
 
     with cd('%(box_domain)s'):
         run('mkdir -p media tmp')
