@@ -1,2 +1,2 @@
 -r common.txt
-gunicorn==19.0
+gunicorn==19.3.0
