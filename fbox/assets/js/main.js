@@ -1,5 +1,5 @@
 let $ = require('jquery');
-let smoothScroll = require('smoothScroll');
+let smoothScroll = require('smoothscroll');
 // let _ = require('lodash');
 
 require('imports?jQuery=jquery!foundation-sites/js/foundation/foundation');
