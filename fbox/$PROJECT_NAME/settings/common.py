@@ -124,7 +124,6 @@ INSTALLED_APPS = (
 
     'webpack_loader',
 
-    'flat',
     'django.contrib.admin',
     'admin_sso',
 )
