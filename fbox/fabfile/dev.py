@@ -56,6 +56,17 @@ def makemessages():
 
 @task
 @hosts('')
+def compilemessages():
+    """Wrapper around ``compilemessages`` which does not descend into
+    venv"""
+    run_local(
+        '. venv/bin/activate && '
+        'for dir in $(find . -name locale -not -path "*venv*");'
+        'do (cd $dir ; cd .. ; django-admin.py compilemessages ) ; done')
+
+
+@task
+@hosts('')
 @require_services
 def services():
     """Starts all required background services"""
