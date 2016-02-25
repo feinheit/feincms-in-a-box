@@ -82,7 +82,7 @@ def create_database_and_dotenv():
 DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings.%(box_environment)s
 DATABASE_URL=postgres://%(box_database)s:%(box_database_pw)s\
 @localhost:5432/%(box_database)s
-CACHE_URL=hiredis://localhost:6379/1/%(box_database)s
+CACHE_URL=hiredis://localhost:6379/1/?key_prefix=%(box_database)s
 SECRET_KEY=%(box_secret_key)s
 SENTRY_DSN=%(box_sentry_dsn)s
 DJANGO_ADMIN_SSO_OAUTH_CLIENT_ID=%(box_oauth2_client_id)s

@@ -153,7 +153,7 @@ def create_dotenv():
         f.write('''\
 DJANGO_SETTINGS_MODULE=%(box_project_name)s.settings.local
 DATABASE_URL=postgres://localhost:5432/%(box_database_local)s
-CACHE_URL=hiredis://localhost:6379/1/%(box_database_local)s
+CACHE_URL=hiredis://localhost:6379/1/?key_prefix=%(box_database_local)s
 SECRET_KEY=%(box_secret_key)s
 SENTRY_DSN=
 ALLOWED_HOSTS=['*']
