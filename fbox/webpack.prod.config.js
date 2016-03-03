@@ -19,7 +19,7 @@ config.module.loaders = [
     test: /\.jsx?$/,
     exclude: /node_modules/,
     loaders: [
-      'babel?cacheDirectory=' + encodeURIComponent(path.resolve(__dirname, 'tmp')),
+      'babel?presets[]=es2015,cacheDirectory=' + encodeURIComponent(path.resolve(__dirname, 'tmp')),
     ],
   },
   {

@@ -30,7 +30,7 @@ var config = {
         exclude: /node_modules/,
         loaders: [
           'react-hot',
-          'babel?cacheDirectory=' + encodeURIComponent(path.resolve(__dirname, 'tmp')),
+          'babel?presets[]=es2015,cacheDirectory=' + encodeURIComponent(path.resolve(__dirname, 'tmp')),
         ],
       },
       {
