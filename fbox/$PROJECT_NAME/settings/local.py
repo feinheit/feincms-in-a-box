@@ -47,4 +47,4 @@ WEBPACK_LOADER['DEFAULT'].update({
 })
 
 # `debug` is only True in templates if the vistor IP is in INTERNAL_IPS.
-INTERNAL_IPS = type('c', (), {'__contains__': lambda *a: True})()
+INTERNAL_IPS = type(str('c'), (), {'__contains__': lambda *a: True})()
