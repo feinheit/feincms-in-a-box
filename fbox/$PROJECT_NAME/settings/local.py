@@ -45,3 +45,6 @@ WEBPACK_LOADER['DEFAULT'].update({
     'BUNDLE_DIR_NAME': 'build/',
     'STATS_FILE': os.path.join(BASE_DIR, 'tmp', 'webpack-stats.json'),
 })
+
+# `debug` is only True in templates if the vistor IP is in INTERNAL_IPS.
+INTERNAL_IPS = type('c', (), {'__contains__': lambda *a: True})()
