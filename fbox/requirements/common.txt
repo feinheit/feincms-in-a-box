@@ -1,5 +1,5 @@
 dj-database-url==0.3.0
-django-admin-sso2==2.0.4
+django-admin-sso==2.1.0
 django-cache-url==1.0.0
 django-debug-toolbar==1.4
 django-filer==1.1.1
