@@ -52,6 +52,6 @@ env.box_environments = {
         ],
         'remote': 'staging',
         'repository': '${DOMAIN_SLUG}',
-        'database': '${DOMAIN_SLUG}',
+        'database': 'stage_${DOMAIN_SLUG}',
     },
 }
