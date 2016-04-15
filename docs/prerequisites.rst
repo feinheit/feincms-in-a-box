@@ -39,11 +39,11 @@ It is recommended to use Homebrew_ for all additional dependencies::
 
     brew install gettext libxslt libxml2 jpeg freetype libpng
     brew install libtiff node postgresql redis sqlite
-    brew link --force gettext
+    brew link --force gettext libxml2 libxslt
 
 It will also help to add a clean installation of Python_::
 
-    brew install python
+    brew install python python3
 
 It is not required to set up an installation of PostgreSQL_ which runs in the
 background. Adding the following lines to your ``~/.bash_profile`` and starting
@@ -65,26 +65,30 @@ You then need to add the app to the PATH variable (depending on the version)::
 Python-based command line tools
 ===============================
 
-We also require a few Python-based command line tools, Fabric_ and flake8_. It
-is very much recommended to use pipsi_ for their installation.  Instructions
-for installing pipsi_ can be found on
-`Github <https://github.com/mitsuhiko/pipsi>`_::
+We also require a few Python-based command line tools, virtualenv_, Fabric_
+and flake8_::
 
-    pip install virtualenv
-    pipsi install fabric
-    pipsi install flake8
+    pip install -U pip
+    pip install -U setuptools
+    pip install -U wheel
+    pip install -U virtualenv fabric flake8
 
 
 Node-based command line tools
 =============================
 
-Install the following packages using npm_::
+Update npm_::
 
-    npm install -g bower jshint
+    npm install -g npm
 
-gulp_ is recommended, but not strictly required::
+Install the following packages using npm_ (not required for recent projects,
+we have mostly stopped using those tools)::
 
-    npm install -g gulp
+    npm install -g bower jshint gupl
+
+The following tools are recommended::
+
+    npm install -g npm-check-updates
 
 
 .. _PostgreSQL: http://www.postgresql.org/
@@ -95,3 +99,4 @@ gulp_ is recommended, but not strictly required::
 .. _pipsi: https://github.com/mitsuhiko/pipsi
 .. _npm: https://www.npmjs.org/
 .. _gulp: http://gulpjs.com/
+.. _virtualenv: https://virtualenv.pypa.io/en/latest/
