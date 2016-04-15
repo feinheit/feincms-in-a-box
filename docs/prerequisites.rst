@@ -31,7 +31,7 @@ Install the following libraries, tools and services::
 OS X
 ----
 
-An installation of Xcode including command line tools is required::
+An installation of the Xcode command line tools is required::
 
     xcode-select --install
 
