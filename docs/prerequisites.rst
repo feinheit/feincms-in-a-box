@@ -84,7 +84,7 @@ Update npm_::
 Install the following packages using npm_ (not required for recent projects,
 we have mostly stopped using those tools)::
 
-    npm install -g bower jshint gupl
+    npm install -g bower jshint gulp
 
 The following tools are recommended::
 
