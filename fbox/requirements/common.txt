@@ -8,7 +8,7 @@ django-mptt==0.8.0
 django-redis==4.3.0
 django-webpack-loader==0.3.0
 Django==1.9.2
-FeinCMS==2.0a12
+FeinCMS==1.12.0
 feincms-cleanse==7
 # feincms-elephantblog==1.0.2
 -e git+https://github.com/feincms/feincms-elephantblog.git@56e8f6a628954b1bd1ac7b9a8fbba21e551e117b#egg=elephantblog
